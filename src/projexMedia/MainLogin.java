@@ -25,8 +25,6 @@ public class MainLogin extends Application {
     @Override
     public void start(Stage primaryStage) {
         
-        MainMenu main = new MainMenu();
-        
         Button btn = new Button();
         Button btn2 = new Button();
         Label lbl = new Label();
@@ -37,10 +35,10 @@ public class MainLogin extends Application {
         btn.setText("Connexion");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
-            @Override
+        	@Override
             public void handle(ActionEvent event) {
-                primaryStage.setScene(main.getScene());
-                primaryStage.show();
+                MainMenu menu = new MainMenu();
+                menu.start(primaryStage);
             }
         });
         btn2.setText("Quitter");
@@ -61,17 +59,17 @@ public class MainLogin extends Application {
         
         Pane root = new Pane();
         
-        btn.setLayoutX(60);
+        btn.setLayoutX(90);
         btn.setLayoutY(220);
-        btn2.setLayoutX(210);
+        btn2.setLayoutX(240);
         btn2.setLayoutY(220);
-        lbl.setLayoutX(60);
+        lbl.setLayoutX(50);
         lbl.setLayoutY(60);
-        lbl2.setLayoutX(55);
+        lbl2.setLayoutX(45);
         lbl2.setLayoutY(135);
-        txt.setLayoutX(200);
+        txt.setLayoutX(215);
         txt.setLayoutY(58);
-        pwd.setLayoutX(200);
+        pwd.setLayoutX(215);
         pwd.setLayoutY(133);
         
         btn.setMinHeight(35);
@@ -86,7 +84,7 @@ public class MainLogin extends Application {
         root.getChildren().add(txt);
         root.getChildren().add(pwd);
         
-        Scene scene = new Scene(root, 360, 300);
+        Scene scene = new Scene(root, 420, 300);
         
         primaryStage.setTitle("Gestionnaire ProjexMedia");
         primaryStage.setScene(scene);

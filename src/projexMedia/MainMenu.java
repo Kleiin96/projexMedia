@@ -10,11 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
  *
- * @author bruneaje
+ * @author houdeto
  */
 public class MainMenu extends Application {
     
@@ -30,10 +31,7 @@ public class MainMenu extends Application {
         client.setClosable(false);
         site.setContent(_TabSite.getSitePane());
         site.setClosable(false);
-        
-        _scene.getStylesheets().add("stylesheet.css");
-        //site.getStyleClass().add("siteTab");
-        
+                   
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 600);
         
@@ -42,8 +40,13 @@ public class MainMenu extends Application {
         
         
         _scene = new Scene(new VBox( tabPane));
+        _scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        site.getStyleClass().add("Tab");
         primaryStage.setScene(_scene);
         primaryStage.show();
+        javafx.geometry.Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+		primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
     }
 
     public Scene getScene() {
