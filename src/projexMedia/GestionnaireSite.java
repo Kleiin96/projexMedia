@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxapplication1;
+package projexMedia;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
