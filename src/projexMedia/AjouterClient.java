@@ -42,7 +42,7 @@ public class AjouterClient extends Application{
         Label lbl3 = new Label("Personne Responsable");
         Label lbl4 = new Label("Courriel");
         
-        //panel
+        //panelj
         Pane root = new Pane();
         //BorderPane root1 = new BorderPane();
        
