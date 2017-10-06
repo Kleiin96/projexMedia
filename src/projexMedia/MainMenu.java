@@ -24,9 +24,10 @@ public class MainMenu extends Application {
     
     @Override
     public void start(Stage primaryStage) {
+    	primaryStage.setTitle("Gestionnaire ProjexMedia");
         Tab client = new Tab("Client");
         Tab site = _TabSite.getSiteTab();
-        _TabSite.createPane();
+        _TabSite.createPane(primaryStage);
         
         client.setClosable(false);
         site.setContent(_TabSite.getSitePane());
@@ -42,6 +43,7 @@ public class MainMenu extends Application {
         _scene = new Scene(new VBox( tabPane));
         _scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         site.getStyleClass().add("Tab");
+        client.getStyleClass().add("Tab");        
         primaryStage.setScene(_scene);
         primaryStage.show();
         javafx.geometry.Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -52,8 +54,6 @@ public class MainMenu extends Application {
     public Scene getScene() {
         return _scene;
     }
-    
-    
 
     /**
      * @param args the command line arguments

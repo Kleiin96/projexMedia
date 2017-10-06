@@ -5,35 +5,37 @@
  */
 package projexMedia;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author houdeto
  */
 public class Site {
     
-    int _idSite;
-    String _url;
+    private SimpleIntegerProperty idSite;
+    private SimpleStringProperty url;
 
-    public Site(int idSite, String url) {
-        _idSite = idSite;
-        _url = url;
+    public Site(Integer _idSite, String _url) {
+        idSite = new SimpleIntegerProperty(_idSite);
+        url = new SimpleStringProperty(_url);
     }
 
-    public int getIdSite() {
-        return _idSite;
+    public Integer getIdSite() {
+        return idSite.get();
     }
 
     public String getUrl() {
-        return _url;
+        return url.get();
     }
 
-    public void setIdSite(int idSite) {
-        _idSite = idSite;
+    public void setIdSite(Integer _idSite) {
+    	idSite = new SimpleIntegerProperty(_idSite);
     }
 
-    public void setUrl(String url) {
-        _url = url;
+    public void setUrl(String _url) {
+    	url = new SimpleStringProperty(_url);
     }
-    
     
 }
