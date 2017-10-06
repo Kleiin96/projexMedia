@@ -25,14 +25,23 @@ public class Consulter extends Application {
     public void start(Stage primaryStage) {
     Tab tab1 = new Tab("Client");
     Tab tab2 = new Tab("Site");
+    GestionnaireClient tabClient = new GestionnaireClient();
+    Service test = new Service();
+    test.CreateGroupActif();
+    
+    tabClient.createPane(primaryStage);
+    
     tab1.setClosable(false);
     
-    tab1.setContent(new Button());
+    tab1.setContent(tabClient.getClientPane());
+    
     
     tab2.setClosable(false);
+    
+    
 
     TabPane tabPane = new TabPane();
-    tabPane.setPrefSize(400, 400);
+    tabPane.setPrefSize(700, 700);
  
     tabPane.getTabs().add(0, tab1);
    
