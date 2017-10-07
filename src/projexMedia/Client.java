@@ -11,99 +11,109 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 
 /**
  *
  * @author bruneaje
  */
 public class Client {
-	int _idClient;
-    String _nomCompagnie;
-    String _telephone;
-    String _nomResponsable;
-    String _adresse;
-    String _courriel;
-    Boolean _actif;
+	int idClient;
+    String nomCompagnie;
+    String telephone;
+    String nomResponsable;
+    String adresse;
+    String courriel;
+    Boolean actif;
     
     public Client() {
-    	_idClient = 0;
-        _nomCompagnie = "";
-        _telephone = "";
-        _nomResponsable = "";
-        _adresse = "";
-        _courriel = "";
+    	idClient = 0;
+        nomCompagnie ="";
+        telephone = "";
+        nomResponsable = "";
+        adresse = "";
+        courriel = "";
+    }
+    
+    public Client(int _idClient, String _nomCompagnie, String _telephone, String _nomResponsable, String _adresse, String _courriel) {
+    	this.idClient = _idClient;
+        this.nomCompagnie = _nomCompagnie;
+        this.telephone = _telephone;
+        this.nomResponsable = _nomResponsable;
+        this.courriel= _courriel;
+        this.adresse = _adresse;
     }
 
     public Client(String _nomCompagnie, String _telephone, String _nomResponsable, String _courriel, String _adresse) {
-        this._nomCompagnie = _nomCompagnie;
-        this._telephone = _telephone;
-        this._nomResponsable = _nomResponsable;
-        this._courriel= _courriel;
-        this._adresse = _adresse;
+        this.nomCompagnie = _nomCompagnie;
+        this.telephone = _telephone;
+        this.nomResponsable = _nomResponsable;
+        this.courriel= _courriel;
+        this.adresse = _adresse;
     }
     
     //Setter and getter
 
     public String getNomCompagnie() {
-        return _nomCompagnie;
+        return nomCompagnie;
     }
 
     public String getTelephone() {
-        return _telephone;
+        return telephone;
     }
 
     public String getNomResponsable() {
-        return _nomResponsable;
+        return nomResponsable;
     }
 
     public void setNomCompagnie(String nomCompagnie) {
-        this._nomCompagnie = nomCompagnie;
+        this.nomCompagnie =nomCompagnie;
     }
 
     public void setTelephone(String telephone) {
-        this._telephone = telephone;
+        this.telephone = telephone;
     }
 
     public void setNomResponsable(String nomResponsable) {
-        this._nomResponsable = nomResponsable;
+        this.nomResponsable = nomResponsable;
     }
     
-    public int get_idClient() {
-		return _idClient;
+    public int getIdClient() {
+		return idClient;
 	}
 
-	public void set_idClient(int _idClient) {
-		this._idClient = _idClient;
+	public void setIdClient(int _idClient) {
+		this.idClient = _idClient;
 	}
 
 	public String getAdresse() {
-		return _adresse;
+		return adresse;
 	}
 
 	public void setAdresse(String _adresse) {
-		this._adresse = _adresse;
+		this.adresse = _adresse;
 	}
 
-	public String get_courriel() {
-		return _courriel;
+	public String getCourriel() {
+		return courriel;
 	}
 
-	public void set_courriel(String _courriel) {
-		this._courriel = _courriel;
+	public void setCourriel(String _courriel) {
+		this.courriel = _courriel;
 	}
 
-	public Boolean get_actif() {
-		return _actif;
+	public Boolean getActif() {
+		return actif;
 	}
 
-	public void set_actif(Boolean _actif) {
-		this._actif = _actif;
+	public void setActif(Boolean _actif) {
+		this.actif = _actif;
 	}
     
     //sql action
-    
    
-
 	public void ajouterClient() throws SQLException{
     	Connection conn = SimpleDataSource.getConnection();
     	try
@@ -113,6 +123,8 @@ public class Client {
             stat.setString(1, getNomCompagnie());
             stat.setString(2, getTelephone());
             stat.setString(3, getAdresse());
+            stat.setString(4, getNomResponsable());
+            stat.setString(5, getCourriel());
             
             stat.executeUpdate();
     	}
