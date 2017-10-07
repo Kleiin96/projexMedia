@@ -181,6 +181,19 @@ public class GestionnaireClient {
         //panel
         Pane root = new Pane();
         //BorderPane root1 = new BorderPane();
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+            	Client lul =  new Client();
+                try {
+					lul.ajouterClient();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
        
         //premier champ
         lbl.setLayoutX(50);
@@ -254,7 +267,7 @@ public class GestionnaireClient {
         
         //label
         Label lbl = new Label("Nom de la compagnie");
-        Label lbl1 = new Label("TÃ©lÃ©phone");
+        Label lbl1 = new Label("Téléphone");
         Label lbl2 = new Label("Adresse");
         Label lbl3 = new Label("Personne Responsable");
         Label lbl4 = new Label("Courriel");
@@ -262,6 +275,28 @@ public class GestionnaireClient {
         //panel
         Pane root = new Pane();
         //BorderPane root1 = new BorderPane();
+        
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+            	Client lul =  new Client();
+                try {
+					lul.modifierNomClient();
+					lul.modifierAdresseClient();
+					lul.modifierCourrielClient();
+					lul.modifierNomResponsableClient();
+					lul.modifierTelephoneClient();
+					
+					Consulter test = new Consulter();
+					test.start(primaryStage);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
        
         //premier champ
         lbl.setLayoutX(50);
@@ -320,28 +355,5 @@ public class GestionnaireClient {
         primaryStage.show();
     }
     
-    public void modifierNomClient(){
-        
-    }
-    
-    public void modifierTelephoneClient(){
-        
-    }
-    
-    public void modifierNomResponsableClient(){
-        
-    }
-    
-    public void archiverClient(){
-        
-    }
-    
-    public void activerClient(){
-        
-    }
-    
-    public void rechercherClient(){
-        
-    }
     
 }
