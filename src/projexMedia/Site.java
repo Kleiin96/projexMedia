@@ -16,12 +16,14 @@ public class Site {
     
     private SimpleIntegerProperty idSite;
     private SimpleStringProperty url;
+    private SimpleStringProperty client;
 
-    public Site(Integer _idSite, String _url) {
+    public Site(Integer _idSite, String _url,String _client) {
         idSite = new SimpleIntegerProperty(_idSite);
         url = new SimpleStringProperty(_url);
+        client = new SimpleStringProperty(_client);
     }
-
+    
     public Integer getIdSite() {
         return idSite.get();
     }
@@ -38,4 +40,33 @@ public class Site {
     	url = new SimpleStringProperty(_url);
     }
     
+    public String getClient() {
+		return client.get();
+	}
+
+	public void setClient(String _client) {
+		client = new SimpleStringProperty(_client);
+	}
+
+//	public ObservableList<Site> consulterSite() throws SQLException, ClassNotFoundException, IOException {
+//    	
+//    	SimpleDataSource.init("src/projexMedia/database.properties");
+//
+//        Connection conn = SimpleDataSource.getConnection();
+//        
+//        ObservableList<Site> data = FXCollections.observableArrayList();
+//
+//        try {
+//            Statement stat = conn.createStatement();
+//
+//            ResultSet result = stat.executeQuery("SELECT * FROM site");
+//            
+//            while(result.next()) {
+//            	data.add(new Site(result.getInt("id_site"), result.getString("url")));
+//            }
+//        } finally {
+//            conn.close();
+//        }
+//        return data;
+//    }
 }
