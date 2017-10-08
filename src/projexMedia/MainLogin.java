@@ -5,6 +5,9 @@
  */
 package projexMedia;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,11 +37,23 @@ public class MainLogin extends Application {
         
         btn.setText("Connexion");
         btn.setOnAction(new EventHandler<ActionEvent>() {
-            
+           
         	@Override
             public void handle(ActionEvent event) {
                 MainMenu menu = new MainMenu();
-                menu.start(primaryStage);
+                try {
+                	menu.set_activeTab(0);
+					menu.start(primaryStage);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn2.setText("Quitter");

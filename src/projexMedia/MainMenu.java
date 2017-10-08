@@ -5,6 +5,9 @@
  */
 package projexMedia;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -21,14 +24,15 @@ public class MainMenu extends Application {
     
     GestionnaireSite _TabSite = new GestionnaireSite();
     Scene _scene;
+    int _activeTab;
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException {
     	primaryStage.setTitle("Gestionnaire ProjexMedia");
         Tab client = new Tab("Client");
         Tab site = _TabSite.getSiteTab();
         _TabSite.createPane(primaryStage);
-        
+       
         client.setClosable(false);
         site.setContent(_TabSite.getSitePane());
         site.setClosable(false);
@@ -39,6 +43,9 @@ public class MainMenu extends Application {
         tabPane.getTabs().add(0, client);
         tabPane.getTabs().add(site);
         
+        if(_activeTab == 1) {
+        	tabPane.getSelectionModel().select(site);
+        }
         
         _scene = new Scene(new VBox( tabPane));
         _scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -55,7 +62,31 @@ public class MainMenu extends Application {
         return _scene;
     }
 
-    /**
+    public GestionnaireSite get_TabSite() {
+		return _TabSite;
+	}
+
+	public void set_TabSite(GestionnaireSite _TabSite) {
+		this._TabSite = _TabSite;
+	}
+
+	public Scene get_scene() {
+		return _scene;
+	}
+
+	public void set_scene(Scene _scene) {
+		this._scene = _scene;
+	}
+
+	public int get_activeTab() {
+		return _activeTab;
+	}
+
+	public void set_activeTab(int _activeTab) {
+		this._activeTab = _activeTab;
+	}
+
+	/**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
