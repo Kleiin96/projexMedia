@@ -287,6 +287,7 @@ public class GestionnaireClient {
         primaryStage.show();
         
     }
+    
     //formulaire modifier client
     
     public void modifierClient(Stage primaryStage){

@@ -139,8 +139,9 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Update client set nom_compagnie='Georgetown' where id_client = 2");
-            
+    		PreparedStatement stat = conn.prepareStatement("Update client set nom_compagnie=? where id_client = ?");
+    		stat.setString(1, getNomCompagnie());
+            stat.setInt(2, getIdClient());
             
             stat.executeUpdate();
     	}
@@ -154,8 +155,9 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Update client set telephone='818-987-1234' where id_client = 2");
-            
+    		PreparedStatement stat = conn.prepareStatement("Update client set telephone=? where id_client = ?");
+    		stat.setString(1, getTelephone());
+            stat.setInt(2, getIdClient());
             
             stat.executeUpdate();
     	}
@@ -171,7 +173,9 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Update client set personne_responsable='Pierre Laroche' where id_client = 2");
+    		PreparedStatement stat = conn.prepareStatement("Update client set personne_responsable=? where id_client = ?");
+    		stat.setString(1, getNomResponsable());
+            stat.setInt(2, getIdClient());
             
             
             stat.executeUpdate();
@@ -186,7 +190,9 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Update client set adresse='567 rue Kenndy Sherbrooke' where id_client = 2");
+    		PreparedStatement stat = conn.prepareStatement("Update client set adresse=? where id_client = ?");
+    		stat.setString(1, getAdresse());
+            stat.setInt(2, getIdClient());
             
             
             stat.executeUpdate();
@@ -200,7 +206,9 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Update client set courriel='pierre@ggt.ca' where id_client = 2");
+    		PreparedStatement stat = conn.prepareStatement("Update client set courriel=? where id_client = ?");
+    		stat.setString(1, getCourriel());
+            stat.setInt(2, getIdClient());
             
             
             stat.executeUpdate();
