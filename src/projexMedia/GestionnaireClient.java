@@ -176,6 +176,7 @@ public class GestionnaireClient {
          _pane.getChildren().add(btnArchiver);
          _pane.getChildren().add(btnConsArch);
     }
+    
     //Formulaire ajouter client
     
     public void ajouterClient(Stage primaryStage){
