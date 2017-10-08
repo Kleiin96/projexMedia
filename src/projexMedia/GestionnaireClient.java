@@ -5,6 +5,9 @@
  */
 package projexMedia;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
@@ -21,6 +24,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -32,6 +36,9 @@ public class GestionnaireClient {
     Client _test;
     Tab _clientTab;
     Pane _pane;
+    
+    public ObservableList<Client> list = FXCollections.observableArrayList();
+    
     
     public GestionnaireClient() {
         _test = new Client();
@@ -65,25 +72,43 @@ public class GestionnaireClient {
         this._clientTab = _clientTab;
     }
     
-    public void createPane(Stage primaryStage){
+    @SuppressWarnings("unchecked")
+    public void createPane(Stage primaryStage) throws Exception{
+
+    	affichageClient();
     	
-    	ObservableList<String> data =
-    	        FXCollections.observableArrayList(
-    	            new String("Tomy-phillip") 
-    	        ); 
+    	TableView<Client> tableClient = new TableView<Client>();
+    	TableColumn<Client, Integer>  id = new TableColumn<Client, Integer>("id Client");
+    	TableColumn<Client, String>  nom = new TableColumn<Client, String>("nom Compagnie");
+    	TableColumn<Client, String>  tel = new TableColumn<Client, String>("Telephone");
+    	TableColumn<Client, String>  nomR = new TableColumn<Client, String>("nom Responsable");
+    	TableColumn<Client, String>  adresse = new TableColumn<Client, String>("adresse");
+    	TableColumn<Client, String>  courriel = new TableColumn<Client, String>("courriel");
+    	
     	
     	 Button btnAjouter = new Button();
          Button btnModifier = new Button();
          Button btnArchiver = new Button();
          Button btnConsArch = new Button();
-         TableView<String> tableClient = new TableView<>(/*data*/);
          
-         //List<String> list = new ArrayList<String>();
-         /*ObservableList<String> data =
-        	        FXCollections.observableArrayList(
-        	            new String("Tomy-phillip") 
-        	        ); */
-        tableClient.setItems(data);
+         //construction de la table
+         tableClient.setEditable(false);
+         tableClient.setPrefSize(525, 525);
+         
+         id.setCellValueFactory(new PropertyValueFactory<Client, Integer>("idClient"));
+         nom.setCellValueFactory(new PropertyValueFactory<Client, String>("nomCompagnie"));
+         tel.setCellValueFactory(new PropertyValueFactory<Client, String>("telephone"));
+         nomR.setCellValueFactory(new PropertyValueFactory<Client, String>("nomResponsable"));
+         adresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
+         courriel.setCellValueFactory(new PropertyValueFactory<Client, String>("courriel"));
+         tableClient.getColumns().addAll(id,nom,tel,nomR,adresse,courriel);
+         
+         //id.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
+         //nom.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
+         //tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+         tableClient.setItems(list);
+         
+        
          
          
          btnAjouter.setText("Ajouter");
@@ -119,13 +144,7 @@ public class GestionnaireClient {
                  System.exit(0);
              }
          });
-         
-         //table column
-         
-         TableColumn  client = new TableColumn("Client");
-         
-         tableClient.getColumns().addAll(client);
-         tableClient.getItems().add("cojt");
+
          
          
          
@@ -157,7 +176,7 @@ public class GestionnaireClient {
          _pane.getChildren().add(btnArchiver);
          _pane.getChildren().add(btnConsArch);
     }
-    
+    //Formulaire ajouter client
     
     public void ajouterClient(Stage primaryStage){
     	 //bouton
@@ -185,9 +204,25 @@ public class GestionnaireClient {
             
             @Override
             public void handle(ActionEvent event) {
-            	Client lul =  new Client();
+            	Client lul =  new Client(tf.getText(), tf1.getText(), tf3.getText(), tf4.getText(), tf2.getText());
                 try {
 					lul.ajouterClient();
+					Consulter test = new Consulter();
+					test.start(primaryStage);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
+        
+        btn1.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+            	Consulter test = new Consulter();
+				try {
+					test.start(primaryStage);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -252,6 +287,7 @@ public class GestionnaireClient {
         primaryStage.show();
         
     }
+    //formulaire modifier client
     
     public void modifierClient(Stage primaryStage){
     	//bouton
@@ -354,6 +390,41 @@ public class GestionnaireClient {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+	
+    public ObservableList<Client> getList() {
+		return list;
+	}
+
+	public void setList(ObservableList<Client> list) {
+		this.list = list;
+	}
+	
+	public void affichageClient() throws Exception{
+		Connection conn = SimpleDataSource.getConnection();
+        
+        try {
+            Statement stat = conn.createStatement();
+
+            ResultSet result = stat.executeQuery("SELECT * From client");
+            
+            while(result.next())
+            {
+                
+                System.out.println(result.getString("id_client")+"\t"+result.getString("nom_compagnie") + "\t" + result.getString("telephone"));
+                list.add(new Client(Integer.parseInt(result.getString("id_client")),result.getString("nom_compagnie"),result.getString("telephone"),
+                		result.getString("personne_responsable"),result.getString("adresse"),
+                		result.getString("courriel")));
+              
+            }
+        }
+        
+        finally
+        {
+            conn.close();
+        }
+		
+	}
     
     
 }

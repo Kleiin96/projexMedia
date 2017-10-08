@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  *
  * @author bruneaje
  */
-public class InterfaceProjet extends Application {
+public class InterfaceProjet extends Application  {
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -28,9 +28,14 @@ public class InterfaceProjet extends Application {
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent event) {
+			public void handle(ActionEvent event)  {
 				Consulter test = new Consulter();
-				test.start(primaryStage);
+				try {
+					test.start(primaryStage);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -50,11 +55,11 @@ public class InterfaceProjet extends Application {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		/*if (args.length == 0) {
+		if (args.length != 0) {
 			System.out.println(
 					"Usage: java -classpath driver_class_path" + File.pathSeparator + ". TestDB database.properties");
 			return;
-		} else*/
+		} else
 			SimpleDataSource.init("src/projexMedia/database.properties");
 
 		launch(args);

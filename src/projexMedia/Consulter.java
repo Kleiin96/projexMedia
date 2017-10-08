@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 public class Consulter extends Application {
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception{
     Tab tab1 = new Tab("Client");
     Tab tab2 = new Tab("Site");
     GestionnaireClient tabClient = new GestionnaireClient();
