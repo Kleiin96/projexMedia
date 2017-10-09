@@ -38,7 +38,7 @@ public class MainMenu extends Application {
         site.setClosable(false);
                    
         TabPane tabPane = new TabPane();
-        tabPane.setPrefSize(750, 600);
+        tabPane.setPrefSize(750, 650);
         
         tabPane.getTabs().add(0, client);
         tabPane.getTabs().add(site);
