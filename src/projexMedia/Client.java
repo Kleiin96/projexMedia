@@ -218,12 +218,38 @@ public class Client {
     	}
     }
     
-    public void archiverClient(){
-        
+    public void archiverClient() throws SQLException{
+    	Connection conn = SimpleDataSource.getConnection();
+    	try
+    	{
+    		setActif(false);
+    		PreparedStatement stat = conn.prepareStatement("Update client set actif=? where id_client = ?");
+    		stat.setBoolean(1, getActif());
+            stat.setInt(2, getIdClient());
+            
+            
+            stat.executeUpdate();
+    	}
+    	finally {
+    		conn.close();
+    	}
     }
     
-    public void activerClient(){
-        
+    public void activerClient() throws SQLException{
+    	Connection conn = SimpleDataSource.getConnection();
+    	try
+    	{
+    		setActif(true);
+    		PreparedStatement stat = conn.prepareStatement("Update client set actif=? where id_client = ?");
+    		stat.setBoolean(1, getActif());
+            stat.setInt(2, getIdClient());
+            
+            
+            stat.executeUpdate();
+    	}
+    	finally {
+    		conn.close();
+    	}
     }
     
     public void rechercherClient(){
