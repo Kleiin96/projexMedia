@@ -5,6 +5,7 @@
  */
 package projexMedia;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,17 +21,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -208,6 +212,35 @@ public class GestionnaireClient {
 				}
 			}
 		});
+		
+		tableClient.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					Node node = ((Node) event.getTarget()).getParent();
+					TableRow<?> row;
+					if (node instanceof TableRow) {
+						row = (TableRow<?>) node;
+					} else {
+						// clicking on text part
+						row = (TableRow<?>) node.getParent();
+					}
+					// System.out.println(row.getItem());
+					MainMenu menu = new MainMenu();
+					menu.set_activeTab(1);
+					try {
+						menu.start(primaryStage);
+					} catch (ClassNotFoundException | IOException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
 
 		btnAjouter.setLayoutX(30);
 		btnAjouter.setLayoutY(60);
@@ -290,13 +323,15 @@ public class GestionnaireClient {
 
 			@Override
 			public void handle(ActionEvent event) {
-				Consulter test = new Consulter();
+				MainMenu menu = new MainMenu();
+				
 				try {
-					test.start(primaryStage);
-				} catch (Exception e) {
+					menu.start(primaryStage);
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
+				
 			}
 		});
 
@@ -410,12 +445,13 @@ public class GestionnaireClient {
 
 			@Override
 			public void handle(ActionEvent event) {
-				Consulter test = new Consulter();
+				MainMenu menu = new MainMenu();
+				
 				try {
-					test.start(primaryStage);
-				} catch (Exception e) {
+					menu.start(primaryStage);
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -619,12 +655,13 @@ public class GestionnaireClient {
 
 			@Override
 			public void handle(ActionEvent event) {
-				Consulter test = new Consulter();
+				MainMenu menu = new MainMenu();
+				
 				try {
-					test.start(primaryStage);
-				} catch (Exception e) {
+					menu.start(primaryStage);
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 			}
 		});
