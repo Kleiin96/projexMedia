@@ -252,8 +252,21 @@ public class Client {
     	}
     }
     
-    public void rechercherClient(){
-        
+    public void supprimerClient() throws SQLException{
+    	Connection conn = SimpleDataSource.getConnection();
+    	try
+    	{
+    		setActif(true);
+    		PreparedStatement stat = conn.prepareStatement("Delete from client where id_client = ?");
+    		stat.setInt(1, getIdClient());
+            
+            
+            
+            stat.executeUpdate();
+    	}
+    	finally {
+    		conn.close();
+    	}
     }
     
     

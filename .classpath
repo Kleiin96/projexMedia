@@ -6,5 +6,7 @@
 	<classpathentry kind="lib" path="External/mysql-connector-java-5.1.44-bin.jar"/>
 	<classpathentry kind="lib" path="External/controlsfx-8.40.14.jar"/>
 	<classpathentry kind="lib" path="External/controlsfx-samples-8.40.14.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Control"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/controls"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

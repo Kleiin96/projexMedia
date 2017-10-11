@@ -11,12 +11,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.controlsfx.control.textfield.TextFields;
+
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,6 +29,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -84,11 +89,19 @@ public class GestionnaireClient {
 		TableColumn<Client, String> nomR = new TableColumn<Client, String>("nom Responsable");
 		TableColumn<Client, String> adresse = new TableColumn<Client, String>("adresse");
 		TableColumn<Client, String> courriel = new TableColumn<Client, String>("courriel");
+		
 
 		Button btnAjouter = new Button();
 		Button btnModifier = new Button();
 		Button btnArchiver = new Button();
 		Button btnConsArch = new Button();
+		Image imageRecherche = new Image(getClass().getResourceAsStream("loupe.png"));
+		Button btnRecherche = new Button();
+		ImageView image = new ImageView(imageRecherche);
+
+		btnRecherche.setGraphic(image);
+		
+		TextField tfRecherche = new TextField();
 
 		// construction de la table
 		tableClient.setEditable(false);
@@ -106,6 +119,33 @@ public class GestionnaireClient {
 		// nom.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
 		// tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tableClient.setItems(list);
+		
+		
+		btnRecherche.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					RechercherClient(tfRecherche);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		tfRecherche.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					RechercherClient(tfRecherche);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
 		btnAjouter.setText("Ajouter");
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
@@ -176,6 +216,10 @@ public class GestionnaireClient {
 		btnArchiver.setLayoutY(140);
 		btnConsArch.setLayoutX(30);
 		btnConsArch.setLayoutY(340);
+		tfRecherche.setLayoutX(500);
+		tfRecherche.setLayoutY(10);
+		btnRecherche.setLayoutX(690);
+		btnRecherche.setLayoutY(10);
 
 		btnAjouter.setMinHeight(35);
 		btnAjouter.setMinWidth(100);
@@ -185,6 +229,8 @@ public class GestionnaireClient {
 		btnArchiver.setMinWidth(100);
 		btnConsArch.setMinHeight(35);
 		btnConsArch.setMinWidth(100);
+		btnRecherche.setPadding(Insets.EMPTY);
+		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
 
 		// layout list
 		tableClient.setLayoutX(150);
@@ -195,6 +241,8 @@ public class GestionnaireClient {
 		_pane.getChildren().add(btnModifier);
 		_pane.getChildren().add(btnArchiver);
 		_pane.getChildren().add(btnConsArch);
+		_pane.getChildren().add(btnRecherche);
+		_pane.getChildren().add(tfRecherche);
 	}
 
 	// Formulaire ajouter client
@@ -500,8 +548,7 @@ public class GestionnaireClient {
 		TableColumn<Client, String> courriel = new TableColumn<Client, String>("courriel");
 
 		Button btnActiver = new Button();
-		Button btnModifier = new Button();
-		Button btnArchiver = new Button();
+		Button btnSupprimer = new Button();
 		Button btnRetour = new Button();
 		
 		Pane root = new Pane();
@@ -542,7 +589,29 @@ public class GestionnaireClient {
 				
 			}
 		});
+		btnSupprimer.setText("Supprimer");
+		btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
 
+			@Override
+			public void handle(ActionEvent event) {
+
+				if (tableClient.getSelectionModel().getSelectedItem() != null) {
+					try {
+						tableClient.getSelectionModel().getSelectedItem().supprimerClient();
+						afficherArchive(primaryStage);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+				// modifierClient(primaryStage);
+			}
+
+		});
 
 		btnRetour.setText("Retour");
 		btnRetour.setOnAction(new EventHandler<ActionEvent>() {
@@ -561,13 +630,16 @@ public class GestionnaireClient {
 
 		btnActiver.setLayoutX(30);
 		btnActiver.setLayoutY(60);
+		btnSupprimer.setLayoutX(30);
+		btnSupprimer.setLayoutY(140);
 		
 		btnRetour.setLayoutX(30);
 		btnRetour.setLayoutY(340);
 
 		btnActiver.setMinHeight(35);
 		btnActiver.setMinWidth(100);
-		
+		btnSupprimer.setMinHeight(35);
+		btnSupprimer.setMinWidth(100);
 		btnRetour.setMinHeight(35);
 		btnRetour.setMinWidth(100);
 
@@ -577,7 +649,7 @@ public class GestionnaireClient {
 
 		root.getChildren().add(tableClient);
 		root.getChildren().add(btnActiver);
-		
+		root.getChildren().add(btnSupprimer);
 		root.getChildren().add(btnRetour);
 		// create window
 		Scene scene = new Scene(root, 700, 700);
@@ -585,4 +657,25 @@ public class GestionnaireClient {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	public void RechercherClient(TextField tfRecherche) throws SQLException {
+
+		Connection conn = SimpleDataSource.getConnection();
+		try {
+
+			Statement stat = conn.createStatement();
+
+			ResultSet result = stat.executeQuery(
+					"Select * from client Where nom_compagnie LIKE '%" + tfRecherche.getText() +"%'");
+			list.clear();
+			while (result.next()) {
+				list.add(new Client(Integer.parseInt(result.getString("id_client")), result.getString("nom_compagnie"),
+						result.getString("telephone"), result.getString("personne_responsable"),
+						result.getString("adresse"), result.getString("courriel")));
+			}
+		} finally {
+			conn.close();
+		}
+	}
+
 }
