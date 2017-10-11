@@ -26,8 +26,8 @@ public class Consulter extends Application {
     Tab tab1 = new Tab("Client");
     Tab tab2 = new Tab("Site");
     GestionnaireClient tabClient = new GestionnaireClient();
-    Service test = new Service();
-    test.CreateGroupActif();
+    //Service test = new Service();
+    //test.CreateGroupActif();
     
     tabClient.createPane(primaryStage);
     
