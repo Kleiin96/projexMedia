@@ -41,7 +41,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author bruneaje
+ * @author bruneaje allo
  */
 public class GestionnaireClient {
 	Client _test;
