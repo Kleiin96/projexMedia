@@ -34,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+
 /**
  *
  * @author bruneaje
@@ -77,7 +78,7 @@ public class GestionnaireClient {
 		this._clientTab = _clientTab;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked"})
 	public void createPane(Stage primaryStage) throws Exception {
 
 		affichageClient();

@@ -402,6 +402,9 @@ public class GestionnaireSite {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} finally {
 					try {
 						conn.close();
@@ -422,6 +425,9 @@ public class GestionnaireSite {
 				try {
 					menu.start(primaryStage);
 				} catch (ClassNotFoundException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -588,6 +594,9 @@ public class GestionnaireSite {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} finally {
 					try {
 						conn.close();
@@ -608,6 +617,9 @@ public class GestionnaireSite {
 				try {
 					menu.start(primaryStage);
 				} catch (ClassNotFoundException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -797,6 +809,9 @@ public class GestionnaireSite {
 				try {
 					menu.start(primaryStage);
 				} catch (ClassNotFoundException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

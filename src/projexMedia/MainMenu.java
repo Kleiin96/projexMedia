@@ -23,17 +23,20 @@ import javafx.stage.Stage;
 public class MainMenu extends Application {
     
     GestionnaireSite _TabSite = new GestionnaireSite();
+    GestionnaireClient _TabClient = new GestionnaireClient();
     Scene _scene;
     int _activeTab;
-    
+   
     @Override
-    public void start(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException {
+    public void start(Stage primaryStage) throws Exception {
     	primaryStage.setTitle("Gestionnaire ProjexMedia");
-        Tab client = new Tab("Client");
+        Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();
         _TabSite.createPane(primaryStage);
+        _TabClient.createPane(primaryStage);
        
         client.setClosable(false);
+        client.setContent(_TabClient.getClientPane());
         site.setContent(_TabSite.getSitePane());
         site.setClosable(false);
                    

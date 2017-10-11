@@ -27,7 +27,7 @@ public class MainLogin extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        
+       
         Button btn = new Button();
         Button btn2 = new Button();
         Label lbl = new Label();
@@ -51,6 +51,9 @@ public class MainLogin extends Application {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
