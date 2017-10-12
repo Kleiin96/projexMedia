@@ -10,9 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 
 /**
@@ -256,13 +260,23 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		setActif(true);
     		PreparedStatement stat = conn.prepareStatement("Delete from client where id_client = ?");
     		stat.setInt(1, getIdClient());
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Message de confirmation");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce site?");
+			// alert.setContentText("Are you ok with this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				 stat.executeUpdate();
+			}
+    		
+    		
             
             
             
-            stat.executeUpdate();
+           
     	}
     	finally {
     		conn.close();
