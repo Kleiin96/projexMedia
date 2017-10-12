@@ -236,8 +236,12 @@ public class GestionnaireSite {
 					}
 					// System.out.println(row.getItem());
 					try {
-						ModifierSite(primaryStage, _table.getSelectionModel().getSelectedItem());
+						GestionnaireService service = new GestionnaireService();
+						service.afficherServiceActif(primaryStage, _table.getSelectionModel().getSelectedItem().getIdSite());
 					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

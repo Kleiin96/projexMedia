@@ -2,3 +2,11 @@
 .Tab{
 	 -fx-pref-width: 150;
 }
+
+.bordered-titled-border {
+  -fx-border-color: black;
+  -fx-border-insets: 5;
+  -fx-border-width: 2;
+  -fx-pref-width: 700;
+  
+}

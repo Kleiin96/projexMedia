@@ -18,6 +18,12 @@ public class Site {
     private SimpleStringProperty url;
     private SimpleStringProperty client;
 
+    public Site() {
+        idSite = new SimpleIntegerProperty(0);
+        url = new SimpleStringProperty(null);
+        client = new SimpleStringProperty(null);
+    }
+    
     public Site(Integer _idSite, String _url,String _client) {
         idSite = new SimpleIntegerProperty(_idSite);
         url = new SimpleStringProperty(_url);
