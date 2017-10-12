@@ -199,7 +199,7 @@ public class GestionnaireClient {
 			}
 		});
 
-		btnConsArch.setText("Consulter Archive");
+		btnConsArch.setText("Consulter Archives");
 		btnConsArch.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -245,29 +245,29 @@ public class GestionnaireClient {
 		btnAjouter.setLayoutX(30);
 		btnAjouter.setLayoutY(60);
 		btnModifier.setLayoutX(30);
-		btnModifier.setLayoutY(100);
+		btnModifier.setLayoutY(140);
 		btnArchiver.setLayoutX(30);
-		btnArchiver.setLayoutY(140);
+		btnArchiver.setLayoutY(220);
 		btnConsArch.setLayoutX(30);
-		btnConsArch.setLayoutY(340);
+		btnConsArch.setLayoutY(530);
 		tfRecherche.setLayoutX(500);
 		tfRecherche.setLayoutY(10);
 		btnRecherche.setLayoutX(690);
 		btnRecherche.setLayoutY(10);
 
-		btnAjouter.setMinHeight(35);
-		btnAjouter.setMinWidth(100);
-		btnModifier.setMinHeight(35);
-		btnModifier.setMinWidth(100);
-		btnArchiver.setMinHeight(35);
-		btnArchiver.setMinWidth(100);
-		btnConsArch.setMinHeight(35);
-		btnConsArch.setMinWidth(100);
+		btnAjouter.setMinHeight(50);
+		btnAjouter.setMinWidth(150);
+		btnModifier.setMinHeight(50);
+		btnModifier.setMinWidth(150);
+		btnArchiver.setMinHeight(50);
+		btnArchiver.setMinWidth(150);
+		btnConsArch.setMinHeight(50);
+		btnConsArch.setMinWidth(150);
 		btnRecherche.setPadding(Insets.EMPTY);
 		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
 
 		// layout list
-		tableClient.setLayoutX(150);
+		tableClient.setLayoutX(200);
 		tableClient.setLayoutY(60);
 
 		_pane.getChildren().add(tableClient);

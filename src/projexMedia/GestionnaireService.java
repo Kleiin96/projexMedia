@@ -6,15 +6,22 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -27,11 +34,16 @@ public class GestionnaireService {
 	public ArrayList<Service> _serviceArchive = new ArrayList<>();
 	public int id_Site;
 	
+	public ScrollPane scroll1 = new ScrollPane();
+	public ScrollPane scroll2 = new ScrollPane();
 	public Pane _paneActif = new Pane();
 	public Pane _paneArchive = new Pane();
 	public Site _site = new Site();
-	
-	public void GestionnaireServiceActif(int id_Site) throws SQLException, ClassNotFoundException, IOException{
+	public Tab actif = new Tab("Actif");
+    public Tab archive = new Tab("Archive");
+    public int _activeTab = 0;
+    
+    public void GestionnaireServiceActif(int id_Site) throws SQLException, ClassNotFoundException, IOException{
 		
 		SimpleDataSource.init("src/projexMedia/database.properties");
 		Connection conn = SimpleDataSource.getConnection();
@@ -66,8 +78,6 @@ public class GestionnaireService {
             conn.close();
         }
     }
-	
-	
 	
 	public void GestionnaireServiceArchive(int id_Site) throws SQLException, ClassNotFoundException, IOException{
 		
@@ -105,28 +115,41 @@ public class GestionnaireService {
         }
     }
 	
-	public void afficherServiceActif(Stage primaryStage, int id_site) throws Exception {
-		GestionnaireServiceActif(id_site);
-		
-		TabPane tabPane = new TabPane();
+	public void afficherService(Stage primaryStage, int id_site) throws Exception {
+		afficherServiceActif(primaryStage,id_site);
+		afficherServiceArchive(primaryStage,id_site);
+       
+		actif.setClosable(false);
+        actif.setContent(scroll1);
+        archive.setContent(scroll2);
+        archive.setClosable(false);
+                   
+        TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 550);
         
-		Scene scene = new Scene(new VBox( tabPane));
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		
-		Tab actif = new Tab("Actif");
-        Tab archive = new Tab("Archive");
+        tabPane.getTabs().add(0, actif);
+        tabPane.getTabs().add(archive);
         
-        actif.setClosable(false);
-        actif.setContent(_paneActif);
-        archive.setContent(_paneArchive);
-        archive.setClosable(false);
+        if(_activeTab == 1) {
+        	tabPane.getSelectionModel().select(archive);
+        }
+        
+        Scene scene = new Scene(new VBox( tabPane));
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        actif.getStyleClass().add("Tab");
+        archive.getStyleClass().add("Tab");    
+        primaryStage.setTitle("Service du Site");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+	}
+	
+	public void afficherServiceActif(Stage primaryStage, int id_site) throws Exception {
+		GestionnaireServiceActif(id_site);
+          
+        scroll1.setContent(_paneActif);
 		
 		Button btnAjout = new Button("Ajouter");
 		Button btnRetour = new Button("Retour");
-		
-		tabPane.getTabs().add(0, actif);
-        tabPane.getTabs().add(archive);
 		
 		btnAjout.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -163,8 +186,8 @@ public class GestionnaireService {
 			lblType.setLayoutY(20);
 			_group.getChildren().addAll(lblType);
 			_group.getStyleClass().add("bordered-titled-border");
-			_group.setLayoutY(20);
-			_group.setLayoutX(200);
+			_group.setLayoutY(60);
+			_group.setLayoutX(20);
 			_paneActif.getChildren().add(_group);
 		}
 		else {
@@ -189,15 +212,31 @@ public class GestionnaireService {
 				ImageView imageA = new ImageView(imageArchive);
 				btnModif.setGraphic(imageM);
 				btnArchive.setGraphic(imageA);
+				btnModif.setId("" + i);
 				
 				btnModif.setOnAction(new EventHandler<ActionEvent>() {
 
 					@Override
 					public void handle(ActionEvent event) {
 						try {
-							MainMenu menu = new MainMenu();
-							menu.set_activeTab(1);
-							menu.start(primaryStage);
+							interfaceModifier(primaryStage, btnModif.getId());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				
+				btnArchive.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						try {
+							archiverService(_serviceActif.get(Integer.parseInt(btnModif.getId())));
+							_paneActif.getChildren().clear();
+							afficherServiceActif(primaryStage, id_site);
+							_paneArchive.getChildren().clear();
+							afficherServiceArchive(primaryStage, id_site);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -259,68 +298,158 @@ public class GestionnaireService {
 		btnRetour.setLayoutX(20);
 		btnRetour.setLayoutY(20);
 		_paneActif.getChildren().add(btnRetour);
-		
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        actif.getStyleClass().add("Tab");
-        archive.getStyleClass().add("Tab");  
-	
-		primaryStage.setTitle("Service du Site");
-		primaryStage.setScene(scene);
-		primaryStage.show();
 	}
 
-	public void afficherServiceArchive() {
+	public void afficherServiceArchive(Stage primaryStage, int id_site) throws Exception {
 
-		for(int i = 0 ; i < _serviceArchive.size() ;i++) {
-			Label lblNom = new Label(_serviceArchive.get(i).get_nom());
-			Label lblUrl = new Label("URL : ");
-			Label lbl_url = new Label(_serviceArchive.get(i).get_url());
-			Label lblUsername = new Label("Username : ");
-			Label lbl_username = new Label(_serviceArchive.get(i).get_username());
-			Label lblPassword = new Label("Password : ");
-			Label lbl_password = new Label(_serviceArchive.get(i).get_password());
-			Label lblAutre = new Label("Autre : ");
-			Label lbl_autre = new Label(_serviceArchive.get(i).get_autre());
-			
-			//position Nom
-			lblNom.setLayoutX(30);
-			lblNom.setLayoutY(i *100 + 20);
-			
-			//position url
-			lblUrl.setLayoutX(30);
-			lblUrl.setLayoutY(i * 100 + 50);
-			lbl_url.setLayoutX(100);
-			lbl_url.setLayoutY(i * 100 + 50);
-			
-			//position Username
-			lblUsername.setLayoutX(30);
-			lblUsername.setLayoutY(i * 100 + 80);
-			lbl_username.setLayoutX(100);
-			lbl_username.setLayoutY(i * 100 + 80);
-			
-			//position Password
-			lblPassword.setLayoutX(200);
-			lblPassword.setLayoutY(i * 100 + 50);
-			lbl_password.setLayoutX(270);
-			lbl_password.setLayoutY(i * 100 + 50);
-			
-			//position Autre
-			lblAutre.setLayoutX(200);
-			lblAutre.setLayoutY(i * 100 + 80);
-			lbl_autre.setLayoutX(270);
-			lbl_autre.setLayoutY(i * 100 + 80);
-			
-			/*_pane.getChildren().add(lblNom);
-			_pane.getChildren().add(lblUrl);
-			_pane.getChildren().add(lbl_url);
-			_pane.getChildren().add(lblUsername);
-			_pane.getChildren().add(lbl_username);
-			_pane.getChildren().add(lblPassword);
-			_pane.getChildren().add(lbl_password);
-			_pane.getChildren().add(lblAutre);
-			_pane.getChildren().add(lbl_autre);*/
-			
+		GestionnaireServiceArchive(id_site);
+        
+        scroll2.setContent(_paneArchive);
+		
+		Button btnRetour = new Button("Retour");
+		
+		btnRetour.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					MainMenu menu = new MainMenu();
+					menu.set_activeTab(1);
+					menu.start(primaryStage);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		if (_serviceArchive.isEmpty()) {
+			Pane _group = new Pane();
+			Label lblType = new Label("Aucun service");
+			lblType.setLayoutX(30);
+			lblType.setLayoutY(20);
+			_group.getChildren().addAll(lblType);
+			_group.getStyleClass().add("bordered-titled-border");
+			_group.setLayoutY(60);
+			_group.setLayoutX(20);
+			_paneArchive.getChildren().add(_group);
 		}
+		else {
+			for(int i = 0 ; i < _serviceArchive.size() ;i++) {
+				
+				Pane _group = new Pane();
+				
+				Label lblNom = new Label(_serviceArchive.get(i).get_nom());
+				Label lblUrl = new Label("URL : ");
+				Label lbl_url = new Label(_serviceArchive.get(i).get_url());
+				Label lblUsername = new Label("Username : ");
+				Label lbl_username = new Label(_serviceArchive.get(i).get_username());
+				Label lblPassword = new Label("Password : ");
+				Label lbl_password = new Label(_serviceArchive.get(i).get_password());
+				Label lblAutre = new Label("Autre : ");
+				Label lbl_autre = new Label(_serviceArchive.get(i).get_autre());
+				Image imageActiver = new Image(getClass().getResourceAsStream("active.png"));
+				Button btnActive = new Button();
+				ImageView imageM = new ImageView(imageActiver);
+				Image imageSupprimer = new Image(getClass().getResourceAsStream("delete.png"));
+				Button btnSupprimer = new Button();
+				ImageView imageA = new ImageView(imageSupprimer);
+				btnActive.setGraphic(imageM);
+				btnSupprimer.setGraphic(imageA);
+				btnActive.setId("" + i);
+				
+				btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						Alert alert = new Alert(AlertType.CONFIRMATION);
+						alert.setTitle("Message de confirmation");
+						alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce service?");
+						// alert.setContentText("Are you ok with this?");
+
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							try {
+								supprimerService(_serviceArchive.get(Integer.parseInt(btnActive.getId())));
+								_paneArchive.getChildren().clear();
+								afficherServiceArchive(primaryStage, id_site);
+							}catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						} 
+					}
+				});
+				
+				btnActive.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						try {
+							activerService(_serviceArchive.get(Integer.parseInt(btnActive.getId())));
+							_paneArchive.getChildren().clear();
+							afficherServiceArchive(primaryStage, id_site);
+							_paneActif.getChildren().clear();
+							afficherServiceActif(primaryStage, id_site);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				
+				//position Nom
+				lblNom.setLayoutX(30);
+				lblNom.setLayoutY(20);
+				
+				//position Username
+				lblUsername.setLayoutX(30);
+				lblUsername.setLayoutY(50);
+				lbl_username.setLayoutX(110);
+				lbl_username.setLayoutY(50);
+				
+				//position Password
+				lblPassword.setLayoutX(350);
+				lblPassword.setLayoutY(50);
+				lbl_password.setLayoutX(430);
+				lbl_password.setLayoutY(50);
+				
+				//position url
+				lblUrl.setLayoutX(30);
+				lblUrl.setLayoutY(80);
+				lbl_url.setLayoutX(80);
+				lbl_url.setLayoutY(80);
+				
+				//position Autre
+				lblAutre.setLayoutX(30);
+				lblAutre.setLayoutY(110);
+				lbl_autre.setLayoutX(110);
+				lbl_autre.setLayoutY(110);
+				
+				btnActive.setLayoutX(650);
+				btnActive.setLayoutY(20);
+				btnActive.setPadding(Insets.EMPTY);
+				
+				btnSupprimer.setLayoutX(650);
+				btnSupprimer.setLayoutY(70);
+				btnSupprimer.setPadding(Insets.EMPTY);
+				
+				_group.getChildren().add(btnActive);
+				
+				_group.getChildren().add(btnSupprimer);
+				
+				_group.getChildren().addAll(lblNom, lblUrl, lblUsername, lblPassword, lbl_url, lbl_username, lbl_password,lblAutre,lbl_autre);
+				_group.getStyleClass().add("bordered-titled-border");
+				_group.setLayoutY(i * 150 + 60);
+				_group.setLayoutX(20);
+				_paneArchive.getChildren().add(_group);
+			}
+		}
+		
+		btnRetour.setLayoutX(20);
+		btnRetour.setLayoutY(20);
+		_paneArchive.getChildren().add(btnRetour);
 	}
 	
 	public void ajouterService(Service e) throws SQLException {
@@ -345,7 +474,7 @@ public class GestionnaireService {
         }
     }
 	
-	public void modifierService(Service e, Service NewE) throws SQLException {
+	public void modifierService(int id_service, Service NewE) throws SQLException {
         Connection conn = SimpleDataSource.getConnection();
         try {
             PreparedStatement stat = conn.prepareStatement(
@@ -357,7 +486,7 @@ public class GestionnaireService {
             stat.setString(4, NewE.get_password());
             stat.setString(5, NewE.get_autre());  
             stat.setBoolean(6, NewE.get_actif());  
-            stat.setInt(7, e.get_id());     
+            stat.setInt(7, id_service);     
             stat.executeUpdate();                
         } catch(SQLException ex){
             ex.printStackTrace();
@@ -414,7 +543,7 @@ public class GestionnaireService {
             conn.close();
         }
     }
-
+	
 	public void interfaceAjouter(Stage primaryStage) throws SQLException {
 
 		// bouton
@@ -448,7 +577,7 @@ public class GestionnaireService {
 					}
 					GestionnaireService service = new GestionnaireService();
 					try {
-						service.afficherServiceActif(primaryStage, _site.getIdSite());
+						service.afficherService(primaryStage, _site.getIdSite());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -462,7 +591,7 @@ public class GestionnaireService {
 			public void handle(ActionEvent event) {
 				GestionnaireService service = new GestionnaireService();
 				try {
-					service.afficherServiceActif(primaryStage, _site.getIdSite());
+					service.afficherService(primaryStage, _site.getIdSite());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -532,5 +661,125 @@ public class GestionnaireService {
 		primaryStage.setTitle("Ajouter Service");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	public void interfaceModifier(Stage primaryStage, String id) {
+		// bouton
+				Button btnModifier = new Button("Modifier");
+				Button btnCancel = new Button("Cancel");
+
+				// textField
+				TextField tfNom = new TextField(_serviceActif.get(Integer.parseInt(id)).get_nom());
+				TextField tfUsername = new TextField(_serviceActif.get(Integer.parseInt(id)).get_username());
+				TextField tfPassword = new TextField(_serviceActif.get(Integer.parseInt(id)).get_password());
+				TextArea tfAutre = new TextArea(_serviceActif.get(Integer.parseInt(id)).get_autre());
+				TextField tfUrl = new TextField(_serviceActif.get(Integer.parseInt(id)).get_url());
+
+				// label
+				Label lbl = new Label("Nom :");
+				Label lbl1 = new Label("Username :");
+				Label lbl2 = new Label("Password :");
+				Label lbl3 = new Label("Url :");
+				Label lbl4 = new Label("Autre :");
+
+				btnModifier.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+
+							try {
+								modifierService(Integer.parseInt(id),new Service(0, tfNom.getText(), tfUrl.getText(), tfUsername.getText(), tfPassword.getText(), tfAutre.getText(), true, _site.getIdSite()));
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							GestionnaireService service = new GestionnaireService();
+							try {
+								service.afficherService(primaryStage, _site.getIdSite());
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+					}
+				});
+
+				btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						GestionnaireService service = new GestionnaireService();
+						try {
+							service.afficherService(primaryStage, _site.getIdSite());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+				});
+
+				// panel
+				Pane root = new Pane();
+
+				// premier champ
+				lbl.setLayoutX(50);
+				lbl.setLayoutY(70);
+				tfNom.setLayoutX(200);
+				tfNom.setLayoutY(70);
+
+				// deuxieme champ
+				lbl1.setLayoutX(50);
+				lbl1.setLayoutY(120);
+				tfUsername.setLayoutX(200);
+				tfUsername.setLayoutY(120);
+
+				// troisieme champ
+				lbl2.setLayoutX(50);
+				lbl2.setLayoutY(170);
+				tfPassword.setLayoutX(200);
+				tfPassword.setLayoutY(170);
+
+				lbl3.setLayoutX(50);
+				lbl3.setLayoutY(220);
+				tfUrl.setLayoutX(200);
+				tfUrl.setLayoutY(220);
+				
+				lbl4.setLayoutX(50);
+				lbl4.setLayoutY(270);
+				tfAutre.setLayoutX(200);
+				tfAutre.setLayoutY(270);
+
+				// Bouton
+				btnModifier.setLayoutX(50);
+				btnModifier.setLayoutY(350);
+				btnCancel.setLayoutX(250);
+				btnCancel.setLayoutY(350);
+
+				tfAutre.setMaxHeight(70);
+				tfAutre.setMaxWidth(230);
+				btnModifier.setMinHeight(30);
+				btnModifier.setMinWidth(130);
+				btnCancel.setMinHeight(30);
+				btnCancel.setMinWidth(130);
+
+				// add to panel
+				root.getChildren().add(lbl);
+				root.getChildren().add(lbl1);
+				root.getChildren().add(lbl2);
+				root.getChildren().add(tfNom);
+				root.getChildren().add(tfUsername);
+				root.getChildren().add(tfPassword);
+				root.getChildren().add(tfAutre);
+				root.getChildren().add(tfUrl);
+				root.getChildren().add(lbl3);
+				root.getChildren().add(lbl4);
+				root.getChildren().add(btnModifier);
+				root.getChildren().add(btnCancel);
+
+				// create window
+				Scene scene = new Scene(root, 450, 400);
+				primaryStage.setTitle("Modifier Service");
+				primaryStage.setScene(scene);
+				primaryStage.show();
 	}
 }

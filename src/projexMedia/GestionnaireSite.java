@@ -181,7 +181,7 @@ public class GestionnaireSite {
 			}
 		});
 
-		btnConsulter.setText("Consulter archives");
+		btnConsulter.setText("Consulter Archives");
 		btnConsulter.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -237,7 +237,7 @@ public class GestionnaireSite {
 					// System.out.println(row.getItem());
 					try {
 						GestionnaireService service = new GestionnaireService();
-						service.afficherServiceActif(primaryStage, _table.getSelectionModel().getSelectedItem().getIdSite());
+						service.afficherService(primaryStage, _table.getSelectionModel().getSelectedItem().getIdSite());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
