@@ -186,7 +186,7 @@ public class GestionnaireClient {
 			public void handle(ActionEvent event) {
 				try {
 					tableClient.getSelectionModel().getSelectedItem().archiverClient();
-					Consulter test = new Consulter();
+					MainMenu test = new MainMenu();
 					test.start(primaryStage);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -310,7 +310,7 @@ public class GestionnaireClient {
 				Client lul = new Client(tf.getText(), tf1.getText(), tf3.getText(), tf4.getText(), tf2.getText());
 				try {
 					lul.ajouterClient();
-					Consulter test = new Consulter();
+					MainMenu test = new MainMenu();
 					test.start(primaryStage);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -431,7 +431,8 @@ public class GestionnaireClient {
 					lul.modifierNomResponsableClient();
 					lul.modifierTelephoneClient();
 
-					Consulter test = new Consulter();
+					
+					MainMenu test = new MainMenu();
 					test.start(primaryStage);
 
 				} catch (Exception e) {
