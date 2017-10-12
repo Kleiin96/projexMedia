@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class GestionnaireService {
 	
@@ -17,13 +20,15 @@ public class GestionnaireService {
 	public ArrayList<Service> _serviceArchive = new ArrayList<>();
 	public int id_Site;
 	
-	public void GestionnaireServiceActif() throws SQLException, ClassNotFoundException, IOException{
+	public Pane _pane;
+	
+	public void GestionnaireServiceActif(int id_Site) throws SQLException, ClassNotFoundException, IOException{
 		
 		SimpleDataSource.init("src/projexMedia/database.properties");
 		Connection conn = SimpleDataSource.getConnection();
 		
-		//Temporaire
-		id_Site = 1;
+		
+		
 		
 		String sql = "Select * From service where fk_id_site = '"+id_Site+"' AND actif = 1";
 		try {
@@ -55,13 +60,13 @@ public class GestionnaireService {
 	
 	
 	
-	public void GestionnaireServiceArchive() throws SQLException, ClassNotFoundException, IOException{
+	public void GestionnaireServiceArchive(int id_Site) throws SQLException, ClassNotFoundException, IOException{
 		
 		SimpleDataSource.init("src/projexMedia/database.properties");
 		Connection conn = SimpleDataSource.getConnection();
 		
-		//Temporaire
-		id_Site = 1;
+		
+		
 				
 		String sql = "Select * From service where fk_id_site = '"+id_Site+"' AND actif = 0";
 		try {
@@ -91,8 +96,8 @@ public class GestionnaireService {
         }
     }
 	
-	public void afficherServiceActif() {
-
+	public void afficherServiceActif(Stage primaryStage, int id_site) throws Exception {
+		GestionnaireServiceActif(id_site);
 		for(int i = 0 ; i < _serviceActif.size() ;i++) {
 			Label lblNom = new Label(_serviceActif.get(i).get_nom());
 			Label lblUrl = new Label("URL : ");
@@ -131,7 +136,21 @@ public class GestionnaireService {
 			lblAutre.setLayoutY(i * 100 + 80);
 			lbl_autre.setLayoutX(270);
 			lbl_autre.setLayoutY(i * 100 + 80);
+			
+			_pane.getChildren().add(lblNom);
+			_pane.getChildren().add(lblUrl);
+			_pane.getChildren().add(lbl_url);
+			_pane.getChildren().add(lblUsername);
+			_pane.getChildren().add(lbl_username);
+			_pane.getChildren().add(lblPassword);
+			_pane.getChildren().add(lbl_password);
+			_pane.getChildren().add(lblAutre);
+			_pane.getChildren().add(lbl_autre);
 		}
+		Scene scene = new Scene(_pane, 450, 400);
+		primaryStage.setTitle("Ajouter Client");
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
 	public void afficherServiceArchive() {
@@ -174,6 +193,17 @@ public class GestionnaireService {
 			lblAutre.setLayoutY(i * 100 + 80);
 			lbl_autre.setLayoutX(270);
 			lbl_autre.setLayoutY(i * 100 + 80);
+			
+			/*_pane.getChildren().add(lblNom);
+			_pane.getChildren().add(lblUrl);
+			_pane.getChildren().add(lbl_url);
+			_pane.getChildren().add(lblUsername);
+			_pane.getChildren().add(lbl_username);
+			_pane.getChildren().add(lblPassword);
+			_pane.getChildren().add(lbl_password);
+			_pane.getChildren().add(lblAutre);
+			_pane.getChildren().add(lbl_autre);*/
+			
 		}
 	}
 	
