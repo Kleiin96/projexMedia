@@ -212,7 +212,7 @@ public class GestionnaireService {
 				ImageView imageA = new ImageView(imageArchive);
 				btnModif.setGraphic(imageM);
 				btnArchive.setGraphic(imageA);
-				btnModif.setId("" + i);
+				btnModif.setId(String.valueOf(i));
 				
 				btnModif.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -688,7 +688,7 @@ public class GestionnaireService {
 					public void handle(ActionEvent event) {
 
 							try {
-								modifierService(Integer.parseInt(id),new Service(0, tfNom.getText(), tfUrl.getText(), tfUsername.getText(), tfPassword.getText(), tfAutre.getText(), true, _site.getIdSite()));
+								modifierService(_serviceActif.get(Integer.parseInt(id)).get_id(),new Service(0, tfNom.getText(), tfUrl.getText(), tfUsername.getText(), tfPassword.getText(), tfAutre.getText(), true, _site.getIdSite()));
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
