@@ -24,6 +24,7 @@ public class MainMenu extends Application {
     
     GestionnaireSite _TabSite = new GestionnaireSite();
     GestionnaireClient _TabClient = new GestionnaireClient();
+    GestionnaireServeur _TabServeur = new GestionnaireServeur();
     Scene _scene;
     int _activeTab;
    
@@ -32,6 +33,8 @@ public class MainMenu extends Application {
     	primaryStage.setTitle("Gestionnaire ProjexMedia");
         Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();
+        //Tab serveur = _TabServeur.getServeurTab();
+        //_TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
        
@@ -39,6 +42,8 @@ public class MainMenu extends Application {
         client.setContent(_TabClient.getClientPane());
         site.setContent(_TabSite.getSitePane());
         site.setClosable(false);
+        //serveur.setClosable(false);
+        //serveur.setContent(_TabServeur.getServeurPane());
                    
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 650);
