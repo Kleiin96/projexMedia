@@ -33,8 +33,8 @@ public class MainMenu extends Application {
     	primaryStage.setTitle("Gestionnaire ProjexMedia");
         Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();
-        //Tab serveur = _TabServeur.getServeurTab();
-        //_TabServeur.createPane(primaryStage);
+        Tab serveur = new Tab()/*_TabServeur.getServeurTab()*/;
+        _TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
        
@@ -42,14 +42,15 @@ public class MainMenu extends Application {
         client.setContent(_TabClient.getClientPane());
         site.setContent(_TabSite.getSitePane());
         site.setClosable(false);
-        //serveur.setClosable(false);
-        //serveur.setContent(_TabServeur.getServeurPane());
+        serveur.setClosable(false);
+        serveur.setContent(_TabServeur.getServeurPane());
                    
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 650);
         
         tabPane.getTabs().add(0, client);
         tabPane.getTabs().add(site);
+        tabPane.getTabs().add(serveur);
         
         if(_activeTab == 1) {
         	tabPane.getSelectionModel().select(site);

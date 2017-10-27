@@ -52,7 +52,7 @@ public class GestionnaireClient {
 
 	public GestionnaireClient() {
 		_test = new Client();
-		_clientTab = new Tab("Client", new Label("Salut"));
+		_clientTab = new Tab("Client");
 		_pane = new Pane();
 	}
 

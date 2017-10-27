@@ -152,6 +152,13 @@ public class Serveur {
 		this.osServeur = osServeur;
 		this.actif = actif;
 	}
+	
+	public Serveur() {
+		idServeur = 0;
+		nomServeur = "";
+		osServeur = "";
+		actif = true;
+	}
 
 	//gettreur et setteur
 	public int getIdServeur() {
