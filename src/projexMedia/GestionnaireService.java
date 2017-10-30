@@ -212,7 +212,7 @@ public class GestionnaireService {
 				ImageView imageA = new ImageView(imageArchive);
 				btnModif.setGraphic(imageM);
 				btnArchive.setGraphic(imageA);
-				btnModif.setId("" + i);
+				btnModif.setId("" + _serviceActif.get(i).get_id());
 				
 				btnModif.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -486,7 +486,7 @@ public class GestionnaireService {
             stat.setString(4, NewE.get_password());
             stat.setString(5, NewE.get_autre());  
             stat.setBoolean(6, NewE.get_actif());  
-            stat.setInt(7, id_service);     
+            stat.setInt(7, id_service);
             stat.executeUpdate();                
         } catch(SQLException ex){
             ex.printStackTrace();
