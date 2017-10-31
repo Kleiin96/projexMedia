@@ -1,7 +1,15 @@
 package projexMedia;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import org.controlsfx.control.textfield.TextFields;
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -29,7 +38,7 @@ public class GestionnaireServeur {
 	Tab _serveurTab;
 	Pane _pane;
 
-	public ObservableList<Serveur> list = FXCollections.observableArrayList(new Serveur(1,"serveur1","lul",true));
+	public ObservableList<Serveur> list = FXCollections.observableArrayList();
 	
 	public Pane getServeurPane() {
 		return _pane;
@@ -48,27 +57,32 @@ public class GestionnaireServeur {
 	@SuppressWarnings({ "unchecked"})
 	public void createPane(Stage primaryStage) throws Exception{
 		
-
+		SimpleDataSource.init("src/projexMedia/database.properties");
+		
+		
+		
+		
+		affichageServeur();
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
 		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
 		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Serveur");
-		TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
-		TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
-		TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
-		TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
+		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
+		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
+		//TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
+		//TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
 		
 
 		Button btnAjouter = new Button();
 		Button btnModifier = new Button();
 		Button btnArchiver = new Button();
 		Button btnConsArch = new Button();
-		Image imageRecherche = new Image(getClass().getResourceAsStream("loupe.png"));
-		Button btnRecherche = new Button();
-		ImageView image = new ImageView(imageRecherche);
+		//Image imageRecherche = new Image(getClass().getResourceAsStream("loupe.png"));
+		//Button btnRecherche = new Button();
+		//ImageView image = new ImageView(imageRecherche);
 
-		btnRecherche.setGraphic(image);
+		//btnRecherche.setGraphic(image);
 		
-		TextField tfRecherche = new TextField();
+		//TextField tfRecherche = new TextField();
 
 		// construction de la table
 		tableServeur.setEditable(false);
@@ -88,8 +102,7 @@ public class GestionnaireServeur {
 		tableServeur.setItems(list);
 		
 		
-		btnRecherche.setOnAction(new EventHandler<ActionEvent>() {
-
+		/*btnRecherche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				
@@ -97,12 +110,11 @@ public class GestionnaireServeur {
 		});
 		
 		tfRecherche.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				
 			}
-		});
+		});*/
 
 		btnAjouter.setText("Ajouter");
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
@@ -118,10 +130,10 @@ public class GestionnaireServeur {
 			@Override
 			public void handle(ActionEvent event) {
 
-				//if (tableServeur.getSelectionModel().getSelectedItem() != null) {
+				if (tableServeur.getSelectionModel().getSelectedItem() != null) {
 					
-
-				//}
+					modifierServeur(primaryStage, tableServeur.getSelectionModel().getSelectedItem());
+				}
 				
 			}
 
@@ -131,6 +143,18 @@ public class GestionnaireServeur {
 
 			@Override
 			public void handle(ActionEvent event) {
+				
+					
+					try {
+						tableServeur.getSelectionModel().getSelectedItem().archiverServeur();
+						MainMenu test = new MainMenu();
+						test.start(primaryStage);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				
 				
 			}
 		});
@@ -186,10 +210,10 @@ public class GestionnaireServeur {
 		btnArchiver.setLayoutY(220);
 		btnConsArch.setLayoutX(30);
 		btnConsArch.setLayoutY(530);
-		tfRecherche.setLayoutX(500);
+		/*tfRecherche.setLayoutX(500);
 		tfRecherche.setLayoutY(10);
 		btnRecherche.setLayoutX(690);
-		btnRecherche.setLayoutY(10);
+		btnRecherche.setLayoutY(10);*/
 
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);
@@ -199,7 +223,7 @@ public class GestionnaireServeur {
 		btnArchiver.setMinWidth(150);
 		btnConsArch.setMinHeight(50);
 		btnConsArch.setMinWidth(150);
-		btnRecherche.setPadding(Insets.EMPTY);
+		//btnRecherche.setPadding(Insets.EMPTY);
 		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
 
 		// layout list
@@ -211,8 +235,8 @@ public class GestionnaireServeur {
 		_pane.getChildren().add(btnModifier);
 		_pane.getChildren().add(btnArchiver);
 		_pane.getChildren().add(btnConsArch);
-		_pane.getChildren().add(btnRecherche);
-		_pane.getChildren().add(tfRecherche);
+		/*_pane.getChildren().add(btnRecherche);
+		_pane.getChildren().add(tfRecherche);*/
 	}
 	
 	//ajouter un serveur dans la base de donnée
@@ -269,9 +293,11 @@ public class GestionnaireServeur {
 
 					@Override
 					public void handle(ActionEvent event) {
-						Client lul = new Client(tf.getText(), tf1.getText(), tf3.getText(), tf4.getText(), tf2.getText());
+						Serveur lul = new Serveur(1,tf.getText(), tf1.getText(), tf2.getText(), tf3.getText(), tf4.getText(), tf5.getText(), tf6.getText()
+								, tf7.getText(), tf8.getText(), tf9.getText(), tf10.getText(), tf11.getText(), tf12.getText(), tf13.getText(), tf14.getText()
+								, tf15.getText(),true);
 						try {
-							lul.ajouterClient();
+							lul.ajouterServeur();
 							MainMenu test = new MainMenu();
 							test.start(primaryStage);
 						} catch (Exception e) {
@@ -286,7 +312,7 @@ public class GestionnaireServeur {
 					@Override
 					public void handle(ActionEvent event) {
 						MainMenu menu = new MainMenu();
-						
+						menu.set_activeTab(2);
 						try {
 							menu.start(primaryStage);
 						} catch (Exception e1) {
@@ -445,28 +471,28 @@ public class GestionnaireServeur {
 		
 	}
 	
-	public void ModifierServeur(Stage primaryStage) {
+	public void modifierServeur(Stage primaryStage, Serveur serveur) {
 		// bouton
 				Button btn = new Button("Modifier");
 				Button btn1 = new Button("Cancel");
 
 				// textField
-				TextField tf = new TextField();
-				TextField tf1 = new TextField();
-				TextField tf2 = new TextField();
-				TextField tf3 = new TextField();
-				TextField tf4 = new TextField();
-				TextField tf5 = new TextField();
-				TextField tf6 = new TextField();
-				TextField tf7 = new TextField();
-				TextField tf8 = new TextField();
-				TextField tf9 = new TextField();
-				TextField tf10 = new TextField();
-				TextField tf11 = new TextField();
-				TextField tf12 = new TextField();
-				TextField tf13 = new TextField();
-				TextField tf14 = new TextField();
-				TextField tf15 = new TextField();
+				TextField tf = new TextField(serveur.getNomServeur());
+				TextField tf1 = new TextField(serveur.getFournisseur());
+				TextField tf2 = new TextField(serveur.getGestionCompteUrl());
+				TextField tf3 = new TextField(serveur.getGestionCompteUsername());
+				TextField tf4 = new TextField(serveur.getGestionComptePassword());
+				TextField tf5 = new TextField(serveur.getNameServer1());
+				TextField tf6 = new TextField(serveur.getNameServer2());
+				TextField tf7 = new TextField(serveur.getNameServer3());
+				TextField tf8 = new TextField(serveur.getNameServer4());
+				TextField tf9 = new TextField(serveur.getcPANELUrl());
+				TextField tf10 = new TextField(serveur.getcPANELUsername());
+				TextField tf11 = new TextField(serveur.getcPANELPassword());
+				TextField tf12 = new TextField(serveur.getWHMUrl());
+				TextField tf13 = new TextField(serveur.getWHMUsername());
+				TextField tf14 = new TextField(serveur.getWHMPassword());
+				TextField tf15 = new TextField(serveur.getPasswordRoot());
 
 				// label
 				Label lbl = new Label("Nom du serveur");
@@ -497,9 +523,11 @@ public class GestionnaireServeur {
 
 					@Override
 					public void handle(ActionEvent event) {
-						Client lul = new Client(tf.getText(), tf1.getText(), tf3.getText(), tf4.getText(), tf2.getText());
+						Serveur lul = new Serveur(serveur.getIdServeur(),tf.getText(), tf1.getText(), tf2.getText(), tf3.getText(), tf4.getText(), tf5.getText(), tf6.getText()
+								, tf7.getText(), tf8.getText(), tf9.getText(), tf10.getText(), tf11.getText(), tf12.getText(), tf13.getText(), tf14.getText()
+								, tf15.getText(),true);
 						try {
-							lul.ajouterClient();
+							lul.modifierServeur();
 							MainMenu test = new MainMenu();
 							test.start(primaryStage);
 						} catch (Exception e) {
@@ -672,15 +700,15 @@ public class GestionnaireServeur {
 	}
 
 	public void afficherArchive(Stage primaryStage) throws Exception {
-		//affichageClientArchive();
+		affichageServeurArch();
 
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
-		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Client");
-		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Compagnie");
-		TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
-		TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
-		TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
-		TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
+		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
+		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Serveur");
+		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
+		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
+		//TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
+		//TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
 
 		Button btnActiver = new Button();
 		Button btnSupprimer = new Button();
@@ -693,13 +721,13 @@ public class GestionnaireServeur {
 		tableServeur.setEditable(false);
 		tableServeur.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idClient"));
-		nom.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomCompagnie"));
-		tel.setCellValueFactory(new PropertyValueFactory<Serveur, String>("telephone"));
-		nomR.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomResponsable"));
-		adresse.setCellValueFactory(new PropertyValueFactory<Serveur, String>("adresse"));
-		courriel.setCellValueFactory(new PropertyValueFactory<Serveur, String>("courriel"));
-		tableServeur.getColumns().addAll(id, nom, tel, nomR, adresse, courriel);
+		id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
+		nom.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomServeur"));
+		//tel.setCellValueFactory(new PropertyValueFactory<Serveur, String>("telephone"));
+		//nomR.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomResponsable"));
+		//adresse.setCellValueFactory(new PropertyValueFactory<Serveur, String>("adresse"));
+		//courriel.setCellValueFactory(new PropertyValueFactory<Serveur, String>("courriel"));
+		tableServeur.getColumns().addAll(id, nom/*, tel, nomR, adresse, courriel*/);
 
 		// id.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
 		// nom.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
@@ -712,7 +740,7 @@ public class GestionnaireServeur {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					//tableServeur.getSelectionModel().getSelectedItem().activerClient();
+					tableServeur.getSelectionModel().getSelectedItem().activerServeur();
 					afficherArchive(primaryStage);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -732,7 +760,7 @@ public class GestionnaireServeur {
 
 				if (tableServeur.getSelectionModel().getSelectedItem() != null) {
 					try {
-						//tableServeur.getSelectionModel().getSelectedItem().supprimerClient();
+						tableServeur.getSelectionModel().getSelectedItem().supprimerServeur();
 						afficherArchive(primaryStage);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -793,5 +821,68 @@ public class GestionnaireServeur {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	
+	public void affichageServeur() throws SQLException {
+		list.clear();
+		Connection conn = SimpleDataSource.getConnection();
+
+		try {
+			Statement stat = conn.createStatement();
+
+			ResultSet result = stat.executeQuery("SELECT * From serveur where actif=1");
+
+			while (result.next()) {
+
+				list.add(new Serveur(Integer.parseInt(result.getString("id_serveur")), result.getString("nom_serveur"),
+						result.getString("fournisseur"), result.getString("gestionCompteURL"),
+						result.getString("gestionCompteUsername"), result.getString("gestionComptePassword"),
+						result.getString("nameServer1"), result.getString("nameServer2"),
+						result.getString("nameServer3"), result.getString("nameServer4"),
+						result.getString("cPanelURL"), result.getString("cPanelUsername"),
+						result.getString("cPanelPassword"), result.getString("whmURL"),
+						result.getString("whmUsername"), result.getString("whmPassword"),result.getString("rootPassword"),true));
+
+			}
+		}
+
+		finally {
+			conn.close();
+		}
+	}
+	
+	public void affichageServeurArch() throws SQLException {
+		list.clear();
+		Connection conn = SimpleDataSource.getConnection();
+
+		try {
+			Statement stat = conn.createStatement();
+
+			ResultSet result = stat.executeQuery("SELECT * From serveur where actif=0");
+
+			while (result.next()) {
+
+				list.add(new Serveur(Integer.parseInt(result.getString("id_serveur")), result.getString("nom_serveur"),
+						result.getString("fournisseur"), result.getString("gestionCompteURL"),
+						result.getString("gestionCompteUsername"), result.getString("gestionComptePassword"),
+						result.getString("nameServer1"), result.getString("nameServer2"),
+						result.getString("nameServer3"), result.getString("nameServer4"),
+						result.getString("cPanelURL"), result.getString("cPanelUsername"),
+						result.getString("cPanelPassword"), result.getString("whmURL"),
+						result.getString("whmUsername"), result.getString("whmPassword"),result.getString("rootPassword"),true));
+
+			}
+		}
+
+		finally {
+			conn.close();
+		}
+	}
+	
+	
+	public void afficherInfoServeur() {
+		
+	}
+	
 
 }
