@@ -1,37 +1,26 @@
 package projexMedia;
 
-import javafx.scene.control.Label;
-
-import javafx.scene.control.TextField;
-
-import javafx.scene.Group;
-import javafx.scene.layout.Pane;
+import java.util.ArrayList;
 
 public class Service {
 	
 	private int _id;
-	private String _nom;
-	private String _url;
-	private String _username;
-	private String _password;
-	private String _autre;
-	private Boolean _actif;
+	private String _nomType;
+	private ArrayList<ArrayList<String>> _Champs;
+	Boolean _actif;
 	private int _id_Site;
 	private static int _compteurActif = 0;
 	private static int _compteurArchive = 0;
 	
 	public Service() {
 		_id = 0;
-		_nom="";
-		_url="";
-		_username="";
-		_password="";
-		_autre="";
+		_nomType="";
+		_Champs = new ArrayList<ArrayList<String>>();
 		_actif=true;
 		_id_Site = 0;
 	}
 	
-	public Service(int id, String nom, String url, String username, String password, String autre, Boolean actif, int id_Site) {
+	public Service(int id, String nom,ArrayList<ArrayList<String>> champs,Boolean actif, int id_Site) {
 		if (actif == false)
 		{
 			_compteurArchive++;
@@ -41,11 +30,8 @@ public class Service {
 			_compteurActif++;
 		}
 		this._id = id;
-		this._nom=nom;
-		this._url=url;
-		this._username=username;
-		this._password=password;
-		this._autre=autre;
+		this._nomType=nom;
+		_Champs = champs;
 		this._actif=actif;
 		this._id_Site = id_Site;
 	}
@@ -59,43 +45,11 @@ public class Service {
 	}
 	
 	public String get_nom() {
-		return _nom;
+		return _nomType;
 	}
 	
 	public void set_nom(String _nom) {
-		this._nom = _url;
-	}
-	
-	public String get_url() {
-		return _url;
-	}
-	
-	public void nom(String _url) {
-		this._url = _url;
-	}
-	
-	public String get_username() {
-		return _username;
-	}
-	
-	public void set_username(String _username) {
-		this._username = _username;
-	}
-	
-	public String get_password() {
-		return _password;
-	}
-	
-	public void set_password(String _Password) {
-		this._password = _Password;
-	}
-	
-	public String get_autre() {
-		return _autre;
-	}
-	
-	public void set_autre(String _Autre) {
-		this._autre = _Autre;
+		this._nomType = _nom;
 	}
 	
 	public Boolean get_actif() {
@@ -106,6 +60,14 @@ public class Service {
 		this._actif = _actif;
 	}
 	
+	public ArrayList<ArrayList<String>> get_Champs() {
+		return _Champs;
+	}
+
+	public void set_Champs(ArrayList<ArrayList<String>> _Champs) {
+		this._Champs = _Champs;
+	}
+
 	public int get_id_Site() {
 		return _id_Site;
 	}

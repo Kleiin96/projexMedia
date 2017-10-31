@@ -10,3 +10,10 @@
   -fx-pref-width: 700;
   
 }
+
+.typeNom{
+	-fx-font-size: 20;
+	-fx-font-weight:bold;
+	-fx-text-fill: #ff0000;
+	-fx-underline: true;
+}

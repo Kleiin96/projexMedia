@@ -52,7 +52,7 @@ public class GestionnaireClient {
 
 	public GestionnaireClient() {
 		_test = new Client();
-		_clientTab = new Tab("Client", new Label("Salut"));
+		_clientTab = new Tab("Client");
 		_pane = new Pane();
 	}
 
@@ -673,17 +673,17 @@ public class GestionnaireClient {
 		btnSupprimer.setLayoutY(140);
 		
 		btnRetour.setLayoutX(30);
-		btnRetour.setLayoutY(340);
+		btnRetour.setLayoutY(530);
 
-		btnActiver.setMinHeight(35);
-		btnActiver.setMinWidth(100);
-		btnSupprimer.setMinHeight(35);
-		btnSupprimer.setMinWidth(100);
-		btnRetour.setMinHeight(35);
-		btnRetour.setMinWidth(100);
+		btnActiver.setMinHeight(50);
+		btnActiver.setMinWidth(150);
+		btnSupprimer.setMinHeight(50);
+		btnSupprimer.setMinWidth(150);
+		btnRetour.setMinHeight(50);
+		btnRetour.setMinWidth(150);
 
 		// layout list
-		tableClient.setLayoutX(150);
+		tableClient.setLayoutX(200);
 		tableClient.setLayoutY(60);
 
 		root.getChildren().add(tableClient);
@@ -691,7 +691,7 @@ public class GestionnaireClient {
 		root.getChildren().add(btnSupprimer);
 		root.getChildren().add(btnRetour);
 		// create window
-		Scene scene = new Scene(root, 700, 700);
+		Scene scene = new Scene(root, 750, 650);
 		primaryStage.setTitle("Archive Client");
 		primaryStage.setScene(scene);
 		primaryStage.show();
