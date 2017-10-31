@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.awt.datatransfer.*;
-import java.awt.Toolkit;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -208,15 +206,13 @@ public class GestionnaireService {
 				Label lbl_autre = new Label(_serviceActif.get(i).get_autre());
 				Image imageModif = new Image(getClass().getResourceAsStream("modif.png"));
 				Button btnModif = new Button();
-				Button btnCopy = new Button("Copy");
 				ImageView imageM = new ImageView(imageModif);
 				Image imageArchive = new Image(getClass().getResourceAsStream("archive.png"));
 				Button btnArchive = new Button();
 				ImageView imageA = new ImageView(imageArchive);
 				btnModif.setGraphic(imageM);
 				btnArchive.setGraphic(imageA);
-				
-				btnModif.setId(String.valueOf(i));
+				btnModif.setId("" + _serviceActif.get(i).get_id());
 				
 				btnModif.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -245,18 +241,6 @@ public class GestionnaireService {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					}
-				});
-				
-				btnCopy.setOnAction(new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent event) {
-						String myString = "Username : " + _serviceActif.get(Integer.parseInt(btnModif.getId())).get_username() + "\n" 
-					+ "Password : " + _serviceActif.get(Integer.parseInt(btnModif.getId())).get_password() ;
-						StringSelection stringSelection = new StringSelection(myString);
-						Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-						clpbrd.setContents(stringSelection, null);
 					}
 				});
 				
@@ -296,13 +280,9 @@ public class GestionnaireService {
 				btnArchive.setLayoutY(70);
 				btnArchive.setPadding(Insets.EMPTY);
 				
-				btnCopy.setLayoutX(650);
-				btnCopy.setLayoutY(110);
-				
 				_group.getChildren().add(btnModif);
 				
 				_group.getChildren().add(btnArchive);
-				_group.getChildren().add(btnCopy);
 				
 				_group.getChildren().addAll(lblNom, lblUrl, lblUsername, lblPassword, lbl_url, lbl_username, lbl_password,lblAutre,lbl_autre);
 				_group.getStyleClass().add("bordered-titled-border");
@@ -506,7 +486,7 @@ public class GestionnaireService {
             stat.setString(4, NewE.get_password());
             stat.setString(5, NewE.get_autre());  
             stat.setBoolean(6, NewE.get_actif());  
-            stat.setInt(7, id_service);     
+            stat.setInt(7, id_service);
             stat.executeUpdate();                
         } catch(SQLException ex){
             ex.printStackTrace();
@@ -708,7 +688,7 @@ public class GestionnaireService {
 					public void handle(ActionEvent event) {
 
 							try {
-								modifierService(_serviceActif.get(Integer.parseInt(id)).get_id(),new Service(0, tfNom.getText(), tfUrl.getText(), tfUsername.getText(), tfPassword.getText(), tfAutre.getText(), true, _site.getIdSite()));
+								modifierService(Integer.parseInt(id),new Service(0, tfNom.getText(), tfUrl.getText(), tfUsername.getText(), tfPassword.getText(), tfAutre.getText(), true, _site.getIdSite()));
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

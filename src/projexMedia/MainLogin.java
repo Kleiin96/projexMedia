@@ -6,16 +6,23 @@
 package projexMedia;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -40,19 +47,22 @@ public class MainLogin extends Application {
            
         	@Override
             public void handle(ActionEvent event) {
-                MainMenu menu = new MainMenu();
-                try {
-                	menu.set_activeTab(0);
-					menu.start(primaryStage);
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+        		try {
+					if(connecter(txt.getText(), pwd.getText()) == true) {
+						MainMenu menu = new MainMenu();
+						menu.set_activeTab(0);
+						menu.start(primaryStage);
+					}
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Vous n'êtes pas autorisé à vous connecter");
+						// alert.setContentText("Are you ok with this?");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -115,6 +125,24 @@ public class MainLogin extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public boolean connecter(String user, String password) throws SQLException, ClassNotFoundException, IOException {
+    	
+    	SimpleDataSource.init("src/projexMedia/database.properties");
+    	
+    	Connection conn = SimpleDataSource.getConnection();
+
+		Statement stat = conn.createStatement();
+
+		ResultSet result = stat.executeQuery(
+				"SELECT pk_courriel, mdp FROM utilisateur WHERE pk_courriel='" + user + "' AND mdp='" + password + "'");
+		if(result.next()) {	
+			return true;
+		}
+		else {
+			return false;
+		}
     }
     
 }

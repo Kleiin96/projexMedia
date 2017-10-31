@@ -82,7 +82,7 @@ public class GestionnaireSite {
 						new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie")));
 			}
 
-			result = stat.executeQuery("SELECT client.nom_compagnie, site.url FROM client, site");
+			result = stat.executeQuery("SELECT client.nom_compagnie, site.url FROM client, site WHERE site.fk_id_client = client.id_client");
 
 			while (result.next()) {
 				if (!possibleClient.contains(result.getString("nom_compagnie"))) {
@@ -196,19 +196,6 @@ public class GestionnaireSite {
 		});
 
 		btnRecherche.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				try {
-					RechercherSite(tfRecherche);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		tfRecherche.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {

@@ -260,11 +260,11 @@ public class Client {
     	Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Delete from serveur where id_serveur = ?");
+    		PreparedStatement stat = conn.prepareStatement("Delete from client where id_client = ?");
     		stat.setInt(1, getIdClient());
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce client?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce site?");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
