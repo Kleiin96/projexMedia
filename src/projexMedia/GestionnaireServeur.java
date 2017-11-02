@@ -150,6 +150,7 @@ public class GestionnaireServeur {
 					try {
 						tableServeur.getSelectionModel().getSelectedItem().archiverServeur();
 						MainMenu test = new MainMenu();
+						test.set_activeTab(2);
 						test.start(primaryStage);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -188,13 +189,9 @@ public class GestionnaireServeur {
 						row = (TableRow<?>) node.getParent();
 					}
 					// System.out.println(row.getItem());
-					MainMenu menu = new MainMenu();
-					menu.set_activeTab(1);
+					
 					try {
-						menu.start(primaryStage);
-					} catch (ClassNotFoundException | IOException | SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						infoServeur(primaryStage,tableServeur.getSelectionModel().getSelectedItem());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -301,6 +298,7 @@ public class GestionnaireServeur {
 						try {
 							lul.ajouterServeur();
 							MainMenu test = new MainMenu();
+							test.set_activeTab(2);
 							test.start(primaryStage);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -531,6 +529,7 @@ public class GestionnaireServeur {
 						try {
 							lul.modifierServeur();
 							MainMenu test = new MainMenu();
+							test.set_activeTab(2);
 							test.start(primaryStage);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -544,7 +543,7 @@ public class GestionnaireServeur {
 					@Override
 					public void handle(ActionEvent event) {
 						MainMenu menu = new MainMenu();
-						
+						menu.set_activeTab(2);
 						try {
 							menu.start(primaryStage);
 						} catch (Exception e1) {
@@ -784,7 +783,7 @@ public class GestionnaireServeur {
 			@Override
 			public void handle(ActionEvent event) {
 				MainMenu menu = new MainMenu();
-				
+				menu.set_activeTab(2);
 				try {
 					menu.start(primaryStage);
 				} catch (Exception e1) {
@@ -882,7 +881,220 @@ public class GestionnaireServeur {
 	}
 	
 	
-	public void afficherInfoServeur() {
+	public void infoServeur(Stage primaryStage, Serveur serv) {
+		// bouton
+				
+				Button btn1 = new Button("Retour");
+
+				
+
+				// label
+				Label lbl = new Label("Nom du serveur");
+				Label lbl1 = new Label("Fournisseur");
+				Label lbl2 = new Label("Gestion compte url");
+				Label lbl3 = new Label("gestion compte username");
+				Label lbl4 = new Label("gestion compte password");
+				
+				Label lbl5 =new Label("Nameserver 1 ");
+				Label lbl6 =new Label("Nameserver 2 ");
+				Label lbl7 =new Label("Nameserver 3 ");
+				Label lbl8 =new Label("Nameserver 4 ");
+				
+				Label lbl9 =new Label("CPANEL url");
+				Label lbl10 =new Label("CPANEL username");
+				Label lbl11 =new Label("CPANEL password");
+				
+				Label lbl12 =new Label("WHM url");
+				Label lbl13 =new Label("WHM username");
+				Label lbl14 =new Label("WHM password");
+				
+				Label lbl15 =new Label("Mot de passe ROOT");
+				
+				
+				
+				Label lbl16 = new Label(serv.getNomServeur());
+				Label lbl17 = new Label(serv.getFournisseur());
+				Label lbl18 = new Label(serv.getGestionCompteUrl());
+				Label lbl19 = new Label(serv.getGestionCompteUsername());
+				Label lbl20 = new Label(serv.getGestionComptePassword());
+				
+				Label lbl21 =new Label(serv.getNameServer1());
+				Label lbl22 =new Label(serv.getNameServer2());
+				Label lbl23 =new Label(serv.getNameServer3());
+				Label lbl24 =new Label(serv.getNameServer4());
+				
+				Label lbl25 =new Label(serv.getcPANELUrl());
+				Label lbl26 =new Label(serv.getcPANELUsername());
+				Label lbl27 =new Label(serv.getcPANELPassword());
+				
+				Label lbl28 =new Label(serv.getWHMUrl());
+				Label lbl29 =new Label(serv.getWHMUsername());
+				Label lbl30 =new Label(serv.getWHMPassword());
+				
+				Label lbl31 =new Label(serv.getPasswordRoot());
+
+				// panel
+				Pane root = new Pane();
+
+				btn1.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						MainMenu menu = new MainMenu();
+						menu.set_activeTab(2);
+						try {
+							menu.start(primaryStage);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+				});
+
+				// premier champ
+				lbl.setLayoutX(50);
+				lbl.setLayoutY(100);
+				lbl16.setLayoutX(200);
+				lbl16.setLayoutY(100);
+
+				// deuxieme champ
+				lbl1.setLayoutX(50);
+				lbl1.setLayoutY(150);
+				lbl17.setLayoutX(200);
+				lbl17.setLayoutY(150);
+
+				// troisieme champ
+				lbl2.setLayoutX(50);
+				lbl2.setLayoutY(200);
+				lbl18.setLayoutX(200);
+				lbl18.setLayoutY(200);
+
+				// quatrieme champ
+				lbl3.setLayoutX(50);
+				lbl3.setLayoutY(250);
+				lbl19.setLayoutX(200);
+				lbl19.setLayoutY(250);
+
+				// cinquieme champ
+				lbl4.setLayoutX(50);
+				lbl4.setLayoutY(300);
+				lbl20.setLayoutX(200);
+				lbl20.setLayoutY(300);
+				
+				lbl5.setLayoutX(50);
+				lbl5.setLayoutY(350);
+				lbl21.setLayoutX(200);
+				lbl21.setLayoutY(350);
+				
+				//sixeme champs
+				lbl6.setLayoutX(50);
+				lbl6.setLayoutY(400);
+				lbl22.setLayoutX(200);
+				lbl22.setLayoutY(400);
+				
+				//septieme champ
+				lbl7.setLayoutX(50);
+				lbl7.setLayoutY(450);
+				lbl23.setLayoutX(200);
+				lbl23.setLayoutY(450);
+				
+				//huitieme champ
+				lbl8.setLayoutX(50);
+				lbl8.setLayoutY(500);
+				lbl24.setLayoutX(200);
+				lbl24.setLayoutY(500);
+				
+				//neuviemem champ
+				lbl9.setLayoutX(50);
+				lbl9.setLayoutY(550);
+				lbl25.setLayoutX(200);
+				lbl25.setLayoutY(550);
+				
+				//dixieme champ
+				lbl10.setLayoutX(50);
+				lbl10.setLayoutY(600);
+				lbl26.setLayoutX(200);
+				lbl26.setLayoutY(600);
+				
+				//onzieme champs
+				lbl11.setLayoutX(50);
+				lbl11.setLayoutY(650);
+				lbl27.setLayoutX(200);
+				lbl27.setLayoutY(650);
+				
+				//douzieme champ
+				lbl12.setLayoutX(50);
+				lbl12.setLayoutY(700);
+				lbl28.setLayoutX(200);
+				lbl28.setLayoutY(700);
+				
+				//treizieme champ
+				lbl13.setLayoutX(50);
+				lbl13.setLayoutY(750);
+				lbl29.setLayoutX(200);
+				lbl29.setLayoutY(750);
+				
+				//quatarzieme chmap
+				lbl14.setLayoutX(50);
+				lbl14.setLayoutY(800);
+				lbl30.setLayoutX(200);
+				lbl30.setLayoutY(800);
+				
+				//quinzieme champ
+				lbl15.setLayoutX(50);
+				lbl15.setLayoutY(850);
+				lbl31.setLayoutX(200);
+				lbl31.setLayoutY(850);
+
+				// Bouton
+				
+				btn1.setLayoutX(275);
+				btn1.setLayoutY(900);
+
+
+				
+				// add to panel
+				root.getChildren().add(lbl);
+				root.getChildren().add(lbl1);
+				root.getChildren().add(lbl2);
+				root.getChildren().add(lbl3);
+				root.getChildren().add(lbl4);
+				root.getChildren().add(lbl5);
+				root.getChildren().add(lbl6);
+				root.getChildren().add(lbl7);
+				root.getChildren().add(lbl8);
+				root.getChildren().add(lbl9);
+				root.getChildren().add(lbl10);
+				root.getChildren().add(lbl11);
+				root.getChildren().add(lbl12);
+				root.getChildren().add(lbl13);
+				root.getChildren().add(lbl14);
+				root.getChildren().add(lbl15);
+				root.getChildren().add(lbl16);
+				root.getChildren().add(lbl17);
+				root.getChildren().add(lbl18);
+				root.getChildren().add(lbl19);
+				root.getChildren().add(lbl20);
+				root.getChildren().add(lbl21);
+				root.getChildren().add(lbl22);
+				root.getChildren().add(lbl23);
+				root.getChildren().add(lbl24);
+				root.getChildren().add(lbl25);
+				root.getChildren().add(lbl26);
+				root.getChildren().add(lbl27);
+				root.getChildren().add(lbl28);
+				root.getChildren().add(lbl29);
+				root.getChildren().add(lbl30);
+				root.getChildren().add(lbl31);
+				root.getChildren().add(btn1);
+
+				// create window
+				Scene scene = new Scene(root, 450, 950);
+				primaryStage.setTitle("Ajouter Serveur");
+				primaryStage.setScene(scene);
+				primaryStage.centerOnScreen();
+				primaryStage.show();
 		
 	}
 	
