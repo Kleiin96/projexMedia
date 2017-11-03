@@ -164,30 +164,6 @@ public class GestionnaireUtilisateur {
 			}
 		});	
 
-		_table.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-					Node node = ((Node) event.getTarget()).getParent();
-					TableRow<?> row;
-					if (node instanceof TableRow) {
-						row = (TableRow<?>) node;
-					} else {
-						// clicking on text part
-						row = (TableRow<?>) node.getParent();
-					}
-					// System.out.println(row.getItem());
-					try {
-						GestionnaireService service = new GestionnaireService();
-						//service.afficherService(primaryStage, _table.getSelectionModel().getSelectedItem().getIdUtilisateur());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-
 		btnAjouter.setLayoutX(30);
 		btnAjouter.setLayoutY(60);
 		btnModifier.setLayoutX(30);

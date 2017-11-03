@@ -5,9 +5,6 @@
  */
 package projexMedia;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -26,8 +23,18 @@ public class MainMenu extends Application {
     GestionnaireClient _TabClient = new GestionnaireClient();
     GestionnaireServeur _TabServeur = new GestionnaireServeur();
     GestionnaireUtilisateur _TabUtilisateur = new GestionnaireUtilisateur();
+    GestionnaireParametreService _TabParServ = new GestionnaireParametreService();
     Scene _scene;
     int _activeTab;
+    String _username;
+    
+    public MainMenu() {
+    	
+    }
+    
+    public MainMenu(String username) {
+    	_username = username;
+    }
    
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -36,10 +43,15 @@ public class MainMenu extends Application {
         Tab site = _TabSite.getSiteTab();
         Tab serveur = _TabServeur.getServeurTab();
         Tab user = _TabUtilisateur.get_userTab();
+        Tab servPar = _TabParServ.get_parservTab();
+        
+        _TabSite.set_username(_username);
+        
         _TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
         _TabUtilisateur.createPane(primaryStage);
+        _TabParServ.createPane(primaryStage);
        
         client.setClosable(false);
         client.setContent(_TabClient.getClientPane());
@@ -49,6 +61,8 @@ public class MainMenu extends Application {
         serveur.setContent(_TabServeur.getServeurPane());
         user.setClosable(false);
         user.setContent(_TabUtilisateur.get_userPane());
+        servPar.setClosable(false);
+        servPar.setContent(_TabParServ.get_pane());
                    
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 650);
@@ -57,6 +71,7 @@ public class MainMenu extends Application {
         tabPane.getTabs().add(site);
         tabPane.getTabs().add(serveur);
         tabPane.getTabs().add(user);
+        tabPane.getTabs().add(servPar);
         
         if(_activeTab == 1) {
         	tabPane.getSelectionModel().select(site);
@@ -68,6 +83,9 @@ public class MainMenu extends Application {
         
         if(_activeTab == 3) {
         	tabPane.getSelectionModel().select(user);
+        }
+        if(_activeTab == 4 ) {
+        	tabPane.getSelectionModel().select(servPar);
         }
         
         _scene = new Scene(new VBox( tabPane));

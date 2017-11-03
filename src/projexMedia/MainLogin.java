@@ -49,7 +49,7 @@ public class MainLogin extends Application {
             public void handle(ActionEvent event) {
         		try {
 					if(connecter(txt.getText(), pwd.getText()) == true) {
-						MainMenu menu = new MainMenu();
+						MainMenu menu = new MainMenu(txt.getText());
 						menu.set_activeTab(0);
 						menu.start(primaryStage);
 					}

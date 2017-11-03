@@ -49,12 +49,20 @@ public class GestionnaireSite {
 
 	private Tab _siteTab;
 	private Pane _sitePane;
+	
+	public String _username;
 
 	private ObservableList<Site> _data;
 
 	public GestionnaireSite() {
 		_siteTab = new Tab("Site");
 		_sitePane = new Pane();
+	}
+	
+	public GestionnaireSite(String username) {
+		_siteTab = new Tab("Site");
+		_sitePane = new Pane();
+		_username = username;
 	}
 
 	@SuppressWarnings({ "unchecked"})
@@ -223,7 +231,7 @@ public class GestionnaireSite {
 					}
 					// System.out.println(row.getItem());
 					try {
-						GestionnaireService service = new GestionnaireService();
+						GestionnaireService service = new GestionnaireService(_username);
 						service.afficherService(primaryStage, _table.getSelectionModel().getSelectedItem().getIdSite());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -931,4 +939,14 @@ public class GestionnaireSite {
 		}
 	}
 
+	
+	public String get_username() {
+		return _username;
+	}
+
+	public void set_username(String _username) {
+		this._username = _username;
+	}
+
+	
 }
