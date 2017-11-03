@@ -97,7 +97,7 @@ public class GestionnaireParametreService {
 		TableView<TypeService> tableTypeService = new TableView<TypeService>();
 		TableColumn<TypeService,Integer> id = new TableColumn<TypeService, Integer>("id type de service");
 		TableColumn<TypeService, String> nom = new TableColumn<TypeService, String>("nom type de service");
-		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
+		TableColumn<TypeService, String> tel = new TableColumn<TypeService, String>("Description");
 		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
 		//TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
 		//TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
@@ -122,11 +122,11 @@ public class GestionnaireParametreService {
 
 		id.setCellValueFactory(new PropertyValueFactory<TypeService, Integer>("idTypeService"));
 		nom.setCellValueFactory(new PropertyValueFactory<TypeService, String>("nomType"));
-		//tel.setCellValueFactory(new PropertyValueFactory<Client, String>("telephone"));
+		tel.setCellValueFactory(new PropertyValueFactory<TypeService, String>("description"));
 		//nomR.setCellValueFactory(new PropertyValueFactory<Client, String>("nomResponsable"));
 		//adresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
 		//courriel.setCellValueFactory(new PropertyValueFactory<Client, String>("courriel"));
-		tableTypeService.getColumns().addAll(id, nom/*, tel, nomR, adresse, courriel*/);
+		tableTypeService.getColumns().addAll(id, nom, tel/*, nomR, adresse, courriel*/);
 
 		id.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
 		nom.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
@@ -904,9 +904,31 @@ public class GestionnaireParametreService {
 			
 			list1.add(new ParametreService(Integer.parseInt(result1.getString("p.id_parametreService")),result1.getString("p.nom_parametre")));
 			
-			//System.out.println(result1.getString("p.id_parametreService") + " "+result1.getString("p.nom_parametre"));
 			
-			//System.out.println(list1.get(0).getIdParametre());
+		}
+		conn.close();
+		return list1;
+	}
+	
+	/**
+	 * array des id de ta_service pour un type de service
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public  ArrayList<Integer> createidListParametre(int id) throws SQLException {
+		ArrayList<Integer> list1 = new ArrayList<Integer>();
+		Connection conn = SimpleDataSource.getConnection();
+		Statement stat1 = conn.createStatement();
+		
+		ResultSet result1 = stat1.executeQuery("SELECT s.id_service From typeservice t JOIN ta_service s ON t.id_typeService = s.fk_id_typeService "
+				+ "JOIN parametreservice p ON s.fk_id_parametreService = p.id_parametreService WHERE  s.fk_id_typeService=" + id );
+		while(result1.next()) {
+			
+			
+			list1.add(Integer.parseInt(result1.getString("s.id_service")));
+			
+			
 		}
 		conn.close();
 		return list1;
@@ -932,6 +954,8 @@ public class GestionnaireParametreService {
 				// panel
 					
 				Pane root = new Pane();
+				
+				//*******p-t erreur********//
 				type.setListParametre(createListParametre(type.getIdTypeService()));
 				
 				for (int i =0; i < type.getListParametre().size();i++) {
@@ -980,8 +1004,15 @@ public class GestionnaireParametreService {
 					public void handle(ActionEvent event) {
 						if (tableParametre.getSelectionModel().getSelectedItem() != null) {
 							
+								
+							
 							try {
-								type.supprimerparametreService(tableParametre.getSelectionModel().getSelectedItem().getIdParametre());
+								ArrayList<Integer> test = createidListParametre(type.getIdTypeService());
+								int id = tableParametre.getSelectionModel().getSelectedIndex();
+								
+								
+								
+								type.supprimerparametreService(test.get(id));
 								afficherParametre(primaryStage, type);
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block

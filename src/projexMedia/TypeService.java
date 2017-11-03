@@ -166,13 +166,13 @@ public class TypeService {
 	}
 	
 	//supprimer un parametre à un type de service
-	public void supprimerparametreService(int idParametre) throws SQLException {
+	public void supprimerparametreService(int id) throws SQLException {
 		Connection conn = SimpleDataSource.getConnection();
     	try
     	{
-    		PreparedStatement stat = conn.prepareStatement("Delete from ta_service where fk_id_typeService = ? And fk_id_parametreService = ?");
-    		stat.setInt(1, getIdTypeService());
-    		stat.setInt(2, idParametre);
+    		PreparedStatement stat = conn.prepareStatement("Delete from ta_service where id_service = ?");
+    		stat.setInt(1, id);
+    		
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
 			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce parametre dans ce type de service?");
