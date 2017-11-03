@@ -26,7 +26,7 @@ public class MainMenu extends Application {
     GestionnaireParametreService _TabParServ = new GestionnaireParametreService();
     Scene _scene;
     int _activeTab;
-    String _username;
+    public static String _username;
     
     public MainMenu() {
     	

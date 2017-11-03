@@ -1,5 +1,8 @@
 package projexMedia;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -208,6 +211,8 @@ public class GestionnaireService {
 	public void afficherServiceActif(Stage primaryStage, int id_site) throws Exception {
 		GestionnaireServiceActif(id_site);
           
+		double yservice = 0;
+		double totalY = 0;
         scroll1.setContent(_paneActif);
 		
 		Button btnAjout = new Button("Ajouter");
@@ -268,6 +273,7 @@ public class GestionnaireService {
 					lblValeur.setLayoutX(200);
 					lblValeur.setLayoutY(j * 25 + 40);
 					_group.getChildren().addAll(lblChamps,lblValeur);
+					yservice = j * 25 + 40;
 				}
 				
 				Image imageModif = new Image(getClass().getResourceAsStream("modif.png"));
@@ -313,17 +319,21 @@ public class GestionnaireService {
 					}
 				});
 				
-//				btnCopy.setOnAction(new EventHandler<ActionEvent>() {
-//
-////					@Override
-////					public void handle(ActionEvent event) {
-////						String myString = "Username : " + _serviceActif.get(Integer.parseInt(btnModif.getId())).get_username() + "\n" 
-////					+ "Password : " + _serviceActif.get(Integer.parseInt(btnModif.getId())).get_password() ;
-////						StringSelection stringSelection = new StringSelection(myString);
-////						Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-////						clpbrd.setContents(stringSelection, null);
-////					}
-//				});
+				btnCopy.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						String myString = "";
+						
+						
+						for(int j = 0; j < _serviceActif.get(Integer.parseInt(btnModif.getId())).get_Champs().size();j++) {
+								myString += _serviceActif.get(Integer.parseInt(btnModif.getId())).get_Champs().get(j).get(0) + " :" +  _serviceActif.get(Integer.parseInt(btnModif.getId())).get_Champs().get(j).get(1) + "\n";
+						}
+						StringSelection stringSelection = new StringSelection(myString);
+						Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+						clpbrd.setContents(stringSelection, null);
+					}
+				});
 				
 				//position Nom
 				lblNom.setLayoutX(30);
@@ -347,11 +357,15 @@ public class GestionnaireService {
 				
 		        lblNom.getStyleClass().add("typeNom");
 				
+		        
 				_group.getChildren().add(lblNom);
 				_group.getStyleClass().add("bordered-titled-border");
-				_group.setLayoutY(i * 150 + 60);
+				_group.setLayoutY(totalY + 60);
 				_group.setLayoutX(20);
 				_paneActif.getChildren().add(_group);
+				totalY += yservice + 40;
+				
+				
 			}
 		}
 		
@@ -367,6 +381,9 @@ public class GestionnaireService {
 	public void afficherServiceArchive(Stage primaryStage, int id_site) throws Exception {
 
 		GestionnaireServiceArchive(id_site);
+		
+		double yservice = 0;
+		double totalY = 0;
         
         scroll2.setContent(_paneArchive);
 		
@@ -414,6 +431,7 @@ public class GestionnaireService {
 					lblValeur.setLayoutX(200);
 					lblValeur.setLayoutY(j * 25 + 40);
 					_group.getChildren().addAll(lblChamps,lblValeur);
+					yservice = j * 25 + 40;
 				}
 				
 				Image imageActiver = new Image(getClass().getResourceAsStream("active.png"));
@@ -487,9 +505,10 @@ public class GestionnaireService {
 				
 				_group.getChildren().add(lblNom);
 				_group.getStyleClass().add("bordered-titled-border");
-				_group.setLayoutY(i * 150 + 60);
+				_group.setLayoutY(totalY + 60);
 				_group.setLayoutX(20);
 				_paneArchive.getChildren().add(_group);
+				totalY += yservice + 40;
 			}
 		}
 		
