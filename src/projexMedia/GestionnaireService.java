@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class GestionnaireService {
 	    				+ "WHERE ta_service.id_service = valeurparametre.fk_id_service AND "
 	    				+ "ta_service.fk_id_typeService = typeservice.id_typeService AND "
 	    				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND "
-	    				+ "ta_service.fk_id_typeService =" + rs.getInt("fk_id_typeService") + " AND valeurparametre.fk_id_site =" + id_Site;
+	    				+ "ta_service.fk_id_typeService =" + rs.getInt("fk_id_typeService") + " AND valeurparametre.fk_id_site =" + id_Site + " ORDER BY ta_service.id_service";
 	        	
 	        	PreparedStatement stat2 = conn.prepareStatement(sql2);
 	        	ResultSet rs2;
@@ -287,7 +288,7 @@ public class GestionnaireService {
 					@Override
 					public void handle(ActionEvent event) {
 						try {
-							//interfaceModifier(primaryStage, btnModif.getId());
+							interfaceModifier(primaryStage, btnModif.getId());
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -522,27 +523,29 @@ public class GestionnaireService {
         }
     }
 	
-//	public void modifierService(int id_service, Service NewE) throws SQLException {
-//        Connection conn = SimpleDataSource.getConnection();
-//        try {
-//            PreparedStatement stat = conn.prepareStatement(
-//                    "UPDATE service SET nom = ?, url = ?, username = ?, password = ?, autre = ?, actif = ?"
-//                    + " WHERE id_service = ?");
-//            stat.setString(1, NewE.get_nom());
-//            stat.setString(2, NewE.get_url());
-//            stat.setString(3, NewE.get_username());
-//            stat.setString(4, NewE.get_password());
-//            stat.setString(5, NewE.get_autre());  
-//            stat.setBoolean(6, NewE.get_actif());  
-//            stat.setInt(7, id_service);
-//            stat.executeUpdate();                
-//        } catch(SQLException ex){
-//            ex.printStackTrace();
-//            
-//        } finally {
-//            conn.close();
-//        }
-//    }
+	public void modifierService(int id_service, Service NewE) throws Exception {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        Connection conn = SimpleDataSource.getConnection();
+        try {
+            PreparedStatement stat = conn.prepareStatement(
+                    "UPDATE valeurparametre SET valeur = ?, date = ?, action = ?, fk_courriel = ?"
+                    + " WHERE id_valeurParametre = ?");
+            for(int j = 0; j < NewE.get_Champs().size();j++) {
+            	java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());
+	            stat.setString(1, NewE.get_Champs().get(j).get(1));
+	            stat.setDate(2, sql);
+	            stat.setString(3, "Modifier");
+	            stat.setString(4, NewE.get_Champs().get(j).get(4));
+	            stat.setInt(5, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
+	            stat.executeUpdate();         
+            }
+        } catch(SQLException ex){
+            ex.printStackTrace();
+            
+        } finally {
+            conn.close();
+        }
+    }
 	
 	public void activerService(Service e) throws SQLException {
         Connection conn = SimpleDataSource.getConnection();
@@ -753,124 +756,162 @@ public class GestionnaireService {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-//
-//	public void interfaceModifier(Stage primaryStage, String id) {
-//		// bouton
-//				Button btnModifier = new Button("Modifier");
-//				Button btnCancel = new Button("Cancel");
-//
-//				// textField
-//				TextField tfNom = new TextField(_serviceActif.get(Integer.parseInt(id)).get_nom());
-//				TextField tfUsername = new TextField(_serviceActif.get(Integer.parseInt(id)).get_username());
-//				TextField tfPassword = new TextField(_serviceActif.get(Integer.parseInt(id)).get_password());
-//				TextArea tfAutre = new TextArea(_serviceActif.get(Integer.parseInt(id)).get_autre());
-//				TextField tfUrl = new TextField(_serviceActif.get(Integer.parseInt(id)).get_url());
-//
-//				// label
-//				Label lbl = new Label("Nom :");
-//				Label lbl1 = new Label("Username :");
-//				Label lbl2 = new Label("Password :");
-//				Label lbl3 = new Label("Url :");
-//				Label lbl4 = new Label("Autre :");
-//
-//				btnModifier.setOnAction(new EventHandler<ActionEvent>() {
-//
-//					@Override
-//					public void handle(ActionEvent event) {
-//
-//							try {
-//								modifierService(_serviceActif.get(Integer.parseInt(id)).get_id(),new Service(0, tfNom.getText(), tfUrl.getText(), tfUsername.getText(), tfPassword.getText(), tfAutre.getText(), true, _site.getIdSite()));
-//							} catch (SQLException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
-//							GestionnaireService service = new GestionnaireService();
-//							try {
-//								service.afficherService(primaryStage, _site.getIdSite());
-//							} catch (Exception e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//					}
-//				});
-//
-//				btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-//
-//					@Override
-//					public void handle(ActionEvent event) {
-//						GestionnaireService service = new GestionnaireService();
-//						try {
-//							service.afficherService(primaryStage, _site.getIdSite());
-//						} catch (Exception e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//						
-//					}
-//				});
-//
-//				// panel
-//				Pane root = new Pane();
-//
-//				// premier champ
-//				lbl.setLayoutX(50);
-//				lbl.setLayoutY(70);
-//				tfNom.setLayoutX(200);
-//				tfNom.setLayoutY(70);
-//
-//				// deuxieme champ
-//				lbl1.setLayoutX(50);
-//				lbl1.setLayoutY(120);
-//				tfUsername.setLayoutX(200);
-//				tfUsername.setLayoutY(120);
-//
-//				// troisieme champ
-//				lbl2.setLayoutX(50);
-//				lbl2.setLayoutY(170);
-//				tfPassword.setLayoutX(200);
-//				tfPassword.setLayoutY(170);
-//
-//				lbl3.setLayoutX(50);
-//				lbl3.setLayoutY(220);
-//				tfUrl.setLayoutX(200);
-//				tfUrl.setLayoutY(220);
-//				
-//				lbl4.setLayoutX(50);
-//				lbl4.setLayoutY(270);
-//				tfAutre.setLayoutX(200);
-//				tfAutre.setLayoutY(270);
-//
-//				// Bouton
-//				btnModifier.setLayoutX(50);
-//				btnModifier.setLayoutY(350);
-//				btnCancel.setLayoutX(250);
-//				btnCancel.setLayoutY(350);
-//
-//				tfAutre.setMaxHeight(70);
-//				tfAutre.setMaxWidth(230);
-//				btnModifier.setMinHeight(30);
-//				btnModifier.setMinWidth(130);
-//				btnCancel.setMinHeight(30);
-//				btnCancel.setMinWidth(130);
-//
-//				// add to panel
-//				root.getChildren().add(lbl);
-//				root.getChildren().add(lbl1);
-//				root.getChildren().add(lbl2);
-//				root.getChildren().add(tfNom);
-//				root.getChildren().add(tfUsername);
-//				root.getChildren().add(tfPassword);
-//				root.getChildren().add(tfAutre);
-//				root.getChildren().add(tfUrl);
-//				root.getChildren().add(lbl3);
-//				root.getChildren().add(lbl4);
-//				root.getChildren().add(btnModifier);
-//				root.getChildren().add(btnCancel);
-//
-//				// create window
-//				Scene scene = new Scene(root, 450, 400);
-//				primaryStage.setTitle("Modifier Service");
-//				primaryStage.setScene(scene);
-//				primaryStage.show();
-//	}
+
+	public void interfaceModifier(Stage primaryStage, String id) throws Exception {
+		// bouton
+		ArrayList<TextField> textfields = new ArrayList<TextField>();
+		ObservableList<String> options = FXCollections.observableArrayList();
+		
+		Connection conn = SimpleDataSource.getConnection();
+
+		try {
+			Statement stat = conn.createStatement();
+
+			ResultSet result = stat.executeQuery("SELECT nom_type FROM typeservice");
+
+			while (result.next()) {
+				options.add(result.getString("nom_type"));
+			}
+
+		} finally {
+			conn.close();
+		}
+		
+		Pane root = new Pane();
+		Pane _group = new Pane();
+		
+		// bouton
+		Button btnModifier = new Button("Modifier");
+		Button btnCancel = new Button("Cancel");
+
+		Label lbl = new Label("Type de service :");
+		Label lbl2 = new Label();
+
+		btnModifier.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				for(int j = 0; j < textfields.size();j++) {
+					_tableChamps.get(j).add(1,textfields.get(j).getText());
+				}
+				
+					try {
+						modifierService(Integer.parseInt(id),new Service(typeService,nom_type,_tableChamps,true,_site.getIdSite()));
+						_tableChamps = new ArrayList<ArrayList<String>>();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					GestionnaireService service = new GestionnaireService(_username);
+					try {
+						service.afficherService(primaryStage, _site.getIdSite());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		});
+
+		btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				GestionnaireService service = new GestionnaireService(_username);
+				try {
+					service.afficherService(primaryStage, _site.getIdSite());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+	
+		try {
+			conn = SimpleDataSource.getConnection();
+			Statement stat = conn.createStatement();
+
+			ResultSet result = stat.executeQuery("SELECT valeurparametre.id_valeurParametre,valeurparametre.valeur, valeurparametre.actif, valeurparametre.fk_id_site," + 
+											"ta_service.fk_id_typeService, ta_service.id_service,typeservice.nom_type, parametreservice.nom_parametre, valeurparametre.date, valeurparametre.fk_courriel " + 
+											"FROM valeurparametre,ta_service,typeservice,parametreservice " + 
+											"WHERE ta_service.id_service = valeurparametre.fk_id_service AND " + 
+											"ta_service.fk_id_typeService = typeservice.id_typeService AND " + 
+											"ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND " + 
+											"ta_service.fk_id_typeService =" + _serviceActif.get(Integer.parseInt(id)).get_id() + " AND valeurparametre.fk_id_site =" + _serviceActif.get(Integer.parseInt(id)).get_id_Site() + " ORDER BY ta_service.id_service");
+
+			
+			int nbChamps = 0;
+			while (result.next()) {
+				
+				lbl2 = new Label(result.getString("nom_type"));
+				Label lbl1 = new Label(result.getString("nom_parametre"));
+				TextField tf = new TextField();
+				lbl1.setLayoutX(20);
+				lbl1.setLayoutY(nbChamps * 40 + 60);
+				tf.setLayoutX(160);
+				tf.setLayoutY(nbChamps * 40 + 60);
+				tf.setText(result.getString("valeur"));
+				root.getChildren().add(lbl1);
+				root.getChildren().add(tf);
+				textfields.add(tf);
+				typeService = result.getInt("fk_id_typeService");
+				nom_type = result.getString("nom_type");
+				_valeurChamps.add(result.getString("nom_parametre"));
+            	 _valeurChamps.add(String.valueOf(result.getInt("id_service")));
+            	 _valeurChamps.add(String.valueOf(dateFormat.format(date)));
+            	 _valeurChamps.add(_username);
+            	 _valeurChamps.add(String.valueOf(result.getInt("id_valeurParametre")));
+            	 _tableChamps.add(_valeurChamps);
+            	 _valeurChamps = new ArrayList<>();
+				nbChamps++;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		// panel
+		
+		
+		lbl.setLayoutX(20);
+		lbl.setLayoutY(20);
+		lbl2.setLayoutX(200);
+		lbl2.setLayoutY(20);
+		
+
+		// Bouton
+		btnModifier.setLayoutX(50);
+		btnModifier.setLayoutY(320);
+		btnCancel.setLayoutX(250);
+		btnCancel.setLayoutY(320);
+
+		btnModifier.setMinHeight(30);
+		btnModifier.setMinWidth(130);
+		btnCancel.setMinHeight(30);
+		btnCancel.setMinWidth(130);
+
+		root.getChildren().add(_group);
+		
+		// add to panel
+		root.getChildren().add(lbl);
+		root.getChildren().add(lbl2);
+		root.getChildren().add(btnModifier);
+		root.getChildren().add(btnCancel);
+
+		// create window
+		Scene scene = new Scene(root, 450, 370);
+		primaryStage.setTitle("Ajouter Service");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 }
