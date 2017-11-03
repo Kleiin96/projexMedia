@@ -46,7 +46,6 @@ public class MainMenu extends Application {
         Tab servPar = _TabParServ.get_parservTab();
         
         _TabSite.set_username(_username);
-        
         _TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
