@@ -315,7 +315,6 @@ public class GestionnaireSite {
 
 		ArrayList<String> possibleClient = new ArrayList<String>();
 		ObservableList<String> options = FXCollections.observableArrayList();
-		ObservableList<String> optionsForfait = FXCollections.observableArrayList();
 
 		Connection conn = SimpleDataSource.getConnection();
 
@@ -334,12 +333,6 @@ public class GestionnaireSite {
 				options.add(result.getString("nom_serveur"));
 			}
 
-			result = stat.executeQuery("SELECT nom FROM forfait");
-
-			while (result.next()) {
-				optionsForfait.add(result.getString("nom"));
-			}
-
 		} finally {
 			conn.close();
 		}
@@ -350,7 +343,6 @@ public class GestionnaireSite {
 
 		// textField
 		ComboBox<String> cmbServeur = new ComboBox<String>(options);
-		ComboBox<String> cmbForfait = new ComboBox<String>(optionsForfait);
 		cmbServeur.setTooltip(new Tooltip());
 		TextField tfClient = new TextField();
 		TextFields.bindAutoCompletion(tfClient, possibleClient);
@@ -360,59 +352,53 @@ public class GestionnaireSite {
 		Label lbl = new Label("Serveur :");
 		Label lbl1 = new Label("Client :");
 		Label lbl2 = new Label("Url :");
-		Label lbl3 = new Label("Forfait :");
 
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 
-				try {
-					Connection conn = SimpleDataSource.getConnection();
-					Statement stat = conn.createStatement();
-
-					ResultSet result = stat
-							.executeQuery("SELECT id_forfait FROM forfait WHERE nom = '" + cmbForfait.getValue() + "'");
-					result.next();
-					int forfait = result.getInt("id_forfait");
-
-					result = stat.executeQuery(
-							"SELECT id_client FROM client WHERE nom_compagnie = '" + tfClient.getText() + "'");
-					result.next();
-					int client = result.getInt("id_client");
-
-					result = stat.executeQuery(
-							"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
-					result.next();
-					int serveur = result.getInt("id_serveur");
-
-					stat.execute("INSERT INTO site (url, actif, fk_id_forfait, fk_id_serveur, fk_id_client) VALUES(\""
-							+ tfUrl.getText() + "\"" + ", 1 , " + forfait + ", " + serveur + ", " + client + ")");
-
-					MainMenu menu = new MainMenu();
-					menu.set_activeTab(1);
-					menu.start(primaryStage);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
 					try {
-						conn.close();
+						Connection conn = SimpleDataSource.getConnection();
+						Statement stat = conn.createStatement();
+
+						ResultSet result = stat.executeQuery(
+								"SELECT id_client FROM client WHERE nom_compagnie = '" + tfClient.getText() + "'");
+						result.next();
+						int client = result.getInt("id_client");
+
+						result = stat.executeQuery(
+								"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
+						result.next();
+						int serveur = result.getInt("id_serveur");
+
+						stat.execute("INSERT INTO site (url, actif, fk_id_serveur, fk_id_client) VALUES(\""
+								+ tfUrl.getText() + "\"" + ", 1 , " + serveur + ", " + client + ")");
+
+						MainMenu menu = new MainMenu();
+						menu.set_activeTab(1);
+						menu.start(primaryStage);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
-			}
 		});
 
 		btnCancel.setOnAction(new EventHandler<ActionEvent>() {
@@ -454,11 +440,6 @@ public class GestionnaireSite {
 		tfUrl.setLayoutX(200);
 		tfUrl.setLayoutY(170);
 
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(220);
-		cmbForfait.setLayoutX(200);
-		cmbForfait.setLayoutY(220);
-
 		// Bouton
 		btnAjouter.setLayoutX(50);
 		btnAjouter.setLayoutY(285);
@@ -466,7 +447,6 @@ public class GestionnaireSite {
 		btnCancel.setLayoutY(285);
 
 		cmbServeur.setMinWidth(185);
-		cmbForfait.setMinWidth(185);
 		btnAjouter.setMinHeight(30);
 		btnAjouter.setMinWidth(130);
 		btnCancel.setMinHeight(30);
@@ -479,8 +459,6 @@ public class GestionnaireSite {
 		root.getChildren().add(cmbServeur);
 		root.getChildren().add(tfClient);
 		root.getChildren().add(tfUrl);
-		root.getChildren().add(lbl3);
-		root.getChildren().add(cmbForfait);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnCancel);
 
@@ -490,14 +468,12 @@ public class GestionnaireSite {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
-		new ComboBoxAutoComplete<String>(cmbForfait);
 	}
 
 	public void ModifierSite(Stage primaryStage, Site site) throws SQLException {
 
 		ArrayList<String> possibleClient = new ArrayList<String>();
 		ObservableList<String> options = FXCollections.observableArrayList();
-		ObservableList<String> optionsForfait = FXCollections.observableArrayList();
 
 		// bouton
 		Button btnModifier = new Button("Modifier");
@@ -505,7 +481,6 @@ public class GestionnaireSite {
 
 		// textField
 		ComboBox<String> cmbServeur = new ComboBox<String>(options);
-		ComboBox<String> cmbForfait = new ComboBox<String>(optionsForfait);
 		cmbServeur.setTooltip(new Tooltip());
 		TextField tfClient = new TextField();
 		TextFields.bindAutoCompletion(tfClient, possibleClient);
@@ -515,39 +490,31 @@ public class GestionnaireSite {
 		Label lbl = new Label("Serveur :");
 		Label lbl1 = new Label("Client :");
 		Label lbl2 = new Label("Url :");
-		Label lbl3 = new Label("Forfait :");
 
 		Connection conn = SimpleDataSource.getConnection();
 
 		try {
-			Statement stat = conn.createStatement();
-
-			ResultSet result = stat.executeQuery("SELECT nom_compagnie FROM client");
-
-			while (result.next()) {
-				possibleClient.add(result.getString("nom_compagnie"));
-			}
-
-			result = stat.executeQuery("SELECT nom_serveur FROM serveur");
-
-			while (result.next()) {
-				options.add(result.getString("nom_serveur"));
-			}
-
-			result = stat.executeQuery("SELECT nom FROM forfait");
-
-			while (result.next()) {
-				optionsForfait.add(result.getString("nom"));
-			}
-
-			result = stat.executeQuery(
-					"SELECT site.id_site, site.url, forfait.nom, serveur.nom_serveur, client.nom_compagnie FROM site JOIN client ON site.fk_id_client = client.id_client JOIN forfait ON site.fk_id_forfait = id_forfait JOIN serveur ON site.fk_id_serveur = id_serveur WHERE id_site = '"
-							+ site.getIdSite() + "'");
-			result.next();
-			cmbServeur.setValue(result.getString("nom_serveur"));
-			cmbForfait.setValue(result.getString("nom"));
-			tfClient.setText(result.getString("nom_compagnie"));
-			tfUrl.setText(result.getString("url"));
+				Statement stat = conn.createStatement();
+	
+				ResultSet result = stat.executeQuery("SELECT nom_compagnie FROM client");
+	
+				while (result.next()) {
+					possibleClient.add(result.getString("nom_compagnie"));
+				}
+	
+				result = stat.executeQuery("SELECT nom_serveur FROM serveur");
+	
+				while (result.next()) {
+					options.add(result.getString("nom_serveur"));
+				}
+	
+				result = stat.executeQuery(
+						"SELECT site.id_site, site.url, serveur.nom_serveur, client.nom_compagnie FROM site JOIN client ON site.fk_id_client = client.id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE id_site = '"
+								+ site.getIdSite() + "'");
+				result.next();
+				cmbServeur.setValue(result.getString("nom_serveur"));
+				tfClient.setText(result.getString("nom_compagnie"));
+				tfUrl.setText(result.getString("url"));
 
 		} finally {
 			conn.close();
@@ -562,12 +529,7 @@ public class GestionnaireSite {
 					Connection conn = SimpleDataSource.getConnection();
 					Statement stat = conn.createStatement();
 
-					ResultSet result = stat
-							.executeQuery("SELECT id_forfait FROM forfait WHERE nom = '" + cmbForfait.getValue() + "'");
-					result.next();
-					int forfait = result.getInt("id_forfait");
-
-					result = stat.executeQuery(
+					ResultSet result = stat.executeQuery(
 							"SELECT id_client FROM client WHERE nom_compagnie = '" + tfClient.getText() + "'");
 					result.next();
 					int client = result.getInt("id_client");
@@ -577,8 +539,7 @@ public class GestionnaireSite {
 					result.next();
 					int serveur = result.getInt("id_serveur");
 
-					stat.execute("UPDATE site SET url='" + tfUrl.getText() + "', fk_id_forfait=" + forfait
-							+ ", fk_id_serveur=" + serveur + ", fk_id_client=" + client + " WHERE id_site="
+					stat.execute("UPDATE site SET url='" + tfUrl.getText() + "', fk_id_serveur=" + serveur + ", fk_id_client=" + client + " WHERE id_site="
 							+ site.getIdSite());
 
 					MainMenu menu = new MainMenu();
@@ -646,11 +607,6 @@ public class GestionnaireSite {
 		tfUrl.setLayoutX(200);
 		tfUrl.setLayoutY(170);
 
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(220);
-		cmbForfait.setLayoutX(200);
-		cmbForfait.setLayoutY(220);
-
 		// Bouton
 		btnModifier.setLayoutX(50);
 		btnModifier.setLayoutY(285);
@@ -658,7 +614,6 @@ public class GestionnaireSite {
 		btnCancel.setLayoutY(285);
 
 		cmbServeur.setMinWidth(185);
-		cmbForfait.setMinWidth(185);
 		btnModifier.setMinHeight(30);
 		btnModifier.setMinWidth(130);
 		btnCancel.setMinHeight(30);
@@ -671,8 +626,6 @@ public class GestionnaireSite {
 		root.getChildren().add(cmbServeur);
 		root.getChildren().add(tfClient);
 		root.getChildren().add(tfUrl);
-		root.getChildren().add(lbl3);
-		root.getChildren().add(cmbForfait);
 		root.getChildren().add(btnModifier);
 		root.getChildren().add(btnCancel);
 
@@ -682,7 +635,6 @@ public class GestionnaireSite {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
-		new ComboBoxAutoComplete<String>(cmbForfait);
 	}
 
 	public void ArchiverSite(Stage primaryStage, Site site) throws SQLException {
