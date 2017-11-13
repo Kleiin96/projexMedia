@@ -24,6 +24,7 @@ public class MainMenu extends Application {
     GestionnaireServeur _TabServeur = new GestionnaireServeur();
     GestionnaireUtilisateur _TabUtilisateur = new GestionnaireUtilisateur();
     GestionnaireParametreService _TabParServ = new GestionnaireParametreService();
+    GestionnaireRole _TabRole = new GestionnaireRole(_username);
     Scene _scene;
     int _activeTab;
     public static String _username;
@@ -42,8 +43,9 @@ public class MainMenu extends Application {
         Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();
         Tab serveur = _TabServeur.getServeurTab();
-        Tab user = _TabUtilisateur.get_userTab();
+        Tab user = _TabUtilisateur.getUtilisateurTab();
         Tab servPar = _TabParServ.get_parservTab();
+        Tab role = _TabRole.getRoleTab();
         
         _TabSite.set_username(_username);
         _TabServeur.createPane(primaryStage);
@@ -51,6 +53,7 @@ public class MainMenu extends Application {
         _TabClient.createPane(primaryStage);
         _TabUtilisateur.createPane(primaryStage);
         _TabParServ.createPane(primaryStage);
+        _TabRole.createPane(primaryStage);
        
         client.setClosable(false);
         client.setContent(_TabClient.getClientPane());
@@ -59,9 +62,11 @@ public class MainMenu extends Application {
         serveur.setClosable(false);
         serveur.setContent(_TabServeur.getServeurPane());
         user.setClosable(false);
-        user.setContent(_TabUtilisateur.get_userPane());
+        user.setContent(_TabUtilisateur.getUtilisateurPane());
         servPar.setClosable(false);
         servPar.setContent(_TabParServ.get_pane());
+        role.setClosable(false);
+        role.setContent(_TabRole.getRolePane());
                    
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 650);
@@ -71,6 +76,7 @@ public class MainMenu extends Application {
         tabPane.getTabs().add(serveur);
         tabPane.getTabs().add(user);
         tabPane.getTabs().add(servPar);
+        tabPane.getTabs().add(role);
         
         if(_activeTab == 1) {
         	tabPane.getSelectionModel().select(site);
@@ -85,6 +91,9 @@ public class MainMenu extends Application {
         }
         if(_activeTab == 4 ) {
         	tabPane.getSelectionModel().select(servPar);
+        }
+        if(_activeTab == 5 ) {
+        	tabPane.getSelectionModel().select(role);
         }
         
         _scene = new Scene(new VBox( tabPane));
