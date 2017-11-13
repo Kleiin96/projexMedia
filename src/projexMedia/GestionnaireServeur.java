@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -933,6 +934,7 @@ public class GestionnaireServeur {
 
 				// panel
 				Pane root = new Pane();
+				TabPane info = new TabPane();
 
 				btn1.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -998,57 +1000,57 @@ public class GestionnaireServeur {
 				lbl23.setLayoutY(450);
 				
 				//huitieme champ
-				lbl8.setLayoutX(50);
-				lbl8.setLayoutY(500);
-				lbl24.setLayoutX(200);
-				lbl24.setLayoutY(500);
+				lbl8.setLayoutX(450);
+				lbl8.setLayoutY(100);
+				lbl24.setLayoutX(600);
+				lbl24.setLayoutY(100);
 				
 				//neuviemem champ
-				lbl9.setLayoutX(50);
-				lbl9.setLayoutY(550);
-				lbl25.setLayoutX(200);
-				lbl25.setLayoutY(550);
+				lbl9.setLayoutX(450);
+				lbl9.setLayoutY(150);
+				lbl25.setLayoutX(600);
+				lbl25.setLayoutY(150);
 				
 				//dixieme champ
-				lbl10.setLayoutX(50);
-				lbl10.setLayoutY(600);
-				lbl26.setLayoutX(200);
-				lbl26.setLayoutY(600);
+				lbl10.setLayoutX(450);
+				lbl10.setLayoutY(200);
+				lbl26.setLayoutX(600);
+				lbl26.setLayoutY(200);
 				
 				//onzieme champs
-				lbl11.setLayoutX(50);
-				lbl11.setLayoutY(650);
-				lbl27.setLayoutX(200);
-				lbl27.setLayoutY(650);
+				lbl11.setLayoutX(450);
+				lbl11.setLayoutY(250);
+				lbl27.setLayoutX(600);
+				lbl27.setLayoutY(250);
 				
 				//douzieme champ
-				lbl12.setLayoutX(50);
-				lbl12.setLayoutY(700);
-				lbl28.setLayoutX(200);
-				lbl28.setLayoutY(700);
+				lbl12.setLayoutX(450);
+				lbl12.setLayoutY(300);
+				lbl28.setLayoutX(600);
+				lbl28.setLayoutY(300);
 				
 				//treizieme champ
-				lbl13.setLayoutX(50);
-				lbl13.setLayoutY(750);
-				lbl29.setLayoutX(200);
-				lbl29.setLayoutY(750);
+				lbl13.setLayoutX(450);
+				lbl13.setLayoutY(350);
+				lbl29.setLayoutX(600);
+				lbl29.setLayoutY(350);
 				
 				//quatarzieme chmap
-				lbl14.setLayoutX(50);
-				lbl14.setLayoutY(800);
-				lbl30.setLayoutX(200);
-				lbl30.setLayoutY(800);
+				lbl14.setLayoutX(450);
+				lbl14.setLayoutY(400);
+				lbl30.setLayoutX(600);
+				lbl30.setLayoutY(400);
 				
 				//quinzieme champ
-				lbl15.setLayoutX(50);
-				lbl15.setLayoutY(850);
-				lbl31.setLayoutX(200);
-				lbl31.setLayoutY(850);
+				lbl15.setLayoutX(450);
+				lbl15.setLayoutY(450);
+				lbl31.setLayoutX(600);
+				lbl31.setLayoutY(450);
 
 				// Bouton
 				
-				btn1.setLayoutX(275);
-				btn1.setLayoutY(900);
+				btn1.setLayoutX(300);
+				btn1.setLayoutY(500);
 
 
 				
@@ -1088,7 +1090,7 @@ public class GestionnaireServeur {
 				root.getChildren().add(btn1);
 
 				// create window
-				Scene scene = new Scene(root, 450, 950);
+				Scene scene = new Scene(root,750, 650);
 				primaryStage.setTitle("Ajouter Serveur");
 				primaryStage.setScene(scene);
 				primaryStage.centerOnScreen();

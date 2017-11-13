@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -468,7 +469,7 @@ public class GestionnaireParametreService {
 				
 
 				// label
-				Label lbl = new Label("Nom du type de service");
+				Label lbl = new Label("Nom du parametre du service");
 				
 				
 				//combobox
@@ -981,7 +982,8 @@ public class GestionnaireParametreService {
 				tableParametre.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 				tableParametre.setItems(test);
 				
-				btnAjouterParType.setText("Ajouter un parametre a un type");
+				btnAjouterParType.setText("Ajouter un parametre"+"\n"+ "a un type");
+				btnAjouterParType.setContentDisplay(ContentDisplay.CENTER);;
 				btnAjouterParType.setOnAction(new EventHandler<ActionEvent>() {
 
 					@Override
