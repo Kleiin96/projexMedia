@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -22,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -99,9 +103,7 @@ public class GestionnaireParametreService {
 		TableColumn<TypeService,Integer> id = new TableColumn<TypeService, Integer>("id type de service");
 		TableColumn<TypeService, String> nom = new TableColumn<TypeService, String>("nom type de service");
 		TableColumn<TypeService, String> tel = new TableColumn<TypeService, String>("Description");
-		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
-		//TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
-		//TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
+		
 		
 
 		Button btnAjouter = new Button();
@@ -109,13 +111,7 @@ public class GestionnaireParametreService {
 		Button btnSupprimerT = new Button();
 		Button btnAjouterParType = new Button();
 		Button btnGestionPar = new Button();
-		//Image imageRecherche = new Image(getClass().getResourceAsStream("loupe.png"));
-		//Button btnRecherche = new Button();
-		//ImageView image = new ImageView(imageRecherche);
-
-		//btnRecherche.setGraphic(image);
 		
-		//TextField tfRecherche = new TextField();
 
 		// construction de la table
 		tableTypeService.setEditable(false);
@@ -124,10 +120,8 @@ public class GestionnaireParametreService {
 		id.setCellValueFactory(new PropertyValueFactory<TypeService, Integer>("idTypeService"));
 		nom.setCellValueFactory(new PropertyValueFactory<TypeService, String>("nomType"));
 		tel.setCellValueFactory(new PropertyValueFactory<TypeService, String>("description"));
-		//nomR.setCellValueFactory(new PropertyValueFactory<Client, String>("nomResponsable"));
-		//adresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
-		//courriel.setCellValueFactory(new PropertyValueFactory<Client, String>("courriel"));
-		tableTypeService.getColumns().addAll(id, nom, tel/*, nomR, adresse, courriel*/);
+		
+		tableTypeService.getColumns().addAll(id, nom, tel);
 
 		id.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
 		nom.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
@@ -179,21 +173,7 @@ public class GestionnaireParametreService {
 			}
 		});
 
-		/*btnAjouterParType.setText("Ajouter un parametre a un type");
-		btnAjouterParType.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (tableTypeService.getSelectionModel().getSelectedItem() != null) {
-					try {
-						ajouterParametreType(primaryStage,tableTypeService.getSelectionModel().getSelectedItem());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		});*/
+		
 		
 		tableTypeService.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -245,12 +225,7 @@ public class GestionnaireParametreService {
 		btnSupprimerT.setLayoutY(220);
 		btnGestionPar.setLayoutX(30);
 		btnGestionPar.setLayoutY(530);
-		//btnAjouterParType.setLayoutX(30);
-		//btnAjouterParType.setLayoutY(530);
-		/*tfRecherche.setLayoutX(500);
-		tfRecherche.setLayoutY(10);
-		btnRecherche.setLayoutX(690);
-		btnRecherche.setLayoutY(10);*/
+		
 
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);
@@ -262,8 +237,7 @@ public class GestionnaireParametreService {
 		//btnAjouterParType.setMinWidth(150);
 		btnGestionPar.setMinHeight(50);
 		btnGestionPar.setMinWidth(150);
-		//btnRecherche.setPadding(Insets.EMPTY);
-		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
+		
 
 		// layout list
 		tableTypeService.setLayoutX(200);
@@ -481,29 +455,42 @@ public class GestionnaireParametreService {
 				// panel
 				Pane root = new Pane();
 				// BorderPane root1 = new BorderPane();
-				btn.setOnAction(new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent event) {
-						try {
-							Connection conn = SimpleDataSource.getConnection();
-							Statement stat = conn.createStatement();
-
-							ResultSet result = stat
-									.executeQuery("SELECT id_parametreService FROM parametreservice WHERE nom_parametre = '" + cbParametre.getValue() + "'");
-							result.next();
-							int idPara = result.getInt("id_parametreService");
-							
-							type.ajouterparametreService(idPara);
-							afficherParametre(primaryStage, type);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+				
+					System.out.println("la valeur est : "+cbParametre.getValue());
+					btn.setOnAction(new EventHandler<ActionEvent>() {
+	
+						@Override
+						public void handle(ActionEvent event) {
+							try {
+								Connection conn = SimpleDataSource.getConnection();
+								Statement stat = conn.createStatement();
+								if(cbParametre.getValue() != null) {	
+									ResultSet result = stat
+											.executeQuery("SELECT id_parametreService FROM parametreservice WHERE nom_parametre = '" + cbParametre.getValue() + "'");
+									result.next();
+									int idPara = result.getInt("id_parametreService");
+									
+									type.ajouterparametreService(idPara);
+									afficherParametre(primaryStage, type);
+								}
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
-					}
-				});
+					});
+				//else {
+					
+					/*Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Veuillez choisir un paramettre?");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {   //lul
+						 
+					} */
+				//}
 
-				btn1.setOnAction(new EventHandler<ActionEvent>() {
+				btn1.setOnAction(new EventHandler<ActionEvent>() {//
 
 					@Override
 					public void handle(ActionEvent event) {
