@@ -17,3 +17,7 @@
 	-fx-text-fill: #ff0000;
 	-fx-underline: true;
 }
+
+.custom-align { 
+  -fx-alignment: center; 
+} 

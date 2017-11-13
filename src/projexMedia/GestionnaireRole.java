@@ -5,58 +5,54 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Optional;
-
-import org.controlsfx.control.textfield.TextFields;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class GestionnaireUtilisateur {
-	private Tab _userTab;
-	private Pane _userPane;
+public class GestionnaireRole {
+	private Tab _RoleTab;
+	private Pane _RolePane;
+	public String _username;
+	
 
-	private ObservableList<Utilisateur> _data;
+	private ObservableList<Role> _data;
 
-	public GestionnaireUtilisateur() {
-		_userTab = new Tab("Utilisateur");
-		_userPane = new Pane();
+	public GestionnaireRole(String username) {
+		_RoleTab = new Tab("Role");
+		_RolePane = new Pane();
+		_username = username;
 	}
 
 	@SuppressWarnings({ "unchecked"})
-	public void createPane(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException {
+	public void createPane(Stage primaryStage) throws Exception {
 
-		TableView<Utilisateur> _table = new TableView<Utilisateur>();
-		TableColumn<Utilisateur, String> Col = new TableColumn<Utilisateur, String>("Nom d'utilisateur");
-		TableColumn<Utilisateur, String> Col2 = new TableColumn<Utilisateur, String>("Mot de passe");
-		TableColumn<Utilisateur, String> Col3 = new TableColumn<Utilisateur, String>("Prénom");
-		TableColumn<Utilisateur, String> Col4 = new TableColumn<Utilisateur, String>("Nom");
-		TableColumn<Utilisateur, String> Col5 = new TableColumn<Utilisateur, String>("Rôle");
+		TableView<Role> _table = new TableView<Role>();
+		TableColumn<Role, String> Col = new TableColumn<Role, String>("Nom du rôle");
+		TableColumn<Role, String> Col2 = new TableColumn<Role, String>("Ajouter");
+		TableColumn<Role, String> Col3 = new TableColumn<Role, String>("Modifier");
+		TableColumn<Role, String> Col4 = new TableColumn<Role, String>("Archiver");
+		TableColumn<Role, String> Col5 = new TableColumn<Role, String>("Activer");
+		TableColumn<Role, String> Col6 = new TableColumn<Role, String>("Supprimer");
 
 		SimpleDataSource.init("src/projexMedia/database.properties");
 
@@ -68,10 +64,10 @@ public class GestionnaireUtilisateur {
 			Statement stat = conn.createStatement();
 
 			ResultSet result = stat.executeQuery(
-					"SELECT pk_courriel, mdp, prenom, nom,nom_role FROM utilisateur JOIN role ON utilisateur.fk_id_role = role.id_role");
+					"SELECT * FROM role ");
 
 			while (result.next()) {
-				_data.add(new Utilisateur(result.getString("pk_courriel"), result.getString("mdp"), result.getString("prenom"),result.getString("nom"), result.getString("nom_role")));
+				_data.add(new Role(result.getInt("id_role"), result.getString("nom_role"), result.getBoolean("ajouter"),result.getBoolean("modifier"), result.getBoolean("archiver"), result.getBoolean("activer"), result.getBoolean("supprimer")));
 			}
 			
 		} finally {
@@ -85,19 +81,27 @@ public class GestionnaireUtilisateur {
 		_table.setEditable(false);
 		_table.setPrefSize(525, 525);
 
-		Col.setCellValueFactory(new PropertyValueFactory<Utilisateur, String>("user"));
-		Col2.setCellValueFactory(new PropertyValueFactory<Utilisateur, String>("password"));
-		Col3.setCellValueFactory(new PropertyValueFactory<Utilisateur, String>("prenom"));
-		Col4.setCellValueFactory(new PropertyValueFactory<Utilisateur, String>("nom"));
-		Col5.setCellValueFactory(new PropertyValueFactory<Utilisateur, String>("role"));
-		_table.getColumns().addAll(Col, Col2, Col3, Col4, Col5);
+		Col.setCellValueFactory(new PropertyValueFactory<Role, String>("_role"));
+		Col2.setCellValueFactory(new PropertyValueFactory<Role, String>("_ajouter"));
+		Col3.setCellValueFactory(new PropertyValueFactory<Role, String>("_modifier"));
+		Col4.setCellValueFactory(new PropertyValueFactory<Role, String>("_archiver"));
+		Col5.setCellValueFactory(new PropertyValueFactory<Role, String>("_activer"));
+		Col6.setCellValueFactory(new PropertyValueFactory<Role, String>("_supprimer"));
+		_table.getColumns().addAll(Col, Col2, Col3, Col4, Col5, Col6);
 		_table.setItems(_data);
-		Col.prefWidthProperty().bind(_table.widthProperty().divide(5));
-		Col2.prefWidthProperty().bind(_table.widthProperty().divide(5));
-		Col3.prefWidthProperty().bind(_table.widthProperty().divide(5));
-		Col4.prefWidthProperty().bind(_table.widthProperty().divide(5));
-		Col5.prefWidthProperty().bind(_table.widthProperty().divide(5));
+		Col.prefWidthProperty().bind(_table.widthProperty().divide(6));
+		Col2.prefWidthProperty().bind(_table.widthProperty().divide(6));
+		Col3.prefWidthProperty().bind(_table.widthProperty().divide(6));
+		Col4.prefWidthProperty().bind(_table.widthProperty().divide(6));
+		Col5.prefWidthProperty().bind(_table.widthProperty().divide(6));
+		Col6.prefWidthProperty().bind(_table.widthProperty().divide(6));
 		_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		Col.getStyleClass().add("custom-align");
+		Col2.getStyleClass().add("custom-align");
+		Col3.getStyleClass().add("custom-align");
+		Col4.getStyleClass().add("custom-align");
+		Col5.getStyleClass().add("custom-align");
+		Col6.getStyleClass().add("custom-align");
 
 		btnAjouter.setText("Ajouter");
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
@@ -105,7 +109,7 @@ public class GestionnaireUtilisateur {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					AjouterUtilisateur(primaryStage);
+					AjouterRole(primaryStage);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -120,7 +124,7 @@ public class GestionnaireUtilisateur {
 
 				if (_table.getSelectionModel().getSelectedItem() != null) {
 					try {
-						ModifierUtilisateur(primaryStage, _table.getSelectionModel().getSelectedItem());
+						ModifierRole(primaryStage, _table.getSelectionModel().getSelectedItem());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -135,32 +139,32 @@ public class GestionnaireUtilisateur {
 			@Override
 			public void handle(ActionEvent event) {
 
-				if (_table.getSelectionModel().getSelectedItem() != null) {
-					try {
-						SupprimerUtilisateur(_table.getSelectionModel().getSelectedItem());
-						Connection conn = SimpleDataSource.getConnection();
-
-						Statement stat = conn.createStatement();
-
-						ResultSet result = stat.executeQuery(
-								"SELECT pk_courriel, mdp, prenom, nom,nom_role FROM utilisateur JOIN role ON utilisateur.fk_id_role = role.id_role");
-						_data.removeAll(_data);
-						while (result.next()) {
-							_data.add(new Utilisateur(result.getString("pk_courriel"), result.getString("mdp"), 
-									result.getString("prenom"),result.getString("nom"), result.getString("nom_role")));
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
+//				if (_table.getSelectionModel().getSelectedItem() != null) {
+//					try {
+//						SupprimerRole(_table.getSelectionModel().getSelectedItem());
+//						Connection conn = SimpleDataSource.getConnection();
+//
+//						Statement stat = conn.createStatement();
+//
+//						ResultSet result = stat.executeQuery(
+//								"SELECT pk_courriel, mdp, prenom, nom,nom_Role FROM Role JOIN Role ON Role.fk_id_Role = Role.id_Role");
+//						_data.removeAll(_data);
+//						while (result.next()) {
+//							_data.add(new Role(result.getString("pk_courriel"), result.getString("mdp"), 
+//									result.getString("prenom"),result.getString("nom"), result.getString("nom_Role")));
+//						}
+//					} catch (SQLException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} finally {
+//						try {
+//							conn.close();
+//						} catch (SQLException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				}
 			}
 		});	
 
@@ -180,91 +184,76 @@ public class GestionnaireUtilisateur {
 		btnSupprimer.setMinHeight(50);
 		btnSupprimer.setMinWidth(150);
 		
-		_userPane.getChildren().add(btnAjouter);
-		_userPane.getChildren().add(btnModifier);
-		_userPane.getChildren().add(_table);
-		_userPane.getChildren().add(btnSupprimer);
+		_RolePane.getChildren().add(btnAjouter);
+		_RolePane.getChildren().add(btnModifier);
+		_RolePane.getChildren().add(_table);
+		_RolePane.getChildren().add(btnSupprimer);
 	}
 
-	public void setUtilisateurPane(Pane UtilisateurPane) {
-		_userPane = UtilisateurPane;
+	public void setRolePane(Pane RolePane) {
+		_RolePane = RolePane;
 	}
 
-	public Pane getUtilisateurPane() {
-		return _userPane;
+	public Pane getRolePane() {
+		return _RolePane;
 	}
 
-	public void setUtilisateurTab(Tab UtilisateurTab) {
-		_userTab = UtilisateurTab;
+	public void setRoleTab(Tab RoleTab) {
+		_RoleTab = RoleTab;
 	}
 
-	public Tab getUtilisateurTab() {
-		return _userTab;
+	public Tab getRoleTab() {
+		return _RoleTab;
 	}
 
-	public void AjouterUtilisateur(Stage primaryStage) throws SQLException {
-
-		ObservableList<String> options = FXCollections.observableArrayList();
-
-		Connection conn = SimpleDataSource.getConnection();
-
-		try {
-			Statement stat = conn.createStatement();
-
-			ResultSet result = stat.executeQuery("SELECT nom_role FROM role");
-
-			while (result.next()) {
-				options.add(result.getString("nom_role"));
-			}
-
-		} finally {
-			conn.close();
-		}
+	public void AjouterRole(Stage primaryStage) throws SQLException {
 
 		// bouton
 		Button btnAjouter = new Button("Ajouter");
 		Button btnCancel = new Button("Cancel");
 
-		// textField
-		ComboBox<String> cmbRole = new ComboBox<String>(options);
-		cmbRole.setTooltip(new Tooltip());
-		TextField tfCourriel = new TextField();
-		TextField tfMdp = new TextField();
-		TextField tfPrenom = new TextField();
-		TextField tfNom = new TextField();
+		TextField nomRole = new TextField();
+		CheckBox cb1 = new CheckBox();
+		CheckBox cb2 = new CheckBox();
+		CheckBox cb3 = new CheckBox();
+		CheckBox cb4 = new CheckBox();
+		CheckBox cb5 = new CheckBox();
 		
 
 		// label
-		Label lbl = new Label("Courriel :");
-		Label lbl1 = new Label("Mot de passe :");
-		Label lbl2 = new Label("Prénom :");
-		Label lbl3 = new Label("Nom :");
-		Label lbl4 = new Label("Rôle :");
+		Label lbl = new Label("Nom du rôle :");
+		Label lbl1 = new Label("Ajouter :");
+		Label lbl2 = new Label("Modifier :");
+		Label lbl3 = new Label("Archiver :");
+		Label lbl4 = new Label("Activer :");
+		Label lbl5 = new Label("Supprimer :");
 
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 
+				Connection conn = null;
 				try {
-					Connection conn = SimpleDataSource.getConnection();
+					conn = SimpleDataSource.getConnection();
 					Statement stat = conn.createStatement();
-
-					ResultSet result = stat.executeQuery(
-							"SELECT id_role FROM role WHERE nom_role = '" + cmbRole.getValue() + "'");
-					result.next();
-					int role = result.getInt("id_role");
-
-					stat.execute("INSERT INTO Utilisateur (pk_courriel, mdp, prenom, nom, fk_id_role) VALUES(\""
-							+ tfCourriel.getText() + "\"" + ", \"" + tfMdp.getText() + "\"" + ", \"" + tfPrenom.getText() + "\"" + ", \"" + tfNom.getText() + "\"" + ", " + role + ")");
-
+	
+					int ajouter = (cb1.isSelected()) ? 1 : 0;
+					int modifier = (cb2.isSelected()) ? 1 : 0;
+					int archiver = (cb3.isSelected()) ? 1 : 0;
+					int activer = (cb4.isSelected()) ? 1 : 0;
+					int supprimer = (cb5.isSelected()) ? 1 : 0;
+	
+					stat.execute("INSERT INTO Role (nom_role, ajouter, modifier, archiver, activer, supprimer) VALUES(\""
+							+ nomRole.getText() + "\"" + "," + ajouter + "," + modifier + "," + archiver + "," + activer + "," + supprimer + ")");
+	
 					MainMenu menu = new MainMenu();
-					menu.set_activeTab(3);
+					menu.set_activeTab(5);
 					menu.start(primaryStage);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}finally {
+				} finally {
 					try {
 						conn.close();
 					} catch (SQLException e) {
@@ -280,7 +269,7 @@ public class GestionnaireUtilisateur {
 			@Override
 			public void handle(ActionEvent event) {
 				MainMenu menu = new MainMenu();
-				menu.set_activeTab(3);
+				menu.set_activeTab(5);
 				try {
 					menu.start(primaryStage);
 				} catch (Exception e) {
@@ -295,36 +284,40 @@ public class GestionnaireUtilisateur {
 
 		lbl.setLayoutX(50);
 		lbl.setLayoutY(70);
-		tfCourriel.setLayoutX(200);
-		tfCourriel.setLayoutY(70);
+		nomRole.setLayoutX(200);
+		nomRole.setLayoutY(70);
 
 		lbl1.setLayoutX(50);
 		lbl1.setLayoutY(120);
-		tfMdp.setLayoutX(200);
-		tfMdp.setLayoutY(120);
+		cb1.setLayoutX(200);
+		cb1.setLayoutY(120);
 		
 		lbl2.setLayoutX(50);
 		lbl2.setLayoutY(170);
-		tfPrenom.setLayoutX(200);
-		tfPrenom.setLayoutY(170);
+		cb2.setLayoutX(200);
+		cb2.setLayoutY(170);
 		
 		lbl3.setLayoutX(50);
 		lbl3.setLayoutY(220);
-		tfNom.setLayoutX(200);
-		tfNom.setLayoutY(220);
+		cb3.setLayoutX(200);
+		cb3.setLayoutY(220);
 		
 		lbl4.setLayoutX(50);
 		lbl4.setLayoutY(270);
-		cmbRole.setLayoutX(200);
-		cmbRole.setLayoutY(270);
+		cb4.setLayoutX(200);
+		cb4.setLayoutY(270);
 
+		lbl5.setLayoutX(50);
+		lbl5.setLayoutY(300);
+		cb5.setLayoutX(200);
+		cb5.setLayoutY(300);
+		
 		// Bouton
 		btnAjouter.setLayoutX(50);
 		btnAjouter.setLayoutY(340);
 		btnCancel.setLayoutX(250);
 		btnCancel.setLayoutY(340);
 
-		cmbRole.setMinWidth(185);
 		btnAjouter.setMinHeight(30);
 		btnAjouter.setMinWidth(130);
 		btnCancel.setMinHeight(30);
@@ -334,11 +327,13 @@ public class GestionnaireUtilisateur {
 		root.getChildren().add(lbl);
 		root.getChildren().add(lbl1);
 		root.getChildren().add(lbl2);
-		root.getChildren().add(cmbRole);
-		root.getChildren().add(tfCourriel);
-		root.getChildren().add(tfMdp);
-		root.getChildren().add(tfPrenom);
-		root.getChildren().add(tfNom);
+		root.getChildren().add(nomRole);
+		root.getChildren().add(cb1);
+		root.getChildren().add(cb2);
+		root.getChildren().add(cb3);
+		root.getChildren().add(cb4);
+		root.getChildren().add(cb5);
+		root.getChildren().add(lbl5);
 		root.getChildren().add(lbl3);
 		root.getChildren().add(lbl4);
 		root.getChildren().add(btnAjouter);
@@ -346,14 +341,13 @@ public class GestionnaireUtilisateur {
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
-		primaryStage.setTitle("Ajouter Utilisateur");
+		primaryStage.setTitle("Ajouter Role");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		new ComboBoxAutoComplete<String>(cmbRole);
 	}
 
 	
-	public void ModifierUtilisateur(Stage primaryStage, Utilisateur utilisateur) throws SQLException {
+	public void ModifierRole(Stage primaryStage, Role Role) throws SQLException {
 
 		ObservableList<String> options = FXCollections.observableArrayList();
 
@@ -382,16 +376,16 @@ public class GestionnaireUtilisateur {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT nom_role FROM role");
+			ResultSet result = stat.executeQuery("SELECT nom_Role FROM Role");
 
 			while (result.next()) {
-				options.add(result.getString("nom_role"));
+				options.add(result.getString("nom_Role"));
 			}
 
-			result = stat.executeQuery(
-					"SELECT * FROM utilisateur JOIN role ON utilisateur.fk_id_role = role.id_role WHERE pk_courriel ='"+ utilisateur.getUser() + "'");
+//			result = stat.executeQuery(
+//					"SELECT * FROM Role JOIN Role ON Role.fk_id_Role = Role.id_Role WHERE pk_courriel ='"+ Role.getUser() + "'");
 			result.next();
-			cmbRole.setValue(result.getString("nom_role"));
+			cmbRole.setValue(result.getString("nom_Role"));
 			tfCourriel.setText(result.getString("pk_courriel"));
 			tfMdp.setText(result.getString("mdp"));
 			tfPrenom.setText(result.getString("prenom"));
@@ -411,13 +405,13 @@ public class GestionnaireUtilisateur {
 					Statement stat = conn.createStatement();
 
 					ResultSet result = stat
-							.executeQuery("SELECT id_role FROM role WHERE nom_role = '" + cmbRole.getValue() + "'");
+							.executeQuery("SELECT id_Role FROM Role WHERE nom_Role = '" + cmbRole.getValue() + "'");
 					result.next();
-					int role = result.getInt("id_role");
+					int Role = result.getInt("id_Role");
 
-					stat.execute("UPDATE Utilisateur SET pk_courriel='" + tfCourriel.getText() + "', mdp='" + tfMdp.getText()
-							+ "', prenom='" + tfPrenom.getText() + "', nom='" + tfNom.getText() + "', fk_id_role=" + role + " WHERE pk_courriel='"
-							+ utilisateur.getUser() + "'");
+//					stat.execute("UPDATE Role SET pk_courriel='" + tfCourriel.getText() + "', mdp='" + tfMdp.getText()
+//							+ "', prenom='" + tfPrenom.getText() + "', nom='" + tfNom.getText() + "', fk_id_Role=" + Role + " WHERE pk_courriel='"
+//							+ Role.getUser() + "'");
 
 					MainMenu menu = new MainMenu();
 					menu.set_activeTab(3);
@@ -507,25 +501,25 @@ public class GestionnaireUtilisateur {
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
-		primaryStage.setTitle("Modifier Utilisateur");
+		primaryStage.setTitle("Modifier Role");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbRole);
 	}
 
-	public void SupprimerUtilisateur(Utilisateur utilisateur) throws SQLException {
+	public void SupprimerRole(Role Role) throws SQLException {
 		Connection conn = SimpleDataSource.getConnection();
 		try {
 			Statement stat = conn.createStatement();
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cet utilisateur?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cet Role?");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				stat.execute("DELETE FROM Utilisateur WHERE pk_courriel='" + utilisateur.getUser() + "'");
+//				stat.execute("DELETE FROM Role WHERE pk_courriel='" + Role.getUser() + "'");
 			}
 
 		} finally {
