@@ -22,6 +22,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -80,14 +82,21 @@ public class MainLogin extends Application {
             }
         });
         
+        Pane root = new Pane();
+        
+        root.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
+            if (ev.getCode() == KeyCode.ENTER) {
+               btn.fire();
+               ev.consume(); 
+            }
+        });
+        
         lbl.setText("Nom d'utilisateur :");
         lbl2.setText("Mot de passe :");
         lbl.setScaleX(1.5);
         lbl.setScaleY(1.5);
         lbl2.setScaleX(1.5);
         lbl2.setScaleY(1.5);
-        
-        Pane root = new Pane();
         
         btn.setLayoutX(90);
         btn.setLayoutY(220);

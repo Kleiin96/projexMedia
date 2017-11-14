@@ -522,6 +522,8 @@ public class GestionnaireRole {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				stat.execute("DELETE FROM role WHERE id_role=" + role.getId_role());
+				stat.execute("DELETE FROM utilisateur WHERE fk_id_role=" + role.getId_role());
+				
 			}
 
 		} finally {
