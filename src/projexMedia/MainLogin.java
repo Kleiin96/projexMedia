@@ -123,7 +123,9 @@ public class MainLogin extends Application {
         root.getChildren().add(txt);
         root.getChildren().add(pwd);
         
+        
         Scene scene = new Scene(root, 420, 300);
+        txt.requestFocus();
         
         primaryStage.setTitle("Gestionnaire ProjexMedia");
         primaryStage.setScene(scene);

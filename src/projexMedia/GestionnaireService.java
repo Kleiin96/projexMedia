@@ -549,13 +549,25 @@ public class GestionnaireService {
                     "UPDATE valeurparametre SET valeur = ?, date = ?, action = ?, fk_courriel = ?"
                     + " WHERE id_valeurParametre = ?");
             for(int j = 0; j < NewE.get_Champs().size();j++) {
+            	if(Integer.parseInt(NewE.get_Champs().get(j).get(5)) == 0) {
+            		PreparedStatement stat2 = conn.prepareStatement(
+                            "INSERT INTO valeurparametre (valeur, date, action, actif, fk_id_service,fk_id_site,fk_courriel)"
+                            + " VALUES (?, ?, 'Ajouter', 1, ?, ?, ?)");
+            		java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());
+    	            stat2.setString(1, NewE.get_Champs().get(j).get(1));
+    	            stat2.setDate(2, sql);
+    	            stat2.setInt(3, Integer.parseInt(NewE.get_Champs().get(j).get(2)));
+    	            stat2.setInt(4, NewE.get_id_Site());
+    	            stat2.setString(5, NewE.get_Champs().get(j).get(4));     
+    	            stat2.executeUpdate();  
+            	}
             	java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());
 	            stat.setString(1, NewE.get_Champs().get(j).get(1));
 	            stat.setDate(2, sql);
 	            stat.setString(3, "Modifier");
 	            stat.setString(4, NewE.get_Champs().get(j).get(4));
 	            stat.setInt(5, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
-	            stat.executeUpdate();         
+	            stat.executeUpdate();
             }
         } catch(SQLException ex){
             ex.printStackTrace();
@@ -850,6 +862,7 @@ public class GestionnaireService {
 		try {
 			conn = SimpleDataSource.getConnection();
 			Statement stat = conn.createStatement();
+			Statement stat2 = conn.createStatement();
 
 			ResultSet result = stat.executeQuery("SELECT valeurparametre.id_valeurParametre,valeurparametre.valeur, valeurparametre.actif, valeurparametre.fk_id_site," + 
 											"ta_service.fk_id_typeService, ta_service.id_service,typeservice.nom_type, parametreservice.nom_parametre, valeurparametre.date, valeurparametre.fk_courriel " + 
@@ -858,29 +871,38 @@ public class GestionnaireService {
 											"ta_service.fk_id_typeService = typeservice.id_typeService AND " + 
 											"ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND " + 
 											"ta_service.fk_id_typeService =" + _serviceActif.get(Integer.parseInt(id)).get_id() + " AND valeurparametre.fk_id_site =" + _serviceActif.get(Integer.parseInt(id)).get_id_Site() + " ORDER BY ta_service.id_service");
-
+			ResultSet result2 = stat2.executeQuery("SELECT parametreservice.nom_parametre, typeservice.id_typeService, ta_service.id_service, typeservice.nom_type FROM parametreservice"
+											+ " JOIN ta_service ON parametreservice.id_parametreService = ta_service.fk_id_parametreService "
+											+" JOIN typeservice ON ta_service.fk_id_typeService = typeservice.id_typeService WHERE typeservice.nom_type ='" + _serviceActif.get(Integer.parseInt(id)).get_nom() + "'");
 			
 			int nbChamps = 0;
-			while (result.next()) {
-				
-				lbl2 = new Label(result.getString("nom_type"));
-				Label lbl1 = new Label(result.getString("nom_parametre"));
+			while (result2.next()) {
+				lbl2 = new Label(result2.getString("nom_type"));
+				Label lbl1 = new Label(result2.getString("nom_parametre"));
 				TextField tf = new TextField();
 				lbl1.setLayoutX(20);
 				lbl1.setLayoutY(nbChamps * 40 + 60);
 				tf.setLayoutX(160);
 				tf.setLayoutY(nbChamps * 40 + 60);
-				tf.setText(result.getString("valeur"));
+				
 				root.getChildren().add(lbl1);
 				root.getChildren().add(tf);
 				textfields.add(tf);
-				typeService = result.getInt("fk_id_typeService");
-				nom_type = result.getString("nom_type");
-				_valeurChamps.add(result.getString("nom_parametre"));
-            	 _valeurChamps.add(String.valueOf(result.getInt("id_service")));
+				typeService = result2.getInt("id_typeService");
+				nom_type = result2.getString("nom_type");
+				_valeurChamps.add(result2.getString("nom_parametre"));
+            	 _valeurChamps.add(String.valueOf(result2.getInt("id_service")));
             	 _valeurChamps.add(String.valueOf(dateFormat.format(date)));
             	 _valeurChamps.add(_username);
-            	 _valeurChamps.add(String.valueOf(result.getInt("id_valeurParametre")));
+            	 
+            	 if(result.next()){
+            		tf.setText(result.getString("valeur"));
+            		_valeurChamps.add(String.valueOf(result.getInt("id_valeurParametre")));
+            	 }
+            	 else {
+            		 _valeurChamps.add("0");
+            	 }
+            	 
             	 _tableChamps.add(_valeurChamps);
             	 _valeurChamps = new ArrayList<>();
 				nbChamps++;
