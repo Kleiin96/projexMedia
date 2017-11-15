@@ -55,6 +55,11 @@ public class GestionnaireServeur {
 		_pane = new Pane();
 	}
 	
+	/**
+	 * creat le pane pour le tab de la fenetre principale 
+	 * @param primaryStage
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "unchecked"})
 	public void createPane(Stage primaryStage) throws Exception{
 		
@@ -67,7 +72,7 @@ public class GestionnaireServeur {
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
 		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
 		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Serveur");
-		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
+		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Fournisseur");
 		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
 		//TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
 		//TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
@@ -91,10 +96,6 @@ public class GestionnaireServeur {
 
 		id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
 		nom.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomServeur"));
-		//tel.setCellValueFactory(new PropertyValueFactory<Client, String>("telephone"));
-		//nomR.setCellValueFactory(new PropertyValueFactory<Client, String>("nomResponsable"));
-		//adresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
-		//courriel.setCellValueFactory(new PropertyValueFactory<Client, String>("courriel"));
 		tableServeur.getColumns().addAll(id, nom/*, tel, nomR, adresse, courriel*/);
 
 		id.prefWidthProperty().bind(tableServeur.widthProperty().divide(2));
@@ -102,20 +103,6 @@ public class GestionnaireServeur {
 		tableServeur.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tableServeur.setItems(list);
 		
-		
-		/*btnRecherche.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				
-			}
-		});
-		
-		tfRecherche.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				
-			}
-		});*/
 
 		btnAjouter.setText("Ajouter");
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
@@ -208,10 +195,7 @@ public class GestionnaireServeur {
 		btnArchiver.setLayoutY(220);
 		btnConsArch.setLayoutX(30);
 		btnConsArch.setLayoutY(530);
-		/*tfRecherche.setLayoutX(500);
-		tfRecherche.setLayoutY(10);
-		btnRecherche.setLayoutX(690);
-		btnRecherche.setLayoutY(10);*/
+		
 
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);
@@ -221,8 +205,7 @@ public class GestionnaireServeur {
 		btnArchiver.setMinWidth(150);
 		btnConsArch.setMinHeight(50);
 		btnConsArch.setMinWidth(150);
-		//btnRecherche.setPadding(Insets.EMPTY);
-		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
+		
 
 		// layout list
 		tableServeur.setLayoutX(200);
@@ -237,8 +220,11 @@ public class GestionnaireServeur {
 		_pane.getChildren().add(tfRecherche);*/
 	}
 	
-	//ajouter un serveur dans la base de donnée
 	
+	/**
+	 * interface pour ajouter un serveur
+	 * @param primaryStage
+	 */
 	public void ajouterServeur(Stage primaryStage) {
 		// bouton
 				Button btn = new Button("Ajouter");
@@ -470,6 +456,11 @@ public class GestionnaireServeur {
 		
 	}
 	
+	/**
+	 * interface pour modifier un serveur
+	 * @param primaryStage
+	 * @param serveur
+	 */
 	public void modifierServeur(Stage primaryStage, Serveur serveur) {
 		// bouton
 				Button btn = new Button("Modifier");
@@ -699,17 +690,18 @@ public class GestionnaireServeur {
 		
 	}
 
+	/**
+	 * affichage des archives pour les serveurs
+	 * @param primaryStage
+	 * @throws Exception
+	 */
 	public void afficherArchive(Stage primaryStage) throws Exception {
 		affichageServeurArch();
 
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
 		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
 		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Serveur");
-		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Telephone");
-		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
-		//TableColumn<Serveur, String> adresse = new TableColumn<Serveur, String>("adresse");
-		//TableColumn<Serveur, String> courriel = new TableColumn<Serveur, String>("courriel");
-
+		
 		Button btnActiver = new Button();
 		Button btnSupprimer = new Button();
 		Button btnRetour = new Button();
@@ -723,15 +715,10 @@ public class GestionnaireServeur {
 
 		id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
 		nom.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomServeur"));
-		//tel.setCellValueFactory(new PropertyValueFactory<Serveur, String>("telephone"));
-		//nomR.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomResponsable"));
-		//adresse.setCellValueFactory(new PropertyValueFactory<Serveur, String>("adresse"));
-		//courriel.setCellValueFactory(new PropertyValueFactory<Serveur, String>("courriel"));
-		tableServeur.getColumns().addAll(id, nom/*, tel, nomR, adresse, courriel*/);
+		
+		tableServeur.getColumns().addAll(id, nom);
 
-		// id.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
-		// nom.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
-		// tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		
 		tableServeur.setItems(list);
 
 		btnActiver.setText("Activer");
@@ -752,6 +739,7 @@ public class GestionnaireServeur {
 				
 			}
 		});
+		
 		btnSupprimer.setText("Supprimer");
 		btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -822,7 +810,10 @@ public class GestionnaireServeur {
 		primaryStage.show();
 	}
 	
-	
+	/**
+	 * mettre toute la list des serveurs dans l'observable list
+	 * @throws SQLException
+	 */
 	public void affichageServeur() throws SQLException {
 		list.clear();
 		Connection conn = SimpleDataSource.getConnection();
@@ -851,6 +842,10 @@ public class GestionnaireServeur {
 		}
 	}
 	
+	/**
+	 * remplissage de l'observableList pour l'archive
+	 * @throws SQLException
+	 */
 	public void affichageServeurArch() throws SQLException {
 		list.clear();
 		Connection conn = SimpleDataSource.getConnection();
@@ -879,7 +874,11 @@ public class GestionnaireServeur {
 		}
 	}
 	
-	
+	/**
+	 * inetrface pour les info complete du serveur
+	 * @param primaryStage
+	 * @param serv
+	 */
 	public void infoServeur(Stage primaryStage, Serveur serv) {
 		// bouton
 				
