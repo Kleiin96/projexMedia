@@ -9,6 +9,7 @@ public class Utilisateur {
     private SimpleStringProperty prenom;
     private SimpleStringProperty nom;
     private SimpleStringProperty role;
+    private int id_role;
 
     public Utilisateur() {
     	role = new SimpleStringProperty(null);
@@ -65,7 +66,16 @@ public class Utilisateur {
 	public void setRole(String _role) {
 		role = new SimpleStringProperty(_role);
 	}
+
+	public int getId_role() {
+		return id_role;
+	}
+
+	public void setId_role(int id_role) {
+		this.id_role = id_role;
+	}
     
+	
     
     
 }

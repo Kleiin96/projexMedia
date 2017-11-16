@@ -53,7 +53,7 @@ public class MainLogin extends Application {
             public void handle(ActionEvent event) {
         		try {
 					if(connecter(txt.getText(), pwd.getText()) == true) {
-						MainMenu menu = new MainMenu(txt.getText());
+						MainMenu menu = new MainMenu(txt.getText(), getRole(txt.getText()));
 						menu.set_activeTab(0);
 						menu.start(primaryStage);
 					}
@@ -156,6 +156,18 @@ public class MainLogin extends Application {
 		else {
 			return false;
 		}
+    }
+    
+    public int getRole(String user) throws SQLException, ClassNotFoundException, IOException {
+    	
+    	Connection conn = SimpleDataSource.getConnection();
+
+		Statement stat = conn.createStatement();
+
+		ResultSet result = stat.executeQuery(
+				"SELECT pk_courriel, fk_id_role FROM utilisateur WHERE pk_courriel='" + user + "'");
+		result.next();
+		return result.getInt("fk_id_role");
     }
     
 }

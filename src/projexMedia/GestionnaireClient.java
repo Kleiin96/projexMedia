@@ -265,6 +265,18 @@ public class GestionnaireClient {
 		btnConsArch.setMinWidth(150);
 		btnRecherche.setPadding(Insets.EMPTY);
 		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
+		
+		if(MainMenu._role.get_ajouter().equals("")) {
+			btnAjouter.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_modifier().equals("")) {
+			btnModifier.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_archiver().equals("")) {
+			btnArchiver.setDisable(true);
+		}
 
 		// layout list
 		tableClient.setLayoutX(200);
@@ -678,6 +690,14 @@ public class GestionnaireClient {
 		btnSupprimer.setMinWidth(150);
 		btnRetour.setMinHeight(50);
 		btnRetour.setMinWidth(150);
+		
+		if(MainMenu._role.get_activer().equals("")) {
+			btnActiver.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_supprimer().equals("")) {
+			btnSupprimer.setDisable(true);
+		}
 
 		// layout list
 		tableClient.setLayoutX(200);

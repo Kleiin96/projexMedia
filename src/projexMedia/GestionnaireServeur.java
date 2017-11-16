@@ -206,6 +206,18 @@ public class GestionnaireServeur {
 		btnConsArch.setMinHeight(50);
 		btnConsArch.setMinWidth(150);
 		
+		if(MainMenu._role.get_ajouter().equals("")) {
+			btnAjouter.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_modifier().equals("")) {
+			btnModifier.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_archiver().equals("")) {
+			btnArchiver.setDisable(true);
+		}
+		
 
 		// layout list
 		tableServeur.setLayoutX(200);
@@ -794,6 +806,14 @@ public class GestionnaireServeur {
 		btnSupprimer.setMinWidth(150);
 		btnRetour.setMinHeight(50);
 		btnRetour.setMinWidth(150);
+		
+		if(MainMenu._role.get_activer().equals("")) {
+			btnActiver.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_supprimer().equals("")) {
+			btnSupprimer.setDisable(true);
+		}
 
 		// layout list
 		tableServeur.setLayoutX(200);

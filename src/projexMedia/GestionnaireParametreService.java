@@ -238,7 +238,18 @@ public class GestionnaireParametreService {
 		btnGestionPar.setMinHeight(50);
 		btnGestionPar.setMinWidth(150);
 		
-
+		if(MainMenu._role.get_ajouter().equals("")) {
+			btnAjouter.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_modifier().equals("")) {
+			btnModifier.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_supprimer().equals("")) {
+			btnSupprimerT.setDisable(true);
+		}
+		
 		// layout list
 		tableTypeService.setLayoutX(200);
 		tableTypeService.setLayoutY(60);
@@ -823,6 +834,18 @@ public class GestionnaireParametreService {
 		btn1.setMinHeight(50);
 		btn1.setMinWidth(150);
 		
+		if(MainMenu._role.get_ajouter().equals("")) {
+			btnAjouter.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_modifier().equals("")) {
+			btnModifier.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_supprimer().equals("")) {
+			btnSupprimerT.setDisable(true);
+		}
+		
 		tableParametre.setLayoutX(200);
 		tableParametre.setLayoutY(60);
 
@@ -1020,6 +1043,14 @@ public class GestionnaireParametreService {
 				btnSupprimer.setLayoutY(220);
 				btnSupprimer.setMinHeight(50);
 				btnSupprimer.setMinWidth(150);
+				
+				if(MainMenu._role.get_ajouter().equals("")) {
+					btnAjouterParType.setDisable(true);
+				}
+				
+				if(MainMenu._role.get_supprimer().equals("")) {
+					btnSupprimer.setDisable(true);
+				}
 			
 				// add to panel
 				//root.getChildren().add(lbl);

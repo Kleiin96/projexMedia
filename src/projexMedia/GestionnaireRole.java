@@ -28,15 +28,13 @@ import javafx.stage.Stage;
 public class GestionnaireRole {
 	private Tab _RoleTab;
 	private Pane _RolePane;
-	public String _username;
 	
 
 	private ObservableList<Role> _data;
 
-	public GestionnaireRole(String username) {
+	public GestionnaireRole() {
 		_RoleTab = new Tab("Role");
 		_RolePane = new Pane();
-		_username = username;
 	}
 
 	@SuppressWarnings({ "unchecked"})

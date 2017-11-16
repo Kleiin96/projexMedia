@@ -49,20 +49,12 @@ public class GestionnaireSite {
 
 	private Tab _siteTab;
 	private Pane _sitePane;
-	
-	public String _username;
 
 	private ObservableList<Site> _data;
 
 	public GestionnaireSite() {
 		_siteTab = new Tab("Site");
 		_sitePane = new Pane();
-	}
-	
-	public GestionnaireSite(String username) {
-		_siteTab = new Tab("Site");
-		_sitePane = new Pane();
-		_username = username;
 	}
 
 	@SuppressWarnings({ "unchecked"})
@@ -231,7 +223,7 @@ public class GestionnaireSite {
 					}
 					// System.out.println(row.getItem());
 					try {
-						GestionnaireService service = new GestionnaireService(_username);
+						GestionnaireService service = new GestionnaireService();
 						service.afficherService(primaryStage, _table.getSelectionModel().getSelectedItem().getIdSite());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -285,6 +277,18 @@ public class GestionnaireSite {
 		btnConsulter.setMinWidth(150);
 		btnRecherche.setPadding(Insets.EMPTY);
 		TextFields.bindAutoCompletion(tfRecherche, possibleClient);
+		
+		if(MainMenu._role.get_ajouter().equals("")) {
+			btnAjouter.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_modifier().equals("")) {
+			btnModifier.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_archiver().equals("")) {
+			btnArchiver.setDisable(true);
+		}
 
 		_sitePane.getChildren().add(btnAjouter);
 		_sitePane.getChildren().add(btnModifier);
@@ -818,6 +822,14 @@ public class GestionnaireSite {
 		btnSupprimer.setMinWidth(150);
 		btnRetour.setMinHeight(50);
 		btnRetour.setMinWidth(150);
+		
+		if(MainMenu._role.get_activer().equals("")) {
+			btnActiver.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_supprimer().equals("")) {
+			btnSupprimer.setDisable(true);
+		}
 
 		root.getChildren().add(btnActiver);
 		root.getChildren().add(btnSupprimer);
@@ -889,15 +901,6 @@ public class GestionnaireSite {
 		} finally {
 			conn.close();
 		}
-	}
-
-	
-	public String get_username() {
-		return _username;
-	}
-
-	public void set_username(String _username) {
-		this._username = _username;
 	}
 
 	

@@ -1,5 +1,10 @@
 package projexMedia;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class Role {
@@ -26,6 +31,82 @@ public class Role {
     	_utilisateur = new SimpleStringProperty(null);
     	_droitRole = new SimpleStringProperty(null);
     }
+    
+    public Role(int id) throws SQLException {
+		Connection conn = SimpleDataSource.getConnection();
+
+		try {
+			Statement stat = conn.createStatement();
+
+			ResultSet result = stat.executeQuery(
+					"SELECT * FROM role WHERE id_role=" + id);
+
+			result.next();
+			
+			id_role = result.getInt("id_role");
+	    	
+	    	_role = new SimpleStringProperty(result.getString("nom_role"));
+	    	
+	    	if(result.getBoolean("ajouter") == true) {
+	    		_ajouter = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_ajouter = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("modifier") == true) {
+	    		_modifier = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_modifier = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("archiver") == true) {
+	    		_archiver = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_archiver = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("activer") == true) {
+	    		_activer = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_activer = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("supprimer") == true) {
+	    		_supprimer = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_supprimer = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("historique") == true) {
+	    		_historique = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_historique = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("utilisateur") == true) {
+	    		_utilisateur = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_utilisateur = new SimpleStringProperty("");
+	    	}
+	    	
+	    	if(result.getBoolean("role") == true) {
+	    		_droitRole = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_droitRole = new SimpleStringProperty("");
+	    	}
+			
+		} finally {
+			conn.close();
+		}
+	}
     
     public Role(int id, String role, boolean ajouter,boolean modifier,boolean archiver,boolean activer,boolean supprimer, boolean historique, boolean utilisateur, boolean droitRole) {
     	id_role = id;
@@ -169,5 +250,6 @@ public class Role {
 		this._droitRole = new SimpleStringProperty(droitRole);
 	}
     
+	
     
 }
