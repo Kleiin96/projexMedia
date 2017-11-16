@@ -49,20 +49,12 @@ public class GestionnaireSite {
 
 	private Tab _siteTab;
 	private Pane _sitePane;
-	
-	public String _username;
 
 	private ObservableList<Site> _data;
 
 	public GestionnaireSite() {
 		_siteTab = new Tab("Site");
 		_sitePane = new Pane();
-	}
-	
-	public GestionnaireSite(String username) {
-		_siteTab = new Tab("Site");
-		_sitePane = new Pane();
-		_username = username;
 	}
 
 	@SuppressWarnings({ "unchecked"})
@@ -71,7 +63,6 @@ public class GestionnaireSite {
 		TableView<Site> _table = new TableView<Site>();
 		TableColumn<Site, String> Col = new TableColumn<Site, String>("Url du site");
 		TableColumn<Site, String> Col2 = new TableColumn<Site, String>("Compagnie");
-		ArrayList<String> possibleClient = new ArrayList<String>();
 
 		SimpleDataSource.init("src/projexMedia/database.properties");
 
@@ -79,28 +70,26 @@ public class GestionnaireSite {
 
 		_data = FXCollections.observableArrayList();
 
-		try {
-			Statement stat = conn.createStatement();
-
-			ResultSet result = stat.executeQuery(
-					"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=1");
-
-			while (result.next()) {
-				_data.add(
-						new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie")));
-			}
-
-			result = stat.executeQuery("SELECT client.nom_compagnie, site.url FROM client, site WHERE site.fk_id_client = client.id_client");
-
-			while (result.next()) {
-				if (!possibleClient.contains(result.getString("nom_compagnie"))) {
-					possibleClient.add(result.getString("nom_compagnie"));
-				}
-				possibleClient.add(result.getString("url"));
-			}
-		} finally {
-			conn.close();
+		if(GestionnaireClient.doubleClick) {
+			RechercherSite(GestionnaireClient.id_Client);
 		}
+		else {
+			try {
+				Statement stat = conn.createStatement();
+
+				ResultSet result = stat.executeQuery(
+						"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=1");
+
+				while (result.next()) {
+					_data.add(
+							new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie")));
+				}
+				
+			} finally {
+				conn.close();
+			}
+		}
+		
 
 		Button btnAjouter = new Button();
 		Button btnModifier = new Button();
@@ -208,7 +197,20 @@ public class GestionnaireSite {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					RechercherSite(tfRecherche);
+					RechercherSite(tfRecherche.getText());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		tfRecherche.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					RechercherSite(tfRecherche.getText());
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -231,7 +233,7 @@ public class GestionnaireSite {
 					}
 					// System.out.println(row.getItem());
 					try {
-						GestionnaireService service = new GestionnaireService(_username);
+						GestionnaireService service = new GestionnaireService();
 						service.afficherService(primaryStage, _table.getSelectionModel().getSelectedItem().getIdSite());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -284,7 +286,18 @@ public class GestionnaireSite {
 		btnConsulter.setMinHeight(50);
 		btnConsulter.setMinWidth(150);
 		btnRecherche.setPadding(Insets.EMPTY);
-		TextFields.bindAutoCompletion(tfRecherche, possibleClient);
+		
+		if(MainMenu._role.get_ajouter().equals("")) {
+			btnAjouter.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_modifier().equals("")) {
+			btnModifier.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_archiver().equals("")) {
+			btnArchiver.setDisable(true);
+		}
 
 		_sitePane.getChildren().add(btnAjouter);
 		_sitePane.getChildren().add(btnModifier);
@@ -818,6 +831,14 @@ public class GestionnaireSite {
 		btnSupprimer.setMinWidth(150);
 		btnRetour.setMinHeight(50);
 		btnRetour.setMinWidth(150);
+		
+		if(MainMenu._role.get_activer().equals("")) {
+			btnActiver.setDisable(true);
+		}
+		
+		if(MainMenu._role.get_supprimer().equals("")) {
+			btnSupprimer.setDisable(true);
+		}
 
 		root.getChildren().add(btnActiver);
 		root.getChildren().add(btnSupprimer);
@@ -871,7 +892,7 @@ public class GestionnaireSite {
 		}
 	}
 
-	public void RechercherSite(TextField tfRecherche) throws SQLException {
+	public void RechercherSite(String tfRecherche) throws SQLException {
 
 		Connection conn = SimpleDataSource.getConnection();
 		try {
@@ -879,8 +900,7 @@ public class GestionnaireSite {
 			Statement stat = conn.createStatement();
 
 			ResultSet result = stat.executeQuery(
-					"SELECT client.nom_compagnie,site.id_site, site.url FROM client, site WHERE client.nom_compagnie='"
-							+ tfRecherche.getText() + "' OR site.url='" + tfRecherche.getText() + "'");
+					"SELECT client.nom_compagnie,site.id_site, site.url FROM client JOIN site ON client.id_client = site.fk_id_client WHERE client.nom_compagnie LIKE '%" + tfRecherche + "%' OR site.url LIKE '%" + tfRecherche + "%'");
 			_data.removeAll(_data);
 			while (result.next()) {
 				_data.add(
@@ -889,15 +909,6 @@ public class GestionnaireSite {
 		} finally {
 			conn.close();
 		}
-	}
-
-	
-	public String get_username() {
-		return _username;
-	}
-
-	public void set_username(String _username) {
-		this._username = _username;
 	}
 
 	

@@ -5,7 +5,12 @@
  */
 package projexMedia;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -19,22 +24,35 @@ import javafx.stage.Stage;
  */
 public class MainMenu extends Application {
     
-    GestionnaireSite _TabSite = new GestionnaireSite();
-    GestionnaireClient _TabClient = new GestionnaireClient();
-    GestionnaireServeur _TabServeur = new GestionnaireServeur();
-    GestionnaireUtilisateur _TabUtilisateur = new GestionnaireUtilisateur();
-    GestionnaireParametreService _TabParServ = new GestionnaireParametreService();
-    GestionnaireRole _TabRole = new GestionnaireRole(_username);
+    GestionnaireSite _TabSite;
+    GestionnaireClient _TabClient;
+    GestionnaireServeur _TabServeur;
+    GestionnaireUtilisateur _TabUtilisateur;
+    GestionnaireParametreService _TabParServ;
+    GestionnaireRole _TabRole;
     Scene _scene;
     int _activeTab;
     public static String _username;
+    public static Role _role;
     
     public MainMenu() {
-    	
+    	_TabSite = new GestionnaireSite();
+        _TabClient = new GestionnaireClient();
+        _TabServeur = new GestionnaireServeur();
+        _TabUtilisateur = new GestionnaireUtilisateur();
+        _TabParServ = new GestionnaireParametreService();
+        _TabRole = new GestionnaireRole();
     }
     
-    public MainMenu(String username) {
+    public MainMenu(String username, int id_role) throws SQLException {
     	_username = username;
+    	_role = new Role(id_role);
+    	_TabSite = new GestionnaireSite();
+        _TabClient = new GestionnaireClient();
+        _TabServeur = new GestionnaireServeur();
+        _TabUtilisateur = new GestionnaireUtilisateur();
+        _TabParServ = new GestionnaireParametreService();
+        _TabRole = new GestionnaireRole();
     }
    
     @Override
@@ -43,30 +61,23 @@ public class MainMenu extends Application {
         Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();
         Tab serveur = _TabServeur.getServeurTab();
-        Tab user = _TabUtilisateur.getUtilisateurTab();
         Tab servPar = _TabParServ.get_parservTab();
+        Tab user = _TabUtilisateur.getUtilisateurTab();
         Tab role = _TabRole.getRoleTab();
-        
-        _TabSite.set_username(_username);
+               
         _TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
-        _TabUtilisateur.createPane(primaryStage);
         _TabParServ.createPane(primaryStage);
-        _TabRole.createPane(primaryStage);
-       
+        
         client.setClosable(false);
         client.setContent(_TabClient.getClientPane());
         site.setContent(_TabSite.getSitePane());
         site.setClosable(false);
         serveur.setClosable(false);
         serveur.setContent(_TabServeur.getServeurPane());
-        user.setClosable(false);
-        user.setContent(_TabUtilisateur.getUtilisateurPane());
         servPar.setClosable(false);
         servPar.setContent(_TabParServ.get_pane());
-        role.setClosable(false);
-        role.setContent(_TabRole.getRolePane());
                    
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 650);
@@ -74,9 +85,23 @@ public class MainMenu extends Application {
         tabPane.getTabs().add(0, client);
         tabPane.getTabs().add(site);
         tabPane.getTabs().add(serveur);
-        tabPane.getTabs().add(user);
         tabPane.getTabs().add(servPar);
-        tabPane.getTabs().add(role);
+        
+        if(_role.get_utilisateur().equals("X")) {
+        	
+            _TabUtilisateur.createPane(primaryStage);
+            user.setClosable(false);
+            user.setContent(_TabUtilisateur.getUtilisateurPane());
+            tabPane.getTabs().add(user);
+        }
+
+        if(_role.get_droitRole().equals("X")) {
+        	
+            _TabRole.createPane(primaryStage);
+            role.setClosable(false);
+            role.setContent(_TabRole.getRolePane());
+            tabPane.getTabs().add(role);
+        }
         
         if(_activeTab == 1) {
         	tabPane.getSelectionModel().select(site);
@@ -95,6 +120,19 @@ public class MainMenu extends Application {
         if(_activeTab == 5 ) {
         	tabPane.getSelectionModel().select(role);
         }
+        
+        tabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
+                _TabClient.setDoubleClick();
+                try {
+					_TabSite.createPane(primaryStage);
+				} catch (ClassNotFoundException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
         
         _scene = new Scene(new VBox( tabPane));
         _scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

@@ -22,6 +22,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -51,7 +53,7 @@ public class MainLogin extends Application {
             public void handle(ActionEvent event) {
         		try {
 					if(connecter(txt.getText(), pwd.getText()) == true) {
-						MainMenu menu = new MainMenu(txt.getText());
+						MainMenu menu = new MainMenu(txt.getText(), getRole(txt.getText()));
 						menu.set_activeTab(0);
 						menu.start(primaryStage);
 					}
@@ -80,14 +82,21 @@ public class MainLogin extends Application {
             }
         });
         
+        Pane root = new Pane();
+        
+        root.addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
+            if (ev.getCode() == KeyCode.ENTER) {
+               btn.fire();
+               ev.consume(); 
+            }
+        });
+        
         lbl.setText("Nom d'utilisateur :");
         lbl2.setText("Mot de passe :");
         lbl.setScaleX(1.5);
         lbl.setScaleY(1.5);
         lbl2.setScaleX(1.5);
         lbl2.setScaleY(1.5);
-        
-        Pane root = new Pane();
         
         btn.setLayoutX(90);
         btn.setLayoutY(220);
@@ -114,7 +123,9 @@ public class MainLogin extends Application {
         root.getChildren().add(txt);
         root.getChildren().add(pwd);
         
+        
         Scene scene = new Scene(root, 420, 300);
+        txt.requestFocus();
         
         primaryStage.setTitle("Gestionnaire ProjexMedia");
         primaryStage.setScene(scene);
@@ -145,6 +156,18 @@ public class MainLogin extends Application {
 		else {
 			return false;
 		}
+    }
+    
+    public int getRole(String user) throws SQLException, ClassNotFoundException, IOException {
+    	
+    	Connection conn = SimpleDataSource.getConnection();
+
+		Statement stat = conn.createStatement();
+
+		ResultSet result = stat.executeQuery(
+				"SELECT pk_courriel, fk_id_role FROM utilisateur WHERE pk_courriel='" + user + "'");
+		result.next();
+		return result.getInt("fk_id_role");
     }
     
 }
