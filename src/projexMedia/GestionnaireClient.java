@@ -47,6 +47,9 @@ public class GestionnaireClient {
 	Client _test;
 	Tab _clientTab;
 	Pane _pane;
+	
+	public static boolean doubleClick;
+	public static String id_Client;
 
 	public ObservableList<Client> list = FXCollections.observableArrayList();
 
@@ -229,7 +232,10 @@ public class GestionnaireClient {
 					MainMenu menu = new MainMenu();
 					menu.set_activeTab(1);
 					try {
+						doubleClick = true;
+						id_Client = tableClient.getSelectionModel().getSelectedItem().getNomCompagnie();
 						menu.start(primaryStage);
+						doubleClick = false;
 					} catch (ClassNotFoundException | IOException | SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -532,6 +538,10 @@ public class GestionnaireClient {
 
 	public void setList(ObservableList<Client> list) {
 		this.list = list;
+	}
+	
+	public void setDoubleClick() {
+		doubleClick = false;
 	}
 
 	public void affichageClient() throws Exception {

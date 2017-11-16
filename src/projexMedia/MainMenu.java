@@ -5,9 +5,12 @@
  */
 package projexMedia;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -117,6 +120,19 @@ public class MainMenu extends Application {
         if(_activeTab == 5 ) {
         	tabPane.getSelectionModel().select(role);
         }
+        
+        tabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
+                _TabClient.setDoubleClick();
+                try {
+					_TabSite.createPane(primaryStage);
+				} catch (ClassNotFoundException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
         
         _scene = new Scene(new VBox( tabPane));
         _scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
