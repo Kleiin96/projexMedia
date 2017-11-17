@@ -602,6 +602,7 @@ public class GestionnaireService {
 	            stat.setString(3, "Modifier");
 	            stat.setString(4, NewE.get_Champs().get(j).get(4));
 	            stat.setInt(5, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
+	            //if modifier les autres parametre du servcie
 	            stat.executeUpdate();
             }
         } catch(SQLException ex){

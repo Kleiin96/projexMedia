@@ -10,14 +10,14 @@ import java.util.Properties;
 
 
 public class SimpleDataSource {
-	private static String url;
-	private static String username;
-	private static String password;
+	private static String url = "jdbc:mysql://127.0.0.1/projexmediabd";
+	private static String username= "root";
+	private static String password = "";
 	
 	public static void init(String fileName)
 	throws IOException, ClassNotFoundException
 	 {
-		Properties props = new Properties();
+		/*Properties props = new Properties();
 		FileInputStream in = new FileInputStream(fileName);
 		props.load(in);
 		
@@ -28,7 +28,7 @@ public class SimpleDataSource {
 		password = props.getProperty("jdbc.password");
 		if (password == null) password = "";
 		if (driver != null)
-		Class.forName(driver);
+		Class.forName(driver);*/
 	 }
 	
 	public static Connection getConnection() throws SQLException
