@@ -7,9 +7,6 @@ package projexMedia;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -63,15 +60,7 @@ public class MainMenu extends Application {
    
     @Override
     public void start(Stage primaryStage) throws Exception {
-    	
-    	Date date = new Date();
-    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    	
-    	System.out.println(date);
-    	
-    	
-    	
-    	
+
     	primaryStage.setTitle("Gestionnaire ProjexMedia");
         Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();

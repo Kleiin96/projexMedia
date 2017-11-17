@@ -1,11 +1,17 @@
 package projexMedia;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -50,6 +56,10 @@ public class GestionnaireHistorique {
 	
 	public void createPane(Stage primaryStage) throws Exception {
 		createListHisotrique();
+		
+		TextField tfRecherche = new TextField();
+		Button btnR =  new Button();
+		
 		ObservableList<String> histo = FXCollections.observableArrayList("Aujourd'hui", "Semaine", "Mois", "Année", "Toutes");
 		ComboBox<String> cbDate = new ComboBox<String>(histo);
 		cbDate.setValue("Aujourd'hui");
@@ -88,8 +98,53 @@ public class GestionnaireHistorique {
 		logTable.setItems(list);
 		
 		
+		cbDate.valueProperty().addListener(new ChangeListener<String>() {
+	        @Override public void changed(ObservableValue ov, String t, String t1) {
+	            try {
+					rechercheDateHistoriques(t1);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }    
+	    });
+		
+		tfRecherche.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				try {
+					rechercheHistorique(tfRecherche.getText(), cbDate.getValue());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		btnR.setText("Rechercher");
+		btnR.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					rechercheHistorique(tfRecherche.getText(), cbDate.getValue());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
 		cbDate.setLayoutX(100);
 		cbDate.setLayoutY(30);
+		tfRecherche.setLayoutX(400);
+		tfRecherche.setLayoutY(30);
+		btnR.setLayoutX(550);
+		btnR.setLayoutY(30);
 		logTable.setLayoutX(10);
 		logTable.setLayoutY(60);
 		
@@ -98,6 +153,8 @@ public class GestionnaireHistorique {
 		
 		
 		_pane.getChildren().add(cbDate);
+		_pane.getChildren().add(tfRecherche);
+		_pane.getChildren().add(btnR);
 		_pane.getChildren().add(logTable);
 		
 		
@@ -116,7 +173,7 @@ public class GestionnaireHistorique {
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
-					"WHERE date > CURRENT_DATE - INTERVAL '2' MONTH");
+					"WHERE date > CURRENT_DATE - INTERVAL '1' MONTH");
 
 			while (result.next()) {
 
@@ -191,8 +248,33 @@ public class GestionnaireHistorique {
 		}
 	}
 	
-	public void rechercheHistorique(String reche, int id)throws SQLException{
+	public void rechercheHistorique(String reche, String date)throws SQLException{
 		list.clear();
+		
+		String inter;
+		
+		if(date == "Aujourd'hui") {
+			
+			inter = "WHERE date > CURRENT_DATE";
+			
+		}else if(date == "Semaine"){
+			
+			inter = "WHERE date > CURRENT_DATE - INTERVAL '1' WEEK";
+			
+		}else if(date == "Mois") {
+			
+			inter = "WHERE date > CURRENT_DATE - INTERVAL '1' MONTH";
+			
+		}else if(date == "Année") {
+			
+			inter = "WHERE date > CURRENT_DATE - INTERVAL '1' YEAR";
+			
+		}else {
+			
+			inter = "";
+			
+		}
+		
 		Connection conn = SimpleDataSource.getConnection();
 
 		try {
@@ -204,7 +286,7 @@ public class GestionnaireHistorique {
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
-					"WHERE date > CURRENT_DATE - INTERVAL '2' MONTH and url =");
+					inter +" and s.url LIKE '%" + reche  +"%'");
 
 			while (result.next()) {
 

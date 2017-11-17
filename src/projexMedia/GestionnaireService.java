@@ -595,6 +595,7 @@ public class GestionnaireService {
     	            stat2.setInt(4, NewE.get_id_Site());
     	            stat2.setString(5, NewE.get_Champs().get(j).get(4));     
     	            stat2.executeUpdate();  
+    	            
             	}
             	java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());
 	            stat.setString(1, NewE.get_Champs().get(j).get(1));
@@ -604,6 +605,7 @@ public class GestionnaireService {
 	            stat.setInt(5, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
 	            //if modifier les autres parametre du servcie
 	            stat.executeUpdate();
+	            System.out.print(sql);
             }
         } catch(SQLException ex){
             ex.printStackTrace();
