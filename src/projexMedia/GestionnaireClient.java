@@ -11,11 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 
 import org.controlsfx.control.textfield.TextFields;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +27,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -31,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -326,13 +333,24 @@ public class GestionnaireClient {
 			@Override
 			public void handle(ActionEvent event) {
 				Client lul = new Client(tf.getText(), tf1.getText(), tf3.getText(), tf4.getText(), tf2.getText());
-				try {
-					lul.ajouterClient();
-					MainMenu test = new MainMenu();
-					test.start(primaryStage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (tf.getText().matches(".{1,128}")) {
+					try {
+						lul.ajouterClient();
+						MainMenu test = new MainMenu();
+						test.start(primaryStage);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs nom de la compagnie n'est pas valide. ( Ex: Google ) \nLa limite de charactère est de 128.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
+					}
 				}
 			}
 		});
@@ -352,6 +370,8 @@ public class GestionnaireClient {
 				
 			}
 		});
+		
+		setUpValidation(tf);
 
 		// premier champ
 		lbl.setLayoutX(50);
@@ -405,6 +425,7 @@ public class GestionnaireClient {
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setTitle("Ajouter Client");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -442,20 +463,32 @@ public class GestionnaireClient {
 			public void handle(ActionEvent event) {
 				Client lul = new Client(client.getIdClient(), tf.getText(), tf1.getText(), tf3.getText(), tf2.getText(),
 						tf4.getText());
-				try {
-					lul.modifierNomClient();
-					lul.modifierAdresseClient();
-					lul.modifierCourrielClient();
-					lul.modifierNomResponsableClient();
-					lul.modifierTelephoneClient();
-
-					
-					MainMenu test = new MainMenu();
-					test.start(primaryStage);
-
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (tf.getText().matches(".{1,128}")) {
+					try {
+						lul.modifierNomClient();
+						lul.modifierAdresseClient();
+						lul.modifierCourrielClient();
+						lul.modifierNomResponsableClient();
+						lul.modifierTelephoneClient();
+	
+						
+						MainMenu test = new MainMenu();
+						test.start(primaryStage);
+	
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs nom de la compagnie n'est pas valide. ( Ex: Google ) \nLa limite de charactère est de 128.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
+					}
 				}
 			}
 		});
@@ -474,6 +507,8 @@ public class GestionnaireClient {
 				}
 			}
 		});
+		
+		setUpValidation(tf);
 
 		// premier champ
 		lbl.setLayoutX(50);
@@ -528,6 +563,7 @@ public class GestionnaireClient {
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Modifier Client");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -743,5 +779,31 @@ public class GestionnaireClient {
 			conn.close();
 		}
 	}
+	
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{1,128}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 
 }
