@@ -15,6 +15,7 @@ import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -45,6 +47,11 @@ public class MainLogin extends Application {
         Label lbl2 = new Label();
         TextField txt = new TextField();
         PasswordField pwd = new PasswordField();
+        
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        
         
         btn.setText("Connexion");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -98,18 +105,18 @@ public class MainLogin extends Application {
         lbl2.setScaleX(1.5);
         lbl2.setScaleY(1.5);
         
-        btn.setLayoutX(90);
-        btn.setLayoutY(220);
-        btn2.setLayoutX(240);
-        btn2.setLayoutY(220);
-        lbl.setLayoutX(50);
-        lbl.setLayoutY(60);
-        lbl2.setLayoutX(45);
-        lbl2.setLayoutY(135);
-        txt.setLayoutX(215);
-        txt.setLayoutY(58);
-        pwd.setLayoutX(215);
-        pwd.setLayoutY(133);
+        btn.setLayoutX((bounds.getWidth()/2)-130);
+        btn.setLayoutY((bounds.getHeight()/2)+40);
+        btn2.setLayoutX((bounds.getWidth()/2)+20);
+        btn2.setLayoutY((bounds.getHeight()/2)+40);
+        lbl.setLayoutX((bounds.getWidth()/2)-150);
+        lbl.setLayoutY((bounds.getHeight()/2) -90);
+        lbl2.setLayoutX((bounds.getWidth()/2)-155);
+        lbl2.setLayoutY((bounds.getHeight()/2)-20);
+        txt.setLayoutX((bounds.getWidth()/2)+15);
+        txt.setLayoutY((bounds.getHeight()/2) -92);
+        pwd.setLayoutX((bounds.getWidth()/2)+15);
+        pwd.setLayoutY((bounds.getHeight()/2)-20);
         
         btn.setMinHeight(35);
         btn.setMinWidth(100);
@@ -123,13 +130,16 @@ public class MainLogin extends Application {
         root.getChildren().add(txt);
         root.getChildren().add(pwd);
         
-        
-        Scene scene = new Scene(root, 420, 300);
+        Scene scene = new Scene(root, 420, 350);
         txt.requestFocus();
         
         primaryStage.setTitle("Gestionnaire ProjexMedia");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

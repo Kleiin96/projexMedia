@@ -11,8 +11,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -326,7 +330,7 @@ public class GestionnaireSite {
 
 	public void AjouterSite(Stage primaryStage) throws SQLException {
 
-		ArrayList<String> possibleClient = new ArrayList<String>();
+		ObservableList<String> possibleClient = FXCollections.observableArrayList();
 		ObservableList<String> options = FXCollections.observableArrayList();
 
 		Connection conn = SimpleDataSource.getConnection();
@@ -349,6 +353,7 @@ public class GestionnaireSite {
 		} finally {
 			conn.close();
 		}
+		
 
 		// bouton
 		Button btnAjouter = new Button("Ajouter");
@@ -357,8 +362,8 @@ public class GestionnaireSite {
 		// textField
 		ComboBox<String> cmbServeur = new ComboBox<String>(options);
 		cmbServeur.setTooltip(new Tooltip());
-		TextField tfClient = new TextField();
-		TextFields.bindAutoCompletion(tfClient, possibleClient);
+		ComboBox<String> cmbClient = new ComboBox<String>(possibleClient);
+		cmbClient.setTooltip(new Tooltip());
 		TextField tfUrl = new TextField();
 
 		// label
@@ -371,12 +376,13 @@ public class GestionnaireSite {
 			@Override
 			public void handle(ActionEvent event) {
 
+				if (tfUrl.getText().matches(".{1,512}")) {
 					try {
 						Connection conn = SimpleDataSource.getConnection();
 						Statement stat = conn.createStatement();
 
 						ResultSet result = stat.executeQuery(
-								"SELECT id_client FROM client WHERE nom_compagnie = '" + tfClient.getText() + "'");
+								"SELECT id_client FROM client WHERE nom_compagnie = '" + cmbClient.getValue() + "'");
 						result.next();
 						int client = result.getInt("id_client");
 
@@ -411,7 +417,18 @@ public class GestionnaireSite {
 							e.printStackTrace();
 						}
 					}
+		        } 
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs url n'est pas valide. ( Ex: www.google.com ) \nLa limite de charactère est de 512.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
+					}
 				}
+					
+			}
 		});
 
 		btnCancel.setOnAction(new EventHandler<ActionEvent>() {
@@ -431,6 +448,8 @@ public class GestionnaireSite {
 				}
 			}
 		});
+		
+		setUpValidation(tfUrl);
 
 		// panel
 		Pane root = new Pane();
@@ -444,8 +463,8 @@ public class GestionnaireSite {
 		// deuxieme champ
 		lbl1.setLayoutX(50);
 		lbl1.setLayoutY(120);
-		tfClient.setLayoutX(200);
-		tfClient.setLayoutY(120);
+		cmbClient.setLayoutX(200);
+		cmbClient.setLayoutY(120);
 
 		// troisieme champ
 		lbl2.setLayoutX(50);
@@ -470,7 +489,7 @@ public class GestionnaireSite {
 		root.getChildren().add(lbl1);
 		root.getChildren().add(lbl2);
 		root.getChildren().add(cmbServeur);
-		root.getChildren().add(tfClient);
+		root.getChildren().add(cmbClient);
 		root.getChildren().add(tfUrl);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnCancel);
@@ -481,11 +500,12 @@ public class GestionnaireSite {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
+		new ComboBoxAutoComplete<String>(cmbClient);
 	}
 
 	public void ModifierSite(Stage primaryStage, Site site) throws SQLException {
 
-		ArrayList<String> possibleClient = new ArrayList<String>();
+		ObservableList<String> possibleClient = FXCollections.observableArrayList();
 		ObservableList<String> options = FXCollections.observableArrayList();
 
 		// bouton
@@ -495,8 +515,8 @@ public class GestionnaireSite {
 		// textField
 		ComboBox<String> cmbServeur = new ComboBox<String>(options);
 		cmbServeur.setTooltip(new Tooltip());
-		TextField tfClient = new TextField();
-		TextFields.bindAutoCompletion(tfClient, possibleClient);
+		ComboBox<String> cmbClient = new ComboBox<String>(possibleClient);
+		cmbClient.setTooltip(new Tooltip());
 		TextField tfUrl = new TextField();
 
 		// label
@@ -526,7 +546,7 @@ public class GestionnaireSite {
 								+ site.getIdSite() + "'");
 				result.next();
 				cmbServeur.setValue(result.getString("nom_serveur"));
-				tfClient.setText(result.getString("nom_compagnie"));
+				cmbClient.setValue(result.getString("nom_compagnie"));
 				tfUrl.setText(result.getString("url"));
 
 		} finally {
@@ -537,45 +557,55 @@ public class GestionnaireSite {
 
 			@Override
 			public void handle(ActionEvent event) {
-
-				try {
-					Connection conn = SimpleDataSource.getConnection();
-					Statement stat = conn.createStatement();
-
-					ResultSet result = stat.executeQuery(
-							"SELECT id_client FROM client WHERE nom_compagnie = '" + tfClient.getText() + "'");
-					result.next();
-					int client = result.getInt("id_client");
-
-					result = stat.executeQuery(
-							"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
-					result.next();
-					int serveur = result.getInt("id_serveur");
-
-					stat.execute("UPDATE site SET url='" + tfUrl.getText() + "', fk_id_serveur=" + serveur + ", fk_id_client=" + client + " WHERE id_site="
-							+ site.getIdSite());
-
-					MainMenu menu = new MainMenu();
-					menu.set_activeTab(1);
-					menu.start(primaryStage);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
+				if (tfUrl.getText().matches(".{1,512}")) {
 					try {
-						conn.close();
+						Connection conn = SimpleDataSource.getConnection();
+						Statement stat = conn.createStatement();
+	
+						ResultSet result = stat.executeQuery(
+								"SELECT id_client FROM client WHERE nom_compagnie = '" + cmbClient.getValue() + "'");
+						result.next();
+						int client = result.getInt("id_client");
+	
+						result = stat.executeQuery(
+								"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
+						result.next();
+						int serveur = result.getInt("id_serveur");
+	
+						stat.execute("UPDATE site SET url='" + tfUrl.getText() + "', fk_id_serveur=" + serveur + ", fk_id_client=" + client + " WHERE id_site="
+								+ site.getIdSite());
+	
+						MainMenu menu = new MainMenu();
+						menu.set_activeTab(1);
+						menu.start(primaryStage);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs url n'est pas valide. ( Ex: www.google.com ) \nLa limite de charactère est de 512.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
 					}
 				}
 			}
@@ -611,8 +641,8 @@ public class GestionnaireSite {
 		// deuxieme champ
 		lbl1.setLayoutX(50);
 		lbl1.setLayoutY(120);
-		tfClient.setLayoutX(200);
-		tfClient.setLayoutY(120);
+		cmbClient.setLayoutX(200);
+		cmbClient.setLayoutY(120);
 
 		// troisieme champ
 		lbl2.setLayoutX(50);
@@ -637,7 +667,7 @@ public class GestionnaireSite {
 		root.getChildren().add(lbl1);
 		root.getChildren().add(lbl2);
 		root.getChildren().add(cmbServeur);
-		root.getChildren().add(tfClient);
+		root.getChildren().add(cmbClient);
 		root.getChildren().add(tfUrl);
 		root.getChildren().add(btnModifier);
 		root.getChildren().add(btnCancel);
@@ -648,6 +678,7 @@ public class GestionnaireSite {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
+		new ComboBoxAutoComplete<String>(cmbClient);
 	}
 
 	public void ArchiverSite(Stage primaryStage, Site site) throws SQLException {
@@ -911,5 +942,30 @@ public class GestionnaireSite {
 		}
 	}
 
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{1,512}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 	
 }
