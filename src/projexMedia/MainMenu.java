@@ -60,7 +60,6 @@ public class MainMenu extends Application {
    
     @Override
     public void start(Stage primaryStage) throws Exception {
-
     	primaryStage.setTitle("Gestionnaire ProjexMedia");
         Tab client = _TabClient.getClientTab();
         Tab site = _TabSite.getSiteTab();
