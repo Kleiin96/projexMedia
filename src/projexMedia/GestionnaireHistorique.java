@@ -1,5 +1,6 @@
 package projexMedia;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import java.sql.Connection;
@@ -15,8 +16,10 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.sql.Statement;
@@ -138,6 +141,33 @@ public class GestionnaireHistorique {
 			}
 		});
 		
+		logTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					Node node = ((Node) event.getTarget()).getParent();
+					TableRow<?> row;
+					if (node instanceof TableRow) {
+						row = (TableRow<?>) node;
+					} else {
+						// clicking on text part
+						row = (TableRow<?>) node.getParent();
+					}
+					// System.out.println(row.getItem());
+					try {
+						GestionnaireService service = new GestionnaireService();
+						service.afficherService(primaryStage, logTable.getSelectionModel().getSelectedItem().getIdSite());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
 		
 		cbDate.setLayoutX(100);
 		cbDate.setLayoutY(30);
@@ -167,7 +197,7 @@ public class GestionnaireHistorique {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom\r\n" + 
+			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom, v.fk_id_site\r\n" + 
 					"FROM `valeurparametre` v join site s ON v.fk_id_site = s.id_site \r\n" + 
 					"JOIN utilisateur u ON v.fk_courriel = u.pk_courriel \r\n" + 
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
@@ -180,7 +210,7 @@ public class GestionnaireHistorique {
 				
 				list.add(new Historiques(result.getString("url"), result.getString("nom_type"),
 						result.getString("nom_parametre"), result.getString("valeur"),
-						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom")));
+						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom"), result.getInt("fk_id_site")));
 
 			}
 		}
@@ -225,7 +255,7 @@ public class GestionnaireHistorique {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom\r\n" + 
+			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom, v.fk_id_site\r\n" + 
 					"FROM `valeurparametre` v join site s ON v.fk_id_site = s.id_site \r\n" + 
 					"JOIN utilisateur u ON v.fk_courriel = u.pk_courriel \r\n" + 
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
@@ -238,7 +268,7 @@ public class GestionnaireHistorique {
 				
 				list.add(new Historiques(result.getString("url"), result.getString("nom_type"),
 						result.getString("nom_parametre"), result.getString("valeur"),
-						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom")));
+						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom"), result.getInt("fk_id_site")));
 
 			}
 		}
@@ -280,7 +310,7 @@ public class GestionnaireHistorique {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom\r\n" + 
+			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom, v.fk_id_site\r\n" + 
 					"FROM `valeurparametre` v join site s ON v.fk_id_site = s.id_site \r\n" + 
 					"JOIN utilisateur u ON v.fk_courriel = u.pk_courriel \r\n" + 
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
@@ -293,7 +323,7 @@ public class GestionnaireHistorique {
 				
 				list.add(new Historiques(result.getString("url"), result.getString("nom_type"),
 						result.getString("nom_parametre"), result.getString("valeur"),
-						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom")));
+						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom"), result.getInt("fk_id_site")));
 
 			}
 		}
