@@ -41,6 +41,9 @@ public class MainLogin extends Application {
     @Override
     public void start(Stage primaryStage) {
        
+//    	GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//    	int width = gd.getDisplayMode().getWidth();
+//    	int height = gd.getDisplayMode().getHeight();
         Button btn = new Button();
         Button btn2 = new Button();
         Label lbl = new Label();

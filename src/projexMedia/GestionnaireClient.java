@@ -591,7 +591,6 @@ public class GestionnaireClient {
 
 			while (result.next()) {
 
-				
 				list.add(new Client(Integer.parseInt(result.getString("id_client")), result.getString("nom_compagnie"),
 						result.getString("telephone"), result.getString("personne_responsable"),
 						result.getString("adresse"), result.getString("courriel")));

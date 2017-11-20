@@ -158,6 +158,9 @@ public class MainMenu extends Application {
         client.getStyleClass().add("Tab");      
         serveur.getStyleClass().add("Tab");
         user.getStyleClass().add("Tab");
+        role.getStyleClass().add("Tab");
+        servPar.getStyleClass().add("Tab");
+        historique.getStyleClass().add("Tab");
         primaryStage.setScene(_scene);
         primaryStage.show();
         javafx.geometry.Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
