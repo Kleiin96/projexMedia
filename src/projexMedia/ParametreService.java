@@ -137,7 +137,7 @@ public class ParametreService {
 	
 	public ObservableList<String> listNom() throws SQLException{
 		
-		ObservableList<String> list = FXCollections.observableArrayList();;
+		ObservableList<String> list = FXCollections.observableArrayList();
 		
 		Connection conn = SimpleDataSource.getConnection();
 		

@@ -35,7 +35,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class GestionnaireServeur {
-	Serveur _test;
+	
 	Tab _serveurTab;
 	Pane _pane;
 
@@ -50,7 +50,7 @@ public class GestionnaireServeur {
 	}
 	
 	public GestionnaireServeur() {
-		_test = new Serveur();
+		
 		_serveurTab = new Tab("Serveur");
 		_pane = new Pane();
 	}

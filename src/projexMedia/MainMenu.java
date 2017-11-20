@@ -30,6 +30,7 @@ public class MainMenu extends Application {
     GestionnaireUtilisateur _TabUtilisateur;
     GestionnaireParametreService _TabParServ;
     GestionnaireRole _TabRole;
+    GestionnaireHistorique _TabHistorique;
     Scene _scene;
     int _activeTab;
     public static String _username;
@@ -42,6 +43,7 @@ public class MainMenu extends Application {
         _TabUtilisateur = new GestionnaireUtilisateur();
         _TabParServ = new GestionnaireParametreService();
         _TabRole = new GestionnaireRole();
+        _TabHistorique = new GestionnaireHistorique();
     }
     
     public MainMenu(String username, int id_role) throws SQLException {
@@ -53,6 +55,7 @@ public class MainMenu extends Application {
         _TabUtilisateur = new GestionnaireUtilisateur();
         _TabParServ = new GestionnaireParametreService();
         _TabRole = new GestionnaireRole();
+        _TabHistorique = new GestionnaireHistorique();
     }
    
     @Override
@@ -64,11 +67,13 @@ public class MainMenu extends Application {
         Tab servPar = _TabParServ.get_parservTab();
         Tab user = _TabUtilisateur.getUtilisateurTab();
         Tab role = _TabRole.getRoleTab();
+        Tab historique =_TabHistorique.get_historiqueTab();
                
         _TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
         _TabParServ.createPane(primaryStage);
+        
         
         client.setClosable(false);
         client.setContent(_TabClient.getClientPane());
@@ -78,6 +83,7 @@ public class MainMenu extends Application {
         serveur.setContent(_TabServeur.getServeurPane());
         servPar.setClosable(false);
         servPar.setContent(_TabParServ.get_pane());
+        
                    
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(750, 650);
@@ -86,6 +92,8 @@ public class MainMenu extends Application {
         tabPane.getTabs().add(site);
         tabPane.getTabs().add(serveur);
         tabPane.getTabs().add(servPar);
+        
+        
         
         if(_role.get_utilisateur().equals("X")) {
         	
@@ -101,6 +109,13 @@ public class MainMenu extends Application {
             role.setClosable(false);
             role.setContent(_TabRole.getRolePane());
             tabPane.getTabs().add(role);
+        }
+        
+        if(_role.get_historique().equals("X")) {
+        	_TabHistorique.createPane(primaryStage);
+        	historique.setClosable(false);
+            historique.setContent(_TabHistorique.get_pane());
+            tabPane.getTabs().add(historique);
         }
         
         if(_activeTab == 1) {
@@ -119,6 +134,9 @@ public class MainMenu extends Application {
         }
         if(_activeTab == 5 ) {
         	tabPane.getSelectionModel().select(role);
+        }
+        if(_activeTab == 6 ) {
+        	tabPane.getSelectionModel().select(historique);
         }
         
         tabPane.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -178,8 +196,8 @@ public class MainMenu extends Application {
 	/**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         launch(args);
-    }
+    }*/
     
 }

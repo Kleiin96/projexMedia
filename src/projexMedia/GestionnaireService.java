@@ -560,9 +560,10 @@ public class GestionnaireService {
                     "INSERT INTO valeurparametre (valeur, date, action, actif, fk_id_service,fk_id_site,fk_courriel)"
                     + " VALUES (?, ?, 'Ajouter', 1, ?, ?, ?)");
             for(int j = 0; j < e.get_Champs().size();j++) {
-            	java.sql.Date sql = new java.sql.Date(formatter.parse(e.get_Champs().get(j).get(3)).getTime());
+            	/*java.sql.Date sql = new java.sql.Date(formatter.parse(e.get_Champs().get(j).get(3)).getTime());*/
+            	java.sql.Date sql= new java.sql.Date(date.getTime());
 	            stat.setString(1, e.get_Champs().get(j).get(1));
-	            stat.setDate(2, sql);
+	            stat.setDate(2, sql );
 	            stat.setInt(3, Integer.parseInt(e.get_Champs().get(j).get(2)));
 	            stat.setInt(4, e.get_id_Site());
 	            stat.setString(5, e.get_Champs().get(j).get(4));     
@@ -580,30 +581,74 @@ public class GestionnaireService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         Connection conn = SimpleDataSource.getConnection();
         try {
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
             PreparedStatement stat = conn.prepareStatement(
                     "UPDATE valeurparametre SET valeur = ?, date = ?, action = ?, fk_courriel = ?"
                     + " WHERE id_valeurParametre = ?");
             for(int j = 0; j < NewE.get_Champs().size();j++) {
+            	
+            	
+            	
+            	
+            	
+            	
             	if(Integer.parseInt(NewE.get_Champs().get(j).get(5)) == 0) {
             		PreparedStatement stat2 = conn.prepareStatement(
                             "INSERT INTO valeurparametre (valeur, date, action, actif, fk_id_service,fk_id_site,fk_courriel)"
                             + " VALUES (?, ?, 'Ajouter', 1, ?, ?, ?)");
-            		java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());
+            		/*java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());*/
+            		java.sql.Date sql= new java.sql.Date(date.getTime());
     	            stat2.setString(1, NewE.get_Champs().get(j).get(1));
     	            stat2.setDate(2, sql);
     	            stat2.setInt(3, Integer.parseInt(NewE.get_Champs().get(j).get(2)));
     	            stat2.setInt(4, NewE.get_id_Site());
     	            stat2.setString(5, NewE.get_Champs().get(j).get(4));     
     	            stat2.executeUpdate();  
+    	            
             	}
-            	java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());
+            	/*java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());*/
+            	java.sql.Date sql= new java.sql.Date(date.getTime());
 	            stat.setString(1, NewE.get_Champs().get(j).get(1));
 	            stat.setDate(2, sql);
 	            stat.setString(3, "Modifier");
 	            stat.setString(4, NewE.get_Champs().get(j).get(4));
 	            stat.setInt(5, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
-	            stat.executeUpdate();
+	            
+	            
+	            String verf = new String();
+            	//vérification de la modification
+            	Statement statV = conn.createStatement();
+
+    			ResultSet result = statV.executeQuery("SELECT valeur From valeurparametre where id_valeurParametre=" +  Integer.parseInt(NewE.get_Champs().get(j).get(5)));
+
+    			while (result.next()) {
+
+    				verf = result.getString("valeur");
+
+    			}
+	            
+	            
+    			System.out.print(j + verf + NewE.get_Champs().get(j).get(1) );
+	            
+	            
+	            //if modifier les autres parametre du servcie
+	            if (NewE.get_Champs().get(j).get(1).equals(verf) == false) {
+	            	stat.executeUpdate();
+	            }
+	            
             }
+            
+            
+            
         } catch(SQLException ex){
             ex.printStackTrace();
             
