@@ -746,7 +746,6 @@ public class GestionnaireService {
 				for(int j = 0; j < textfields.size();j++) {
 					_tableChamps.get(j).add(1,textfields.get(j).getText());
 				}
-				
 					try {
 						ajouterService(new Service(typeService,nom_type,_tableChamps,true,_site.getIdSite()));
 						_tableChamps = new ArrayList<ArrayList<String>>();
