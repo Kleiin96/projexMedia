@@ -90,7 +90,7 @@ public class GestionnaireService {
 		
 		String sql = "SELECT valeurparametre.fk_id_site, ta_service.fk_id_typeService, valeurparametre.actif, typeservice.nom_type FROM valeurparametre,ta_service,typeservice,parametreservice "
 				+ "WHERE ta_service.id_service = valeurparametre.fk_id_service AND ta_service.fk_id_typeService = typeservice.id_typeService AND "
-				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND valeurparametre.fk_id_site =" + id_Site + " GROUP BY ta_service.fk_id_typeService";
+				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND valeurparametre.historique=1 AND valeurparametre.fk_id_site =" + id_Site + " GROUP BY ta_service.fk_id_typeService";
 		
 		try {
 			PreparedStatement stat = conn.prepareStatement(sql);
@@ -105,7 +105,7 @@ public class GestionnaireService {
 	    				+ "FROM valeurparametre,ta_service,typeservice,parametreservice "
 	    				+ "WHERE ta_service.id_service = valeurparametre.fk_id_service AND "
 	    				+ "ta_service.fk_id_typeService = typeservice.id_typeService AND "
-	    				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND "
+	    				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND valeurparametre.historique=1 AND "
 	    				+ "ta_service.fk_id_typeService =" + rs.getInt("fk_id_typeService") + " AND valeurparametre.fk_id_site =" + id_Site + " ORDER BY ta_service.id_service";
 	        	
 	        	PreparedStatement stat2 = conn.prepareStatement(sql2);
@@ -145,7 +145,7 @@ public class GestionnaireService {
 		
 		String sql = "SELECT valeurparametre.fk_id_site, ta_service.fk_id_typeService, valeurparametre.actif, typeservice.nom_type FROM valeurparametre,ta_service,typeservice,parametreservice "
 				+ "WHERE ta_service.id_service = valeurparametre.fk_id_service AND ta_service.fk_id_typeService = typeservice.id_typeService AND "
-				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=0 AND valeurparametre.fk_id_site =" + id_Site + " GROUP BY ta_service.fk_id_typeService";
+				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=0 AND valeurparametre.historique=1 AND valeurparametre.fk_id_site =" + id_Site + " GROUP BY ta_service.fk_id_typeService";
 		
 		try {
 			PreparedStatement stat = conn.prepareStatement(sql);
@@ -160,7 +160,7 @@ public class GestionnaireService {
 	    				+ "FROM valeurparametre,ta_service,typeservice,parametreservice "
 	    				+ "WHERE ta_service.id_service = valeurparametre.fk_id_service AND "
 	    				+ "ta_service.fk_id_typeService = typeservice.id_typeService AND "
-	    				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=0 AND "
+	    				+ "ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=0 AND valeurparametre.historique=1 AND "
 	    				+ "ta_service.fk_id_typeService =" + rs.getInt("fk_id_typeService") + " AND valeurparametre.fk_id_site =" + id_Site;
 	        	
 	        	PreparedStatement stat2 = conn.prepareStatement(sql2);
@@ -592,8 +592,11 @@ public class GestionnaireService {
         	
         	
             PreparedStatement stat = conn.prepareStatement(
-                    "UPDATE valeurparametre SET valeur = ?, date = ?, action = ?, fk_courriel = ?"
+                    "UPDATE valeurparametre SET historique = 0"
                     + " WHERE id_valeurParametre = ?");
+            
+            
+            
             for(int j = 0; j < NewE.get_Champs().size();j++) {
             	
             	
@@ -614,37 +617,56 @@ public class GestionnaireService {
     	            stat2.setString(5, NewE.get_Champs().get(j).get(4));     
     	            stat2.executeUpdate();  
     	            
-            	}
-            	/*java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());*/
-            	java.sql.Date sql= new java.sql.Date(date.getTime());
-	            stat.setString(1, NewE.get_Champs().get(j).get(1));
-	            stat.setDate(2, sql);
-	            stat.setString(3, "Modifier");
-	            stat.setString(4, NewE.get_Champs().get(j).get(4));
-	            stat.setInt(5, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
-	            
-	            
-	            String verf = new String();
-            	//vérification de la modification
-            	Statement statV = conn.createStatement();
-
-    			ResultSet result = statV.executeQuery("SELECT valeur From valeurparametre where id_valeurParametre=" +  Integer.parseInt(NewE.get_Champs().get(j).get(5)));
-
-    			while (result.next()) {
-
-    				verf = result.getString("valeur");
-
-    			}
-	            
-	            
-    			System.out.print(j + verf + NewE.get_Champs().get(j).get(1) );
-	            
-	            
-	            //if modifier les autres parametre du servcie
-	            if (NewE.get_Champs().get(j).get(1).equals(verf) == false) {
-	            	stat.executeUpdate();
+            	}else {
+	            	/*java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());*/
+	            	java.sql.Date sql= new java.sql.Date(date.getTime());
+		           /* stat.setString(1, NewE.get_Champs().get(j).get(1));
+		            stat.setDate(2, sql);
+		            stat.setString(3, "Modifier");
+		            stat.setString(4, NewE.get_Champs().get(j).get(4));*/
+		            stat.setInt(1, Integer.parseInt(NewE.get_Champs().get(j).get(5)));
+		            
+		            
+		            
+		            
+		             PreparedStatement stat3 = conn.prepareStatement(
+	                            "INSERT INTO valeurparametre (valeur, date, action, actif, fk_id_service,fk_id_site,fk_courriel)"
+	                            + " VALUES (?, ?, 'modifier', 1, ?, ?, ?)");
+	            		/*java.sql.Date sql = new java.sql.Date(formatter.parse(NewE.get_Champs().get(j).get(3)).getTime());*/
+	            		//java.sql.Date sql= new java.sql.Date(date.getTime());
+	    	            stat3.setString(1, NewE.get_Champs().get(j).get(1));
+	    	            stat3.setDate(2, sql);
+	    	            stat3.setInt(3, Integer.parseInt(NewE.get_Champs().get(j).get(2)));
+	    	            stat3.setInt(4, NewE.get_id_Site());
+	    	            stat3.setString(5, NewE.get_Champs().get(j).get(4));     
+	    	            
+		             
+		             
+		            
+		            
+		            String verf = new String();
+	            	//vérification de la modification
+	            	Statement statV = conn.createStatement();
+	
+	    			ResultSet result = statV.executeQuery("SELECT valeur From valeurparametre where id_valeurParametre=" +  Integer.parseInt(NewE.get_Champs().get(j).get(5)));
+	
+	    			while (result.next()) {
+	
+	    				verf = result.getString("valeur");
+	
+	    			}
+		            
+		            
+	    			//System.out.print(j + verf + NewE.get_Champs().get(j).get(1) );
+		            
+		            
+		            //if modifier les autres parametre du servcie
+		            if (NewE.get_Champs().get(j).get(1).equals(verf) == false) {
+		            	stat.executeUpdate();
+		            	stat3.executeUpdate();  
+		            }
+		            
 	            }
-	            
             }
             
             

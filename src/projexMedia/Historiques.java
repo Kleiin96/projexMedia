@@ -10,6 +10,7 @@ public class Historiques {
 	String action;
 	String prenom;
 	String nom;
+	int idSite;
 	
 	
 	public Historiques() {
@@ -21,9 +22,10 @@ public class Historiques {
 		this.action = "";
 		this.prenom = "";
 		this.nom = "";
+		this.idSite= 0;
 	}
 	public Historiques(String url, String type, String parametre, String valeur, String date, String action,
-			String prenom, String nom) {
+			String prenom, String nom, int id) {
 		
 		this.url = url;
 		this.type = type;
@@ -33,6 +35,13 @@ public class Historiques {
 		this.action = action;
 		this.prenom = prenom;
 		this.nom = nom;
+		this.idSite= id;
+	}
+	public int getIdSite() {
+		return idSite;
+	}
+	public void setIdSite(int idSite) {
+		this.idSite = idSite;
 	}
 	public String getUrl() {
 		return url;
