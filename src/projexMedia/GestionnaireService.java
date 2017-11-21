@@ -930,24 +930,39 @@ public class GestionnaireService {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				for(int j = 0; j < textfields.size();j++) {
-					_tableChamps.get(j).add(1,textfields.get(j).getText());
-				}
-				
-					try {
-						modifierService(Integer.parseInt(id),new Service(typeService,nom_type,_tableChamps,true,_site.getIdSite()));
-						_tableChamps = new ArrayList<ArrayList<String>>();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					boolean empty = true;
+					
+					for(int j = 0; j < textfields.size();j++) {
+						_tableChamps.get(j).add(1,textfields.get(j).getText());
+						if(textfields.get(j).getText().matches(".{1,512}") && empty == true) {
+							empty = false;
+						}
 					}
-					GestionnaireService service = new GestionnaireService();
-					try {
-						service.afficherService(primaryStage, _site.getIdSite());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					
+					if(empty == false) {
+						try {
+							modifierService(Integer.parseInt(id),new Service(typeService,nom_type,_tableChamps,true,_site.getIdSite()));
+							_tableChamps = new ArrayList<ArrayList<String>>();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						GestionnaireService service = new GestionnaireService();
+						try {
+							service.afficherService(primaryStage, _site.getIdSite());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Veuillez remplir au moins un champ et respecter \nla limite de charactère de 512.");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
 					}
 			}
 		});
@@ -989,6 +1004,7 @@ public class GestionnaireService {
 				lbl2 = new Label(result2.getString("nom_type"));
 				Label lbl1 = new Label(result2.getString("nom_parametre"));
 				TextField tf = new TextField();
+				setUpValidation(tf);
 				lbl1.setLayoutX(20);
 				lbl1.setLayoutY(nbChamps * 40 + 60);
 				tf.setLayoutX(160);
@@ -1060,6 +1076,7 @@ public class GestionnaireService {
 		// create window
 		Scene scene = new Scene(root, 450, 370);
 		primaryStage.setTitle("Ajouter Service");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
