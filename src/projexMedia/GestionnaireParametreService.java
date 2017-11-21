@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -288,15 +291,27 @@ public class GestionnaireParametreService {
 
 					@Override
 					public void handle(ActionEvent event) {
-						ParametreService lul = new ParametreService(1,tf.getText());
-						
-						try {
-							lul.ajouterParametre();
-							gestionParametre(primaryStage);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if (tf.getText().matches(".{1,256}")) {
+							ParametreService lul = new ParametreService(1,tf.getText());
+							
+							try {
+								lul.ajouterParametre();
+								gestionParametre(primaryStage);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
+						else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Message d'erreur");
+							alert.setHeaderText("Le champs Nom du paramètre n'est pas valide. ( Ex: Url ) et/ou \nLa limite de charactère de 256 est dépassée.");
+							Optional<ButtonType> result = alert.showAndWait();
+							if (result.get() == ButtonType.OK) {
+								
+							}
+						}
+						
 					}
 				});
 
@@ -314,6 +329,8 @@ public class GestionnaireParametreService {
 						
 					}
 				});
+				
+				setUpValidation(tf);
 
 				// premier champ
 				lbl.setLayoutX(50);
@@ -340,6 +357,7 @@ public class GestionnaireParametreService {
 				// create window
 				Scene scene = new Scene(root, 450, 400);
 				primaryStage.setTitle("Ajouter Paramètre de Service");
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.show();
 	}
@@ -370,16 +388,28 @@ public class GestionnaireParametreService {
 
 			@Override
 			public void handle(ActionEvent event) {
-				TypeService lul = new TypeService();
-				try {
-					lul.ajouterTypeService(tf.getText(),tf1.getText());
-					MainMenu test = new MainMenu();
-					test.set_activeTab(4);
-					test.start(primaryStage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (tf.getText().matches(".{1,256}") && tf1.getText().matches(".{0,256}")) {
+					TypeService lul = new TypeService();
+					try {
+						lul.ajouterTypeService(tf.getText(),tf1.getText());
+						MainMenu test = new MainMenu();
+						test.set_activeTab(4);
+						test.start(primaryStage);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs Nom du type de service n'est pas valide. ( Ex: DB ) et/ou \nLa limite de charactère de 256 est dépassée.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
+					}
+				}
+				
 			}
 		});
 
@@ -398,6 +428,8 @@ public class GestionnaireParametreService {
 				
 			}
 		});
+		
+		setUpValidation(tf);
 
 		// premier champ
 		lbl.setLayoutX(50);
@@ -433,6 +465,7 @@ public class GestionnaireParametreService {
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Ajouter Paramètre de Service");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -472,34 +505,36 @@ public class GestionnaireParametreService {
 	
 						@Override
 						public void handle(ActionEvent event) {
-							try {
-								Connection conn = SimpleDataSource.getConnection();
-								Statement stat = conn.createStatement();
-								if(cbParametre.getValue() != null) {	
-									ResultSet result = stat
-											.executeQuery("SELECT id_parametreService FROM parametreservice WHERE nom_parametre = '" + cbParametre.getValue() + "'");
-									result.next();
-									int idPara = result.getInt("id_parametreService");
-									
-									type.ajouterparametreService(idPara);
-									afficherParametre(primaryStage, type);
+							if (!cbParametre.getSelectionModel().isEmpty()) {
+								try {
+									Connection conn = SimpleDataSource.getConnection();
+									Statement stat = conn.createStatement();
+									if(cbParametre.getValue() != null) {	
+										ResultSet result = stat
+												.executeQuery("SELECT id_parametreService FROM parametreservice WHERE nom_parametre = '" + cbParametre.getValue() + "'");
+										result.next();
+										int idPara = result.getInt("id_parametreService");
+										
+										type.ajouterparametreService(idPara);
+										afficherParametre(primaryStage, type);
+									}
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
 							}
+							else {
+								Alert alert = new Alert(AlertType.ERROR);
+								alert.setTitle("Message d'erreur");
+								alert.setHeaderText("Veuillez choisir un paramètre.");
+								Optional<ButtonType> result = alert.showAndWait();
+								if (result.get() == ButtonType.OK) {
+									
+								}
+							}
+							
 						}
 					});
-				//else {
-					
-					/*Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Message d'erreur");
-					alert.setHeaderText("Veuillez choisir un paramettre?");
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.get() == ButtonType.OK) {   //lul
-						 
-					} */
-				//}
 
 				btn1.setOnAction(new EventHandler<ActionEvent>() {//
 
@@ -569,15 +604,27 @@ public class GestionnaireParametreService {
 
 					@Override
 					public void handle(ActionEvent event) {
-						par.setNomParametre(tf.getText());
-						
-						try {
-							par.modifierParametre();
-							gestionParametre(primaryStage);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if (tf.getText().matches(".{1,256}")) {
+							par.setNomParametre(tf.getText());
+							
+							try {
+								par.modifierParametre();
+								gestionParametre(primaryStage);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
+						else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Message d'erreur");
+							alert.setHeaderText("Le champs Nom du paramètre n'est pas valide. ( Ex: Url ) et/ou \\nLa limite de charactère de 256 est dépassée.");
+							Optional<ButtonType> result = alert.showAndWait();
+							if (result.get() == ButtonType.OK) {
+								
+							}
+						}
+						
 					}
 				});
 
@@ -596,6 +643,8 @@ public class GestionnaireParametreService {
 					}
 				});
 
+				setUpValidation(tf);
+				
 				// premier champ
 				lbl.setLayoutX(50);
 				lbl.setLayoutY(100);
@@ -621,6 +670,7 @@ public class GestionnaireParametreService {
 				// create window
 				Scene scene = new Scene(root, 450, 400);
 				primaryStage.setTitle("Modifier Paramètre de Service");
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.show();
 	}
@@ -652,16 +702,27 @@ public class GestionnaireParametreService {
 
 			@Override
 			public void handle(ActionEvent event) {
-				try {
-					type.setDescription(tf1.getText());
-					type.setNomType(tf.getText());
-					type.modifierTypeService();
-					MainMenu test = new MainMenu();
-					test.set_activeTab(4);
-					test.start(primaryStage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (tf.getText().matches(".{1,256}") && tf1.getText().matches(".{0,256}")) {
+					try {
+						type.setDescription(tf1.getText());
+						type.setNomType(tf.getText());
+						type.modifierTypeService();
+						MainMenu test = new MainMenu();
+						test.set_activeTab(4);
+						test.start(primaryStage);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs Nom du type de service n'est pas valide. ( Ex: DB ) et/ou \nLa limite de charactère de 256 est dépassée.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
+					}
 				}
 			}
 		});
@@ -681,6 +742,8 @@ public class GestionnaireParametreService {
 				
 			}
 		});
+		
+		setUpValidation(tf);
 
 		// premier champ
 		lbl.setLayoutX(50);
@@ -716,6 +779,7 @@ public class GestionnaireParametreService {
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Modifer le type de Service");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -1097,4 +1161,29 @@ public class GestionnaireParametreService {
 				primaryStage.setScene(scene);
 				primaryStage.show();
 	}
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{1,512}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 }

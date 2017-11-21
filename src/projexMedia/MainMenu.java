@@ -155,7 +155,7 @@ public class MainMenu extends Application {
         _scene = new Scene(new VBox( tabPane));
         _scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         site.getStyleClass().add("Tab");
-        client.getStyleClass().add("Tab");      
+        client.getStyleClass().add("Tab");
         serveur.getStyleClass().add("Tab");
         user.getStyleClass().add("Tab");
         role.getStyleClass().add("Tab");
@@ -195,12 +195,5 @@ public class MainMenu extends Application {
 	public void set_activeTab(int _activeTab) {
 		this._activeTab = _activeTab;
 	}
-
-	/**
-     * @param args the command line arguments
-     */
-    /*public static void main(String[] args) {
-        launch(args);
-    }*/
     
 }

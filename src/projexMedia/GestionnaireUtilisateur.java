@@ -6,10 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.controlsfx.control.textfield.TextFields;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -246,30 +249,52 @@ public class GestionnaireUtilisateur {
 			@Override
 			public void handle(ActionEvent event) {
 
-				try {
-					Connection conn = SimpleDataSource.getConnection();
-					Statement stat = conn.createStatement();
+				if(cmbRole.getSelectionModel().isEmpty()){
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Veuillez choisir un rôle.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
+					}
+				}
+				else {
+					if (tfCourriel.getText().matches(".{1,128}") && tfMdp.getText().matches(".{1,128}")) {
+						try {
+							Connection conn = SimpleDataSource.getConnection();
+							Statement stat = conn.createStatement();
 
-					ResultSet result = stat.executeQuery(
-							"SELECT id_role FROM role WHERE nom_role = '" + cmbRole.getValue() + "'");
-					result.next();
-					int role = result.getInt("id_role");
+							ResultSet result = stat.executeQuery(
+									"SELECT id_role FROM role WHERE nom_role = '" + cmbRole.getValue() + "'");
+							result.next();
+							int role = result.getInt("id_role");
 
-					stat.execute("INSERT INTO Utilisateur (pk_courriel, mdp, prenom, nom, fk_id_role) VALUES(\""
-							+ tfCourriel.getText() + "\"" + ", \"" + tfMdp.getText() + "\"" + ", \"" + tfPrenom.getText() + "\"" + ", \"" + tfNom.getText() + "\"" + ", " + role + ")");
+							stat.execute("INSERT INTO Utilisateur (pk_courriel, mdp, prenom, nom, fk_id_role) VALUES(\""
+									+ tfCourriel.getText() + "\"" + ", \"" + tfMdp.getText() + "\"" + ", \"" + tfPrenom.getText() + "\"" + ", \"" + tfNom.getText() + "\"" + ", " + role + ")");
 
-					MainMenu menu = new MainMenu();
-					menu.set_activeTab(3);
-					menu.start(primaryStage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}finally {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+							MainMenu menu = new MainMenu();
+							menu.set_activeTab(3);
+							menu.start(primaryStage);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}finally {
+							try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+			        } 
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Le champs courriel ou mot de passe n'est pas valide. ( Ex: abc@live.ca ) et/ou \nLa limite de charactère de 128 est dépassée.");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
 					}
 				}
 			}
@@ -292,6 +317,9 @@ public class GestionnaireUtilisateur {
 
 		// panel
 		Pane root = new Pane();
+		
+		setUpValidation(tfCourriel);
+		setUpValidation(tfMdp);
 
 		lbl.setLayoutX(50);
 		lbl.setLayoutY(70);
@@ -347,6 +375,7 @@ public class GestionnaireUtilisateur {
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Ajouter Utilisateur");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbRole);
@@ -405,34 +434,56 @@ public class GestionnaireUtilisateur {
 
 			@Override
 			public void handle(ActionEvent event) {
-
-				try {
-					Connection conn = SimpleDataSource.getConnection();
-					Statement stat = conn.createStatement();
-
-					ResultSet result = stat
-							.executeQuery("SELECT id_role FROM role WHERE nom_role = '" + cmbRole.getValue() + "'");
-					result.next();
-					int role = result.getInt("id_role");
-
-					stat.execute("UPDATE Utilisateur SET pk_courriel='" + tfCourriel.getText() + "', mdp='" + tfMdp.getText()
-							+ "', prenom='" + tfPrenom.getText() + "', nom='" + tfNom.getText() + "', fk_id_role=" + role + " WHERE pk_courriel='"
-							+ utilisateur.getUser() + "'");
-
-					MainMenu menu = new MainMenu();
-					menu.set_activeTab(3);
-					menu.start(primaryStage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				if(cmbRole.getSelectionModel().isEmpty()){
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Veuillez choisir un rôle.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
 					}
 				}
+				else {
+					if (tfCourriel.getText().matches(".{1,128}") && tfMdp.getText().matches(".{1,128}")) {
+						try {
+							Connection conn = SimpleDataSource.getConnection();
+							Statement stat = conn.createStatement();
+
+							ResultSet result = stat
+									.executeQuery("SELECT id_role FROM role WHERE nom_role = '" + cmbRole.getValue() + "'");
+							result.next();
+							int role = result.getInt("id_role");
+
+							stat.execute("UPDATE Utilisateur SET pk_courriel='" + tfCourriel.getText() + "', mdp='" + tfMdp.getText()
+									+ "', prenom='" + tfPrenom.getText() + "', nom='" + tfNom.getText() + "', fk_id_role=" + role + " WHERE pk_courriel='"
+									+ utilisateur.getUser() + "'");
+
+							MainMenu menu = new MainMenu();
+							menu.set_activeTab(3);
+							menu.start(primaryStage);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} finally {
+							try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+			        } 
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Le champs courriel ou mot de passe n'est pas valide. ( Ex: abc@live.ca ) et/ou \nLa limite de charactère de 128 est dépassée.");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
+					}
+				}
+				
 			}
 		});
 
@@ -453,6 +504,9 @@ public class GestionnaireUtilisateur {
 
 		// panel
 		Pane root = new Pane();
+		
+		setUpValidation(tfCourriel);
+		setUpValidation(tfMdp);
 
 		lbl.setLayoutX(50);
 		lbl.setLayoutY(70);
@@ -508,6 +562,7 @@ public class GestionnaireUtilisateur {
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Modifier Utilisateur");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbRole);
@@ -537,4 +592,29 @@ public class GestionnaireUtilisateur {
 			}
 		}
 	}
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{1,512}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 }

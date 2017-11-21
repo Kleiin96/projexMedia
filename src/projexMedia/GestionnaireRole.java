@@ -1,11 +1,15 @@
 package projexMedia;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.Optional;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -244,37 +248,49 @@ public class GestionnaireRole {
 			@Override
 			public void handle(ActionEvent event) {
 
-				Connection conn = null;
-				try {
-					conn = SimpleDataSource.getConnection();
-					Statement stat = conn.createStatement();
-	
-					int ajouter = (cb1.isSelected()) ? 1 : 0;
-					int modifier = (cb2.isSelected()) ? 1 : 0;
-					int archiver = (cb3.isSelected()) ? 1 : 0;
-					int activer = (cb4.isSelected()) ? 1 : 0;
-					int supprimer = (cb5.isSelected()) ? 1 : 0;
-					int historique = (cb6.isSelected()) ? 1 : 0;
-					int utilisateur = (cb7.isSelected()) ? 1 : 0;
-					int role = (cb8.isSelected()) ? 1 : 0;
-	
-					stat.execute("INSERT INTO Role (nom_role, ajouter, modifier, archiver, activer, supprimer, historique, utilisateur, role) VALUES(\""
-							+ nomRole.getText() + "\"" + "," + ajouter + "," + modifier + "," + archiver + "," + activer + "," + supprimer + "," + historique + "," + utilisateur + "," + role + ")");
-	
-					MainMenu menu = new MainMenu();
-					menu.set_activeTab(5);
-					menu.start(primaryStage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
+				if (nomRole.getText().matches(".{1,64}")) {
+					Connection conn = null;
 					try {
-						conn.close();
-					} catch (SQLException e) {
+						conn = SimpleDataSource.getConnection();
+						Statement stat = conn.createStatement();
+		
+						int ajouter = (cb1.isSelected()) ? 1 : 0;
+						int modifier = (cb2.isSelected()) ? 1 : 0;
+						int archiver = (cb3.isSelected()) ? 1 : 0;
+						int activer = (cb4.isSelected()) ? 1 : 0;
+						int supprimer = (cb5.isSelected()) ? 1 : 0;
+						int historique = (cb6.isSelected()) ? 1 : 0;
+						int utilisateur = (cb7.isSelected()) ? 1 : 0;
+						int role = (cb8.isSelected()) ? 1 : 0;
+		
+						stat.execute("INSERT INTO Role (nom_role, ajouter, modifier, archiver, activer, supprimer, historique, utilisateur, role) VALUES(\""
+								+ nomRole.getText() + "\"" + "," + ajouter + "," + modifier + "," + archiver + "," + activer + "," + supprimer + "," + historique + "," + utilisateur + "," + role + ")");
+		
+						MainMenu menu = new MainMenu();
+						menu.set_activeTab(5);
+						menu.start(primaryStage);
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} finally {
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+		        } 
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Le champs Nom du rôle n'est pas valide. ( Ex: Admin ) et/ou \nLa limite de charactère de 64 est dépassée.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
 					}
 				}
+				
 			}
 		});
 
@@ -295,6 +311,8 @@ public class GestionnaireRole {
 
 		// panel
 		Pane root = new Pane();
+		
+		setUpValidation(nomRole);
 
 		lbl.setLayoutX(50);
 		lbl.setLayoutY(70);
@@ -377,6 +395,7 @@ public class GestionnaireRole {
 		// create window
 		Scene scene = new Scene(root, 450, 600);
 		primaryStage.setTitle("Ajouter Role");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -440,38 +459,50 @@ public class GestionnaireRole {
 					@Override
 					public void handle(ActionEvent event) {
 
-						Connection conn = null;
-						try {
-							conn = SimpleDataSource.getConnection();
-							Statement stat = conn.createStatement();
-			
-							int ajouter = (cb1.isSelected()) ? 1 : 0;
-							int modifier = (cb2.isSelected()) ? 1 : 0;
-							int archiver = (cb3.isSelected()) ? 1 : 0;
-							int activer = (cb4.isSelected()) ? 1 : 0;
-							int supprimer = (cb5.isSelected()) ? 1 : 0;
-							int historique = (cb6.isSelected()) ? 1 : 0;
-							int utilisateur = (cb7.isSelected()) ? 1 : 0;
-							int droitRole = (cb8.isSelected()) ? 1 : 0;
-			
-							stat.execute("UPDATE role SET nom_role='" + nomRole.getText() + "', ajouter=" + ajouter
-							+ ", modifier=" + modifier + ", archiver=" + archiver + ", activer=" + activer + ", supprimer=" + supprimer +
-							",historique=" + historique + ",utilisateur=" + utilisateur + ",role=" + droitRole + " WHERE id_role=" + role.getId_role());
-							
-							MainMenu menu = new MainMenu();
-							menu.set_activeTab(5);
-							menu.start(primaryStage);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} finally {
+						if (nomRole.getText().matches(".{1,64}")) {
+							Connection conn = null;
 							try {
-								conn.close();
-							} catch (SQLException e) {
+								conn = SimpleDataSource.getConnection();
+								Statement stat = conn.createStatement();
+				
+								int ajouter = (cb1.isSelected()) ? 1 : 0;
+								int modifier = (cb2.isSelected()) ? 1 : 0;
+								int archiver = (cb3.isSelected()) ? 1 : 0;
+								int activer = (cb4.isSelected()) ? 1 : 0;
+								int supprimer = (cb5.isSelected()) ? 1 : 0;
+								int historique = (cb6.isSelected()) ? 1 : 0;
+								int utilisateur = (cb7.isSelected()) ? 1 : 0;
+								int droitRole = (cb8.isSelected()) ? 1 : 0;
+				
+								stat.execute("UPDATE role SET nom_role='" + nomRole.getText() + "', ajouter=" + ajouter
+								+ ", modifier=" + modifier + ", archiver=" + archiver + ", activer=" + activer + ", supprimer=" + supprimer +
+								",historique=" + historique + ",utilisateur=" + utilisateur + ",role=" + droitRole + " WHERE id_role=" + role.getId_role());
+								
+								MainMenu menu = new MainMenu();
+								menu.set_activeTab(5);
+								menu.start(primaryStage);
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+							} finally {
+								try {
+									conn.close();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+				        } 
+						else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Message d'erreur");
+							alert.setHeaderText("Le champs Nom du rôle n'est pas valide. ( Ex: Admin ) et/ou \nLa limite de charactère de 64 est dépassée.");
+							Optional<ButtonType> result = alert.showAndWait();
+							if (result.get() == ButtonType.OK) {
+								
 							}
 						}
+						
 					}
 				});
 
@@ -492,6 +523,8 @@ public class GestionnaireRole {
 
 				// panel
 				Pane root = new Pane();
+				
+				setUpValidation(nomRole);
 
 				lbl.setLayoutX(50);
 				lbl.setLayoutY(70);
@@ -574,6 +607,7 @@ public class GestionnaireRole {
 				// create window
 				Scene scene = new Scene(root, 450, 600);
 				primaryStage.setTitle("Modifier Role");
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.show();			
 
@@ -605,4 +639,29 @@ public class GestionnaireRole {
 			}
 		}
 	}
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{1,512}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 }

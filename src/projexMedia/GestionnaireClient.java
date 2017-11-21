@@ -333,7 +333,7 @@ public class GestionnaireClient {
 			@Override
 			public void handle(ActionEvent event) {
 				Client lul = new Client(tf.getText(), tf1.getText(), tf3.getText(), tf4.getText(), tf2.getText());
-				if (tf.getText().matches(".{1,128}")) {
+				if (tf.getText().matches(".{1,128}") && tf1.getText().matches(".{0,32}") && tf2.getText().matches(".{0,128}") && tf3.getText().matches(".{0,128}") && tf4.getText().matches(".{0,128}")) {
 					try {
 						lul.ajouterClient();
 						MainMenu test = new MainMenu();
@@ -346,7 +346,7 @@ public class GestionnaireClient {
 				else {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Message d'erreur");
-					alert.setHeaderText("Le champs nom de la compagnie n'est pas valide. ( Ex: Google ) \nLa limite de charactère est de 128.");
+					alert.setHeaderText("Le champs nom de la compagnie n'est pas valide. ( Ex: Google ) et/ou \nLa limite de charactère de 128 est dépassée.");
 					Optional<ButtonType> result = alert.showAndWait();
 					if (result.get() == ButtonType.OK) {
 						
@@ -463,7 +463,7 @@ public class GestionnaireClient {
 			public void handle(ActionEvent event) {
 				Client lul = new Client(client.getIdClient(), tf.getText(), tf1.getText(), tf3.getText(), tf2.getText(),
 						tf4.getText());
-				if (tf.getText().matches(".{1,128}")) {
+				if (tf.getText().matches(".{1,128}") && tf1.getText().matches(".{0,32}") && tf2.getText().matches(".{0,128}") && tf3.getText().matches(".{0,128}") && tf4.getText().matches(".{0,128}")) {
 					try {
 						lul.modifierNomClient();
 						lul.modifierAdresseClient();
@@ -484,7 +484,7 @@ public class GestionnaireClient {
 				else {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Message d'erreur");
-					alert.setHeaderText("Le champs nom de la compagnie n'est pas valide. ( Ex: Google ) \nLa limite de charactère est de 128.");
+					alert.setHeaderText("Le champs nom de la compagnie n'est pas valide. ( Ex: Google ) et/ou \nLa limite de charactère de 128 est dépassée.");
 					Optional<ButtonType> result = alert.showAndWait();
 					if (result.get() == ButtonType.OK) {
 						

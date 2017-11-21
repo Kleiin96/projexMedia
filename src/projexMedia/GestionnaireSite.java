@@ -376,58 +376,68 @@ public class GestionnaireSite {
 			@Override
 			public void handle(ActionEvent event) {
 
-				if (tfUrl.getText().matches(".{1,512}")) {
-					try {
-						Connection conn = SimpleDataSource.getConnection();
-						Statement stat = conn.createStatement();
-
-						ResultSet result = stat.executeQuery(
-								"SELECT id_client FROM client WHERE nom_compagnie = '" + cmbClient.getValue() + "'");
-						result.next();
-						int client = result.getInt("id_client");
-
-						result = stat.executeQuery(
-								"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
-						result.next();
-						int serveur = result.getInt("id_serveur");
-
-						stat.execute("INSERT INTO site (url, actif, fk_id_serveur, fk_id_client) VALUES(\""
-								+ tfUrl.getText() + "\"" + ", 1 , " + serveur + ", " + client + ")");
-
-						MainMenu menu = new MainMenu();
-						menu.set_activeTab(1);
-						menu.start(primaryStage);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-		        } 
-				else {
+				if(cmbServeur.getSelectionModel().isEmpty() || cmbClient.getSelectionModel().isEmpty()) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Message d'erreur");
-					alert.setHeaderText("Le champs url n'est pas valide. ( Ex: www.google.com ) \nLa limite de charactère est de 512.");
+					alert.setHeaderText("Veuillez choisir un serveur et un client.");
 					Optional<ButtonType> result = alert.showAndWait();
 					if (result.get() == ButtonType.OK) {
 						
 					}
 				}
-					
+				else {
+					if (tfUrl.getText().matches(".{1,512}")) {
+						try {
+							Connection conn = SimpleDataSource.getConnection();
+							Statement stat = conn.createStatement();
+
+							ResultSet result = stat.executeQuery(
+									"SELECT id_client FROM client WHERE nom_compagnie = '" + cmbClient.getValue() + "'");
+							result.next();
+							int client = result.getInt("id_client");
+
+							result = stat.executeQuery(
+									"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
+							result.next();
+							int serveur = result.getInt("id_serveur");
+
+							stat.execute("INSERT INTO site (url, actif, fk_id_serveur, fk_id_client) VALUES(\""
+									+ tfUrl.getText() + "\"" + ", 1 , " + serveur + ", " + client + ")");
+
+							MainMenu menu = new MainMenu();
+							menu.set_activeTab(1);
+							menu.start(primaryStage);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} finally {
+							try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+			        } 
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Le champs url n'est pas valide. ( Ex: www.google.com ) et/ou \nLa limite de charactère de 512 est dépassée.");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
+					}
+				}	
 			}
 		});
 
@@ -497,6 +507,7 @@ public class GestionnaireSite {
 		// create window
 		Scene scene = new Scene(root, 450, 350);
 		primaryStage.setTitle("Ajouter Site");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
@@ -557,55 +568,67 @@ public class GestionnaireSite {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (tfUrl.getText().matches(".{1,512}")) {
-					try {
-						Connection conn = SimpleDataSource.getConnection();
-						Statement stat = conn.createStatement();
-	
-						ResultSet result = stat.executeQuery(
-								"SELECT id_client FROM client WHERE nom_compagnie = '" + cmbClient.getValue() + "'");
-						result.next();
-						int client = result.getInt("id_client");
-	
-						result = stat.executeQuery(
-								"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
-						result.next();
-						int serveur = result.getInt("id_serveur");
-	
-						stat.execute("UPDATE site SET url='" + tfUrl.getText() + "', fk_id_serveur=" + serveur + ", fk_id_client=" + client + " WHERE id_site="
-								+ site.getIdSite());
-	
-						MainMenu menu = new MainMenu();
-						menu.set_activeTab(1);
-						menu.start(primaryStage);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-				else {
+				
+				if(cmbServeur.getSelectionModel().isEmpty() || cmbClient.getSelectionModel().isEmpty()) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Message d'erreur");
-					alert.setHeaderText("Le champs url n'est pas valide. ( Ex: www.google.com ) \nLa limite de charactère est de 512.");
+					alert.setHeaderText("Veuillez choisir un serveur et un client.");
 					Optional<ButtonType> result = alert.showAndWait();
 					if (result.get() == ButtonType.OK) {
 						
+					}
+				}
+				else {
+					if (tfUrl.getText().matches(".{1,512}")) {
+						try {
+							Connection conn = SimpleDataSource.getConnection();
+							Statement stat = conn.createStatement();
+		
+							ResultSet result = stat.executeQuery(
+									"SELECT id_client FROM client WHERE nom_compagnie = '" + cmbClient.getValue() + "'");
+							result.next();
+							int client = result.getInt("id_client");
+		
+							result = stat.executeQuery(
+									"SELECT id_serveur FROM serveur WHERE nom_serveur = '" + cmbServeur.getValue() + "'");
+							result.next();
+							int serveur = result.getInt("id_serveur");
+		
+							stat.execute("UPDATE site SET url='" + tfUrl.getText() + "', fk_id_serveur=" + serveur + ", fk_id_client=" + client + " WHERE id_site="
+									+ site.getIdSite());
+		
+							MainMenu menu = new MainMenu();
+							menu.set_activeTab(1);
+							menu.start(primaryStage);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} finally {
+							try {
+								conn.close();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Le champs url n'est pas valide. ( Ex: www.google.com ) et/ou \nLa limite de charactère de 512 est dépassée.");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
 					}
 				}
 			}
@@ -631,6 +654,8 @@ public class GestionnaireSite {
 
 		// panel
 		Pane root = new Pane();
+		
+		setUpValidation(tfUrl);
 
 		// premier champ
 		lbl.setLayoutX(50);
@@ -675,6 +700,7 @@ public class GestionnaireSite {
 		// create window
 		Scene scene = new Scene(root, 450, 350);
 		primaryStage.setTitle("Modifier Site");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);

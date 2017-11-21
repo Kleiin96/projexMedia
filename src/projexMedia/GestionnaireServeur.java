@@ -6,11 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 
 import org.controlsfx.control.textfield.TextFields;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +22,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -27,6 +33,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -64,9 +71,6 @@ public class GestionnaireServeur {
 	public void createPane(Stage primaryStage) throws Exception{
 		
 		SimpleDataSource.init("src/projexMedia/database.properties");
-		
-		
-		
 		
 		affichageServeur();
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
@@ -289,18 +293,31 @@ public class GestionnaireServeur {
 
 					@Override
 					public void handle(ActionEvent event) {
-						Serveur lul = new Serveur(1,tf.getText(), tf1.getText(), tf2.getText(), tf3.getText(), tf4.getText(), tf5.getText(), tf6.getText()
-								, tf7.getText(), tf8.getText(), tf9.getText(), tf10.getText(), tf11.getText(), tf12.getText(), tf13.getText(), tf14.getText()
-								, tf15.getText(),true);
-						try {
-							lul.ajouterServeur();
-							MainMenu test = new MainMenu();
-							test.set_activeTab(2);
-							test.start(primaryStage);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						
+						if (tf.getText().matches(".{1,128}") && tf1.getText().matches(".{0,256}") && tf2.getText().matches(".{0,256}") && tf3.getText().matches(".{0,256}") && tf4.getText().matches(".{0,256}") && tf5.getText().matches(".{0,256}") && tf6.getText().matches(".{0,256}") && tf7.getText().matches(".{0,256}") && tf8.getText().matches(".{0,256}") && tf9.getText().matches(".{0,256}") && tf10.getText().matches(".{0,256}") && tf11.getText().matches(".{0,256}") && tf12.getText().matches(".{0,256}") && tf13.getText().matches(".{0,256}") && tf14.getText().matches(".{0,256}") && tf15.getText().matches(".{0,256}")) {
+							Serveur lul = new Serveur(1,tf.getText(), tf1.getText(), tf2.getText(), tf3.getText(), tf4.getText(), tf5.getText(), tf6.getText()
+									, tf7.getText(), tf8.getText(), tf9.getText(), tf10.getText(), tf11.getText(), tf12.getText(), tf13.getText(), tf14.getText()
+									, tf15.getText(),true);
+							try {
+								lul.ajouterServeur();
+								MainMenu test = new MainMenu();
+								test.set_activeTab(2);
+								test.start(primaryStage);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
+						else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Message d'erreur");
+							alert.setHeaderText("Le champs nom du serveur n'est pas valide. ( Ex: Serveur 1 ) et/ou \nLa limite de charactère de 128 est dépassée.");
+							Optional<ButtonType> result = alert.showAndWait();
+							if (result.get() == ButtonType.OK) {
+								
+							}
+						}
+						
 					}
 				});
 
@@ -319,6 +336,8 @@ public class GestionnaireServeur {
 						
 					}
 				});
+				
+				setUpValidation(tf);
 
 				// premier champ
 				lbl.setLayoutX(50);
@@ -462,6 +481,7 @@ public class GestionnaireServeur {
 				// create window
 				Scene scene = new Scene(root, 450, 950);
 				primaryStage.setTitle("Ajouter Serveur");
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.centerOnScreen();
 				primaryStage.show();
@@ -525,17 +545,28 @@ public class GestionnaireServeur {
 
 					@Override
 					public void handle(ActionEvent event) {
-						Serveur lul = new Serveur(serveur.getIdServeur(),tf.getText(), tf1.getText(), tf2.getText(), tf3.getText(), tf4.getText(), tf5.getText(), tf6.getText()
-								, tf7.getText(), tf8.getText(), tf9.getText(), tf10.getText(), tf11.getText(), tf12.getText(), tf13.getText(), tf14.getText()
-								, tf15.getText(),true);
-						try {
-							lul.modifierServeur();
-							MainMenu test = new MainMenu();
-							test.set_activeTab(2);
-							test.start(primaryStage);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if (tf.getText().matches(".{1,128}") && tf1.getText().matches(".{0,256}") && tf2.getText().matches(".{0,256}") && tf3.getText().matches(".{0,256}") && tf4.getText().matches(".{0,256}") && tf5.getText().matches(".{0,256}") && tf6.getText().matches(".{0,256}") && tf7.getText().matches(".{0,256}") && tf8.getText().matches(".{0,256}") && tf9.getText().matches(".{0,256}") && tf10.getText().matches(".{0,256}") && tf11.getText().matches(".{0,256}") && tf12.getText().matches(".{0,256}") && tf13.getText().matches(".{0,256}") && tf14.getText().matches(".{0,256}") && tf15.getText().matches(".{0,256}")) {
+							Serveur lul = new Serveur(serveur.getIdServeur(),tf.getText(), tf1.getText(), tf2.getText(), tf3.getText(), tf4.getText(), tf5.getText(), tf6.getText()
+									, tf7.getText(), tf8.getText(), tf9.getText(), tf10.getText(), tf11.getText(), tf12.getText(), tf13.getText(), tf14.getText()
+									, tf15.getText(),true);
+							try {
+								lul.modifierServeur();
+								MainMenu test = new MainMenu();
+								test.set_activeTab(2);
+								test.start(primaryStage);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Message d'erreur");
+							alert.setHeaderText("Le champs nom du serveur n'est pas valide. ( Ex: Serveur 1 ) et/ou \nLa limite de charactère de 128 est dépassée.");
+							Optional<ButtonType> result = alert.showAndWait();
+							if (result.get() == ButtonType.OK) {
+								
+							}
 						}
 					}
 				});
@@ -555,6 +586,8 @@ public class GestionnaireServeur {
 						
 					}
 				});
+				
+				setUpValidation(tf);
 
 				// premier champ
 				lbl.setLayoutX(50);
@@ -697,6 +730,7 @@ public class GestionnaireServeur {
 				// create window
 				Scene scene = new Scene(root, 450, 950);
 				primaryStage.setTitle("Modifier Serveur");
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.show();
 		
@@ -1116,6 +1150,31 @@ public class GestionnaireServeur {
 				primaryStage.show();
 		
 	}
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{1,128}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 	
 
 }
