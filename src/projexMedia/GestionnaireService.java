@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
@@ -582,27 +583,10 @@ public class GestionnaireService {
         Connection conn = SimpleDataSource.getConnection();
         try {
         	
-        	
-        	
-        	
-        	
-        	
-        	
-        	
-        	
-        	
             PreparedStatement stat = conn.prepareStatement(
                     "UPDATE valeurparametre SET historique = 0"
                     + " WHERE id_valeurParametre = ?");
-            
-            
-            
             for(int j = 0; j < NewE.get_Champs().size();j++) {
-            	
-            	
-            	
-            	
-            	
             	
             	if(Integer.parseInt(NewE.get_Champs().get(j).get(5)) == 0) {
             		PreparedStatement stat2 = conn.prepareStatement(
@@ -639,11 +623,6 @@ public class GestionnaireService {
 	    	            stat3.setInt(3, Integer.parseInt(NewE.get_Champs().get(j).get(2)));
 	    	            stat3.setInt(4, NewE.get_id_Site());
 	    	            stat3.setString(5, NewE.get_Champs().get(j).get(4));     
-	    	            
-		             
-		             
-		            
-		            
 		            String verf = new String();
 	            	//vérification de la modification
 	            	Statement statV = conn.createStatement();
@@ -764,24 +743,51 @@ public class GestionnaireService {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				for(int j = 0; j < textfields.size();j++) {
-					_tableChamps.get(j).add(1,textfields.get(j).getText());
+				if(!cmbType.getSelectionModel().isEmpty()){
+					boolean empty = true;
+					
+					for(int j = 0; j < textfields.size();j++) {
+						_tableChamps.get(j).add(1,textfields.get(j).getText());
+						if(textfields.get(j).getText().matches(".{1,512}") && empty == true) {
+							empty = false;
+						}
+					}
+					
+					if(empty == false) {
+						try {
+							ajouterService(new Service(typeService,nom_type,_tableChamps,true,_site.getIdSite()));
+							_tableChamps = new ArrayList<ArrayList<String>>();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						GestionnaireService service = new GestionnaireService();
+						try {
+							service.afficherService(primaryStage, _site.getIdSite());
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Message d'erreur");
+						alert.setHeaderText("Veuillez remplir au moins un champ et respecter \nla limite de charactère de 512.");
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == ButtonType.OK) {
+							
+						}
+					}
 				}
-					try {
-						ajouterService(new Service(typeService,nom_type,_tableChamps,true,_site.getIdSite()));
-						_tableChamps = new ArrayList<ArrayList<String>>();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+				else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Message d'erreur");
+					alert.setHeaderText("Veuillez choisir un type.");
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						
 					}
-					GestionnaireService service = new GestionnaireService();
-					try {
-						service.afficherService(primaryStage, _site.getIdSite());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				}
 			}
 		});
 
@@ -819,6 +825,7 @@ public class GestionnaireService {
         				
         				Label lbl1 = new Label(result.getString("nom_parametre"));
         				TextField tf = new TextField();
+        				setUpValidation(tf);
         				lbl1.setLayoutX(20);
         				lbl1.setLayoutY(nbChamps * 40 + 60);
         				tf.setLayoutX(160);
@@ -884,6 +891,7 @@ public class GestionnaireService {
 		// create window
 		Scene scene = new Scene(root, 450, 370);
 		primaryStage.setTitle("Ajouter Service");
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -1055,4 +1063,30 @@ public class GestionnaireService {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	private void setUpValidation(final TextField tf) { 
+        tf.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+                validate(tf);
+            }
+
+        });
+
+        validate(tf);
+    }
+
+    private void validate(TextField tf) {
+        ObservableList<String> styleClass = tf.getStyleClass();
+        if (!tf.getText().matches(".{0,512}")) {
+            if (! styleClass.contains("error")) {
+                styleClass.add("error");
+            }
+        } else {
+            // remove all occurrences:
+            styleClass.removeAll(Collections.singleton("error"));                    
+        }
+    }
 }
+
