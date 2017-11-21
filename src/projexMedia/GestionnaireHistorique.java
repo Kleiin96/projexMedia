@@ -65,7 +65,7 @@ public class GestionnaireHistorique {
 		
 		ObservableList<String> histo = FXCollections.observableArrayList("Aujourd'hui", "Semaine", "Mois", "Année", "Toutes");
 		ComboBox<String> cbDate = new ComboBox<String>(histo);
-		cbDate.setValue("Aujourd'hui");
+		cbDate.setValue("Semaine");
 		
 		
 		
@@ -203,7 +203,7 @@ public class GestionnaireHistorique {
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
-					"WHERE date > CURRENT_DATE - INTERVAL '1' MONTH");
+					"WHERE date > CURRENT_DATE - INTERVAL '1' WEEK" + " ORDER BY date DESC, action DESC");
 
 			while (result.next()) {
 
@@ -228,7 +228,7 @@ public class GestionnaireHistorique {
 		
 		if(date == "Aujourd'hui") {
 			
-			inter = "WHERE date > CURRENT_DATE";
+			inter = "WHERE date = CURRENT_DATE";
 			
 		}else if(date == "Semaine"){
 			
@@ -261,7 +261,7 @@ public class GestionnaireHistorique {
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
-					inter);
+					inter+ " ORDER BY date DESC, action DESC");
 
 			while (result.next()) {
 
@@ -285,7 +285,7 @@ public class GestionnaireHistorique {
 		
 		if(date == "Aujourd'hui") {
 			
-			inter = "WHERE date > CURRENT_DATE";
+			inter = "WHERE date = CURRENT_DATE";
 			
 		}else if(date == "Semaine"){
 			
@@ -316,7 +316,7 @@ public class GestionnaireHistorique {
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
-					inter +" and s.url LIKE '%" + reche  +"%'");
+					inter +" and s.url LIKE '%" + reche  +"%' "+ " ORDER BY date DESC, action DESC" );
 
 			while (result.next()) {
 
