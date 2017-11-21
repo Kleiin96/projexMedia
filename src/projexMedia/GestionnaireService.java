@@ -978,7 +978,7 @@ public class GestionnaireService {
 											"FROM valeurparametre,ta_service,typeservice,parametreservice " + 
 											"WHERE ta_service.id_service = valeurparametre.fk_id_service AND " + 
 											"ta_service.fk_id_typeService = typeservice.id_typeService AND " + 
-											"ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND " + 
+											"ta_service.fk_id_parametreService = parametreservice.id_parametreService AND valeurparametre.actif=1 AND valeurparametre.historique=1 AND " + 
 											"ta_service.fk_id_typeService =" + _serviceActif.get(Integer.parseInt(id)).get_id() + " AND valeurparametre.fk_id_site =" + _serviceActif.get(Integer.parseInt(id)).get_id_Site() + " ORDER BY ta_service.id_service");
 			ResultSet result2 = stat2.executeQuery("SELECT parametreservice.nom_parametre, typeservice.id_typeService, ta_service.id_service, typeservice.nom_type FROM parametreservice"
 											+ " JOIN ta_service ON parametreservice.id_parametreService = ta_service.fk_id_parametreService "
