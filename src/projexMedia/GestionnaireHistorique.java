@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -61,6 +62,8 @@ public class GestionnaireHistorique {
 		createListHisotrique();
 		
 		TextField tfRecherche = new TextField();
+		TextField tfRechercheT = new TextField();
+		TextField tfRechercheP = new TextField();
 		Button btnR =  new Button();
 		
 		ObservableList<String> histo = FXCollections.observableArrayList("Aujourd'hui", "Semaine", "Mois", "Année", "Toutes");
@@ -118,7 +121,37 @@ public class GestionnaireHistorique {
 			public void handle(ActionEvent event) {
 				
 				try {
-					rechercheHistorique(tfRecherche.getText(), cbDate.getValue());
+					rechercheHistorique(tfRecherche.getText(), cbDate.getValue(),tfRechercheT.getText(), tfRechercheP.getText());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		tfRechercheT.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				try {
+					rechercheHistorique(tfRecherche.getText(), cbDate.getValue(),tfRechercheT.getText(), tfRechercheP.getText());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		tfRechercheP.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				try {
+					rechercheHistorique(tfRecherche.getText(), cbDate.getValue(),tfRechercheT.getText(), tfRechercheP.getText());
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -133,7 +166,7 @@ public class GestionnaireHistorique {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					rechercheHistorique(tfRecherche.getText(), cbDate.getValue());
+					rechercheHistorique(tfRecherche.getText(), cbDate.getValue(),tfRechercheT.getText(), tfRechercheP.getText() );
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -168,12 +201,25 @@ public class GestionnaireHistorique {
 			}
 		});
 		
+		Label lblU = new Label("URL :");
+		Label lblT = new Label("Type Service :");
+		Label lblP = new Label("Parametre Service :");
 		
-		cbDate.setLayoutX(100);
+		cbDate.setLayoutX(10);
 		cbDate.setLayoutY(30);
-		tfRecherche.setLayoutX(400);
+		lblU.setLayoutX(150);
+		lblU.setLayoutY(10);
+		tfRecherche.setLayoutX(150);
 		tfRecherche.setLayoutY(30);
-		btnR.setLayoutX(550);
+		lblT.setLayoutX(330);
+		lblT.setLayoutY(10);
+		tfRechercheT.setLayoutX(330);
+		tfRechercheT.setLayoutY(30);
+		lblP.setLayoutX(510);
+		lblP.setLayoutY(10);
+		tfRechercheP.setLayoutX(510);
+		tfRechercheP.setLayoutY(30);
+		btnR.setLayoutX(680);
 		btnR.setLayoutY(30);
 		logTable.setLayoutX(10);
 		logTable.setLayoutY(60);
@@ -183,7 +229,12 @@ public class GestionnaireHistorique {
 		
 		
 		_pane.getChildren().add(cbDate);
+		_pane.getChildren().add(lblU);
+		_pane.getChildren().add(lblT);
+		_pane.getChildren().add(lblP);
 		_pane.getChildren().add(tfRecherche);
+		_pane.getChildren().add(tfRechercheT);
+		_pane.getChildren().add(tfRechercheP);
 		_pane.getChildren().add(btnR);
 		_pane.getChildren().add(logTable);
 		
@@ -278,7 +329,7 @@ public class GestionnaireHistorique {
 		}
 	}
 	
-	public void rechercheHistorique(String reche, String date)throws SQLException{
+	public void rechercheHistorique(String reche, String date, String type, String par )throws SQLException{
 		list.clear();
 		
 		String inter;
@@ -305,6 +356,27 @@ public class GestionnaireHistorique {
 			
 		}
 		
+		String rech = "";
+		
+		if(type.equals("") && par.equals("")) {
+			
+			rech =" and s.url LIKE '%" + reche  +"%' ";
+		}else if(type.equals("")) {
+			
+			rech =" and s.url LIKE '%" + reche  +"%'  and p.nom_parametre LIKE '%" + par  +"%'  ";
+		}else if(par.equals("")) {
+			
+			rech =" and s.url LIKE '%" + reche  +"%'  and e.nom_type LIKE '%" + type  +"%'  ";
+			
+		}else if(reche.equals("")){
+			
+			rech =" and e.nom_type LIKE '%" + type  +"%'  and p.nom_parametre LIKE '%" + par  +"%'  ";
+		}else {
+		
+			
+			rech =" and s.url LIKE '%" + reche  +"%'  and e.nom_type LIKE '%" + type  +"%' and p.nom_parametre LIKE '%" + par  +"%'  ";
+		}
+		
 		Connection conn = SimpleDataSource.getConnection();
 
 		try {
@@ -316,7 +388,7 @@ public class GestionnaireHistorique {
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
-					inter +" and s.url LIKE '%" + reche  +"%' "+ " ORDER BY date DESC, action DESC" );
+					inter + rech + " ORDER BY date DESC, action DESC" );
 
 			while (result.next()) {
 

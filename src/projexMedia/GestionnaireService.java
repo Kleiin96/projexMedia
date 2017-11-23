@@ -236,7 +236,7 @@ public class GestionnaireService {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					interfaceAjouter(primaryStage);
+					interfaceAjouter(primaryStage,id_site);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -708,25 +708,63 @@ public class GestionnaireService {
         }
     }
 	
-	public void interfaceAjouter(Stage primaryStage) throws SQLException {
+	public void interfaceAjouter(Stage primaryStage, int idSite) throws SQLException {
 
 		ArrayList<TextField> textfields = new ArrayList<TextField>();
 		ObservableList<String> options = FXCollections.observableArrayList();
+		ObservableList<String> listType = FXCollections.observableArrayList();
+		ObservableList<String> listTypeSite = FXCollections.observableArrayList();
+		ObservableList<String> listTypeSiteNoDup = FXCollections.observableArrayList();
 		
 		Connection conn = SimpleDataSource.getConnection();
 
 		try {
 			Statement stat = conn.createStatement();
+			Statement stat2 = conn.createStatement();
+			
+			ResultSet result2 = stat2.executeQuery("SELECT t.fk_id_typeService \r\n" + 
+					"FROM `valeurparametre` v join ta_service t on v.fk_id_service = t.id_service \r\n" + 
+					"WHERE v.fk_id_site =" + idSite + " ORDER BY t.fk_id_typeService ASC");
+			
+			while (result2.next()) {
+				listTypeSite.add(result2.getString("fk_id_typeService"));
+			}
+			
+			String dup = "";
+			for(int i= 0 ;i < listTypeSite.size();i++) {
+				if(listTypeSite.get(i).equals(dup)!=true) {
+					dup = listTypeSite.get(i);
+					listTypeSiteNoDup.add(dup);
+					//System.out.println(listTypeSite.get(i));
+				}
+			}
+			
+			String list ="";
+			for(int i= 0 ;i < listTypeSiteNoDup.size();i++) {
+				if(i == 0) {
+					list += " Where id_typeService <> " + listTypeSiteNoDup.get(i);
+				}else if(i != (listTypeSiteNoDup.size()-1)){
+					list += " and id_typeService <> " + listTypeSiteNoDup.get(i);
+				}else {
+					list +=  " and id_typeService <>" +listTypeSiteNoDup.get(i);
+				}
+			}
+			//System.out.println(list);
 
-			ResultSet result = stat.executeQuery("SELECT nom_type FROM typeservice");
+			ResultSet result = stat.executeQuery("SELECT nom_type FROM typeservice" + list);
+			
 
 			while (result.next()) {
 				options.add(result.getString("nom_type"));
 			}
+			
+			
 
 		} finally {
 			conn.close();
 		}
+		
+		
 		
 		Pane root = new Pane();
 		Pane _group = new Pane();
