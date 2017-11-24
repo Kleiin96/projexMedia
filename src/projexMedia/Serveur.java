@@ -388,7 +388,7 @@ public class Serveur {
     		stat.setInt(1, getIdServeur());
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce serveur?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce serveur? \n car cela supprimera tous les sites qui sont dans ce serveur et qui provoqueront une perte de données non-récupérables !");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();

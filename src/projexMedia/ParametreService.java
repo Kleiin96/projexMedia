@@ -89,7 +89,7 @@ public class ParametreService {
     		stat.setInt(1, getIdParametre());
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce parametre dans ce type de service?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce parametre dans ce type de service? \n Car cela supprimera ce parametre dans tous les services actifs!");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
