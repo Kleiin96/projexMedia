@@ -103,7 +103,7 @@ public class GestionnaireParametreService {
 		afficherTypeService();
 		
 		TableView<TypeService> tableTypeService = new TableView<TypeService>();
-		TableColumn<TypeService,Integer> id = new TableColumn<TypeService, Integer>("id type de service");
+		//TableColumn<TypeService,Integer> id = new TableColumn<TypeService, Integer>("id type de service");
 		TableColumn<TypeService, String> nom = new TableColumn<TypeService, String>("nom type de service");
 		TableColumn<TypeService, String> tel = new TableColumn<TypeService, String>("Description");
 		
@@ -120,13 +120,13 @@ public class GestionnaireParametreService {
 		tableTypeService.setEditable(false);
 		tableTypeService.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<TypeService, Integer>("idTypeService"));
+		//id.setCellValueFactory(new PropertyValueFactory<TypeService, Integer>("idTypeService"));
 		nom.setCellValueFactory(new PropertyValueFactory<TypeService, String>("nomType"));
 		tel.setCellValueFactory(new PropertyValueFactory<TypeService, String>("description"));
 		
-		tableTypeService.getColumns().addAll(id, nom, tel);
+		tableTypeService.getColumns().addAll(nom, tel);
 
-		id.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
+		//id.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
 		nom.prefWidthProperty().bind(tableTypeService.widthProperty().divide(2));
 		tableTypeService.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tableTypeService.setItems(list);
@@ -795,7 +795,7 @@ public class GestionnaireParametreService {
 		Pane root = new Pane();
 		
 		TableView<ParametreService> tableParametre = new TableView<ParametreService>();
-		TableColumn<ParametreService,Integer> id = new TableColumn<ParametreService, Integer>("id parametre de service");
+		//TableColumn<ParametreService,Integer> id = new TableColumn<ParametreService, Integer>("id parametre de service");
 		TableColumn<ParametreService, String> nom = new TableColumn<ParametreService, String>("nom parametre de service");
 		
 
@@ -809,12 +809,12 @@ public class GestionnaireParametreService {
 		tableParametre.setEditable(false);
 		tableParametre.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<ParametreService, Integer>("idParametre"));
+		//id.setCellValueFactory(new PropertyValueFactory<ParametreService, Integer>("idParametre"));
 		nom.setCellValueFactory(new PropertyValueFactory<ParametreService, String>("nomParametre"));
 		
-		tableParametre.getColumns().addAll(id, nom);
+		tableParametre.getColumns().addAll(nom);
 
-		id.prefWidthProperty().bind(tableParametre.widthProperty().divide(2));
+		//id.prefWidthProperty().bind(tableParametre.widthProperty().divide(2));
 		nom.prefWidthProperty().bind(tableParametre.widthProperty().divide(2));
 		tableParametre.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tableParametre.setItems(list.listParametre());
@@ -1039,19 +1039,19 @@ public class GestionnaireParametreService {
 				}
 				
 				TableView<ParametreService> tableParametre = new TableView<ParametreService>();
-				TableColumn<ParametreService,Integer> id = new TableColumn<ParametreService, Integer>("id parametre de service");
+				//TableColumn<ParametreService,Integer> id = new TableColumn<ParametreService, Integer>("id parametre de service");
 				TableColumn<ParametreService, String> nom = new TableColumn<ParametreService, String>("nom parametre de service");
 				
 				// construction de la table
 				tableParametre.setEditable(false);
 				tableParametre.setPrefSize(525, 525);
 
-				id.setCellValueFactory(new PropertyValueFactory<ParametreService, Integer>("idParametre"));
+				//id.setCellValueFactory(new PropertyValueFactory<ParametreService, Integer>("idParametre"));
 				nom.setCellValueFactory(new PropertyValueFactory<ParametreService, String>("nomParametre"));
 				
-				tableParametre.getColumns().addAll(id, nom);
+				tableParametre.getColumns().addAll(nom);
 
-				id.prefWidthProperty().bind(tableParametre.widthProperty().divide(2));
+				//id.prefWidthProperty().bind(tableParametre.widthProperty().divide(2));
 				nom.prefWidthProperty().bind(tableParametre.widthProperty().divide(2));
 				tableParametre.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 				tableParametre.setItems(test);

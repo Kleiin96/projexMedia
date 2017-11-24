@@ -36,25 +36,18 @@ import javafx.stage.Stage;
  */
 public class MainLogin extends Application {
 	
-	
+	public static Screen screen = Screen.getPrimary();
+	public static Rectangle2D bounds = screen.getVisualBounds();
     
     @Override
     public void start(Stage primaryStage) {
        
-//    	GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-//    	int width = gd.getDisplayMode().getWidth();
-//    	int height = gd.getDisplayMode().getHeight();
         Button btn = new Button();
         Button btn2 = new Button();
         Label lbl = new Label();
         Label lbl2 = new Label();
         TextField txt = new TextField();
-        PasswordField pwd = new PasswordField();
-        
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-
-        
+        PasswordField pwd = new PasswordField();       
         
         btn.setText("Connexion");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -62,21 +55,34 @@ public class MainLogin extends Application {
         	@Override
             public void handle(ActionEvent event) {
         		try {
-					if(connecter(txt.getText(), pwd.getText()) == true) {
-						MainMenu menu = new MainMenu(txt.getText(), getRole(txt.getText()));
-						menu.set_activeTab(0);
-						menu.start(primaryStage);
-					}
-					else {
+        			if(txt.getText().matches(".{1,128}") && pwd.getText().matches(".{1,128}")) {
+        				if(connecter(txt.getText(), pwd.getText()) == true) {
+    						MainMenu menu = new MainMenu(txt.getText(), getRole(txt.getText()));
+    						menu.set_activeTab(0);
+    						menu.start(primaryStage);
+    					}
+    					else {
+    						Alert alert = new Alert(AlertType.ERROR);
+    						alert.setTitle("Message d'erreur");
+    						alert.setHeaderText("Vous n'êtes pas autorisé à vous connecter.");
+    						// alert.setContentText("Are you ok with this?");
+    						Optional<ButtonType> result = alert.showAndWait();
+    						if (result.get() == ButtonType.OK) {
+    							
+    						}
+    					}
+        			}
+        			else {
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Message d'erreur");
-						alert.setHeaderText("Vous n'êtes pas autorisé à vous connecter");
+						alert.setHeaderText("Veuillez remplir les champs.");
 						// alert.setContentText("Are you ok with this?");
 						Optional<ButtonType> result = alert.showAndWait();
 						if (result.get() == ButtonType.OK) {
 							
 						}
 					}
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

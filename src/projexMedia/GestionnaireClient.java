@@ -98,7 +98,7 @@ public class GestionnaireClient {
 		affichageClient();
 
 		TableView<Client> tableClient = new TableView<Client>();
-		TableColumn<Client, Integer> id = new TableColumn<Client, Integer>("id Client");
+		//TableColumn<Client, Integer> id = new TableColumn<Client, Integer>("id Client");
 		TableColumn<Client, String> nom = new TableColumn<Client, String>("nom Compagnie");
 		TableColumn<Client, String> tel = new TableColumn<Client, String>("Telephone");
 		TableColumn<Client, String> nomR = new TableColumn<Client, String>("nom Responsable");
@@ -122,13 +122,13 @@ public class GestionnaireClient {
 		tableClient.setEditable(false);
 		tableClient.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<Client, Integer>("idClient"));
+		//id.setCellValueFactory(new PropertyValueFactory<Client, Integer>("idClient"));
 		nom.setCellValueFactory(new PropertyValueFactory<Client, String>("nomCompagnie"));
 		tel.setCellValueFactory(new PropertyValueFactory<Client, String>("telephone"));
 		nomR.setCellValueFactory(new PropertyValueFactory<Client, String>("nomResponsable"));
 		adresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
 		courriel.setCellValueFactory(new PropertyValueFactory<Client, String>("courriel"));
-		tableClient.getColumns().addAll(id, nom, tel, nomR, adresse, courriel);
+		tableClient.getColumns().addAll(nom, tel, nomR, adresse, courriel);
 
 		// id.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
 		// nom.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
@@ -263,9 +263,9 @@ public class GestionnaireClient {
 		btnArchiver.setLayoutY(220);
 		btnConsArch.setLayoutX(30);
 		btnConsArch.setLayoutY(530);
-		tfRecherche.setLayoutX(500);
+		tfRecherche.setLayoutX(MainLogin.bounds.getWidth()-400);
 		tfRecherche.setLayoutY(10);
-		btnRecherche.setLayoutX(690);
+		btnRecherche.setLayoutX(MainLogin.bounds.getWidth()-125);
 		btnRecherche.setLayoutY(10);
 
 		btnAjouter.setMinHeight(50);
@@ -277,7 +277,7 @@ public class GestionnaireClient {
 		btnConsArch.setMinHeight(50);
 		btnConsArch.setMinWidth(150);
 		btnRecherche.setPadding(Insets.EMPTY);
-		//TextFields.bindAutoCompletion(tfRecherche, possibleClient);
+		tfRecherche.setMinWidth(250);
 		
 		if(MainMenu._role.get_ajouter().equals("")) {
 			btnAjouter.setDisable(true);
@@ -294,6 +294,12 @@ public class GestionnaireClient {
 		// layout list
 		tableClient.setLayoutX(200);
 		tableClient.setLayoutY(60);
+		tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		tableClient.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		tableClient.setPrefHeight(MainLogin.bounds.getHeight() -200);
+		
+		_pane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		tableClient.getStyleClass().add("font");
 
 		_pane.getChildren().add(tableClient);
 		_pane.getChildren().add(btnAjouter);
