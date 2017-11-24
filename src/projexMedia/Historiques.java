@@ -8,8 +8,7 @@ public class Historiques {
 	String valeur;
 	String date;
 	String action;
-	String prenom;
-	String nom;
+	String utilisateur;
 	int idSite;
 	
 	
@@ -20,12 +19,11 @@ public class Historiques {
 		this.valeur = "";
 		this.date = "";
 		this.action = "";
-		this.prenom = "";
-		this.nom = "";
+		this.utilisateur = "";
 		this.idSite= 0;
 	}
 	public Historiques(String url, String type, String parametre, String valeur, String date, String action,
-			String prenom, String nom, int id) {
+			String utilisateur, int id) {
 		
 		this.url = url;
 		this.type = type;
@@ -33,8 +31,7 @@ public class Historiques {
 		this.valeur = valeur;
 		this.date = date;
 		this.action = action;
-		this.prenom = prenom;
-		this.nom = nom;
+		this.utilisateur = utilisateur;
 		this.idSite= id;
 	}
 	public int getIdSite() {
@@ -79,19 +76,12 @@ public class Historiques {
 	public void setAction(String action) {
 		this.action = action;
 	}
-	public String getPrenom() {
-		return prenom;
+	public String getUtilisateur() {
+		return utilisateur;
 	}
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setUtilisateur(String utilisateur) {
+		this.utilisateur = utilisateur;
 	}
-	public String getNom() {
-		return nom;
-	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-	
 	
 	
 	

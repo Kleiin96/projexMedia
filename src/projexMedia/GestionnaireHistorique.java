@@ -79,8 +79,7 @@ public class GestionnaireHistorique {
 		TableColumn<Historiques, String> valeur = new TableColumn<Historiques, String>("valeur");
 		TableColumn<Historiques, String> date = new TableColumn<Historiques, String>("date");
 		TableColumn<Historiques, String> action = new TableColumn<Historiques, String>("action");
-		TableColumn<Historiques, String> prenom = new TableColumn<Historiques, String>("prenom");
-		TableColumn<Historiques, String> nom = new TableColumn<Historiques, String>("nom");
+		TableColumn<Historiques, String> utilisateur = new TableColumn<Historiques, String>("utilisateur");
 		
 		
 		logTable.setEditable(false);
@@ -92,10 +91,9 @@ public class GestionnaireHistorique {
 		valeur.setCellValueFactory(new PropertyValueFactory<Historiques, String>("valeur"));
 		date.setCellValueFactory(new PropertyValueFactory<Historiques, String>("date"));
 		action.setCellValueFactory(new PropertyValueFactory<Historiques, String>("action"));
-		prenom.setCellValueFactory(new PropertyValueFactory<Historiques, String>("prenom"));
-		nom.setCellValueFactory(new PropertyValueFactory<Historiques, String>("nom"));
+		utilisateur.setCellValueFactory(new PropertyValueFactory<Historiques, String>("utilisateur"));
 		
-		logTable.getColumns().addAll(url, type, par,valeur, date,action, prenom,nom);
+		logTable.getColumns().addAll(url, type, par,valeur, date,action, utilisateur);
 
 		
 		url.prefWidthProperty().bind(logTable.widthProperty().divide(2));
@@ -248,9 +246,8 @@ public class GestionnaireHistorique {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom, v.fk_id_site\r\n" + 
+			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,v.fk_courriel, v.fk_id_site\r\n" + 
 					"FROM `valeurparametre` v join site s ON v.fk_id_site = s.id_site \r\n" + 
-					"JOIN utilisateur u ON v.fk_courriel = u.pk_courriel \r\n" + 
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
@@ -261,7 +258,7 @@ public class GestionnaireHistorique {
 				
 				list.add(new Historiques(result.getString("url"), result.getString("nom_type"),
 						result.getString("nom_parametre"), result.getString("valeur"),
-						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom"), result.getInt("fk_id_site")));
+						result.getString("date"), result.getString("action"),result.getString("fk_courriel") , result.getInt("fk_id_site")));
 
 			}
 		}
@@ -306,9 +303,8 @@ public class GestionnaireHistorique {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom, v.fk_id_site\r\n" + 
+			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,v.fk_courriel, v.fk_id_site\r\n" + 
 					"FROM `valeurparametre` v join site s ON v.fk_id_site = s.id_site \r\n" + 
-					"JOIN utilisateur u ON v.fk_courriel = u.pk_courriel \r\n" + 
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
@@ -319,7 +315,7 @@ public class GestionnaireHistorique {
 				
 				list.add(new Historiques(result.getString("url"), result.getString("nom_type"),
 						result.getString("nom_parametre"), result.getString("valeur"),
-						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom"), result.getInt("fk_id_site")));
+						result.getString("date"), result.getString("action"), result.getString("fk_courriel"),result.getInt("fk_id_site")));
 
 			}
 		}
@@ -382,9 +378,8 @@ public class GestionnaireHistorique {
 		try {
 			Statement stat = conn.createStatement();
 
-			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  u.prenom, u.nom, v.fk_id_site\r\n" + 
+			ResultSet result = stat.executeQuery("SELECT s.url, e.nom_type,p.nom_parametre,v.valeur, v.date, v.action,  fk_courriel, v.fk_id_site\r\n" + 
 					"FROM `valeurparametre` v join site s ON v.fk_id_site = s.id_site \r\n" + 
-					"JOIN utilisateur u ON v.fk_courriel = u.pk_courriel \r\n" + 
 					"JOIN ta_service t ON v.fk_id_service = t.id_service\r\n" + 
 					"JOIN typeservice e ON t.fk_id_typeService = e.id_typeService\r\n" + 
 					"JOIN parametreservice p ON t.fk_id_parametreService = p.id_parametreService\r\n" + 
@@ -395,7 +390,7 @@ public class GestionnaireHistorique {
 				
 				list.add(new Historiques(result.getString("url"), result.getString("nom_type"),
 						result.getString("nom_parametre"), result.getString("valeur"),
-						result.getString("date"), result.getString("action"), result.getString("prenom"), result.getString("nom"), result.getInt("fk_id_site")));
+						result.getString("date"), result.getString("action"), result.getString("fk_courriel"), result.getInt("fk_id_site")));
 
 			}
 		}
