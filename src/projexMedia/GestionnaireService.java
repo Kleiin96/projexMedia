@@ -477,7 +477,7 @@ public class GestionnaireService {
 					public void handle(ActionEvent event) {
 						Alert alert = new Alert(AlertType.CONFIRMATION);
 						alert.setTitle("Message de confirmation");
-						alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce service?");
+						alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce service? \n Car cela suuprimeras ces données dans l'archive définitivement");
 						// alert.setContentText("Are you ok with this?");
 
 						Optional<ButtonType> result = alert.showAndWait();

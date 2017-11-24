@@ -151,7 +151,7 @@ public class TypeService {
     		stat.setInt(1, getIdTypeService());
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce site?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce site? \n Car cela supprimera ce type dans tous les services actifs!");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
@@ -175,7 +175,7 @@ public class TypeService {
     		
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce parametre dans ce type de service?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce parametre dans ce type de service? \n Car cela supprimera le parametre dans chaque service actif! ");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
