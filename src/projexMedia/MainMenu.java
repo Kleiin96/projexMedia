@@ -86,7 +86,7 @@ public class MainMenu extends Application {
         
                    
         TabPane tabPane = new TabPane();
-        tabPane.setPrefSize(750, 650);
+        tabPane.setPrefSize(MainLogin.bounds.getWidth(), MainLogin.bounds.getHeight());
         
         tabPane.getTabs().add(0, client);
         tabPane.getTabs().add(site);
@@ -161,11 +161,14 @@ public class MainMenu extends Application {
         role.getStyleClass().add("Tab");
         servPar.getStyleClass().add("Tab");
         historique.getStyleClass().add("Tab");
+        tabPane.getStyleClass().add("font");
         primaryStage.setScene(_scene);
+        primaryStage.setX(MainLogin.bounds.getMinX());
+        primaryStage.setY(MainLogin.bounds.getMinY());
+        primaryStage.setWidth(MainLogin.bounds.getWidth());
+        primaryStage.setHeight(MainLogin.bounds.getHeight());
         primaryStage.show();
-        javafx.geometry.Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-		primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
-		primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
+        
     }
 
     public Scene getScene() {

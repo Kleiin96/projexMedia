@@ -931,7 +931,7 @@ public class GestionnaireSite {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce site?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce site?\nCar ceci va supprimer tout les éléments relié à ce site.");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();

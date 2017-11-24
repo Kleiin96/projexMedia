@@ -264,19 +264,13 @@ public class Client {
     		stat.setInt(1, getIdClient());
     		Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce client?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce client?\nCar ceci va supprimer tout les éléments relié à ce client dont tout les sites de ce client.");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				 stat.executeUpdate();
-			}
-    		
-    		
-            
-            
-            
-           
+			}         
     	}
     	finally {
     		conn.close();

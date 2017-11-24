@@ -620,7 +620,7 @@ public class GestionnaireRole {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Message de confirmation");
-			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce rôle?");
+			alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce rôle?\nCar ceci va supprimer tout les éléments relié à ce rôle dont les utilisateurs avec ce rôle.");
 			// alert.setContentText("Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();

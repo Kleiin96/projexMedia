@@ -74,7 +74,7 @@ public class GestionnaireServeur {
 		
 		affichageServeur();
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
-		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
+		//TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
 		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Serveur");
 		//TableColumn<Serveur, String> tel = new TableColumn<Serveur, String>("Fournisseur");
 		//TableColumn<Serveur, String> nomR = new TableColumn<Serveur, String>("nom Responsable");
@@ -98,11 +98,11 @@ public class GestionnaireServeur {
 		tableServeur.setEditable(false);
 		tableServeur.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
+		//id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
 		nom.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomServeur"));
-		tableServeur.getColumns().addAll(id, nom/*, tel, nomR, adresse, courriel*/);
+		tableServeur.getColumns().addAll(nom/*, tel, nomR, adresse, courriel*/);
 
-		id.prefWidthProperty().bind(tableServeur.widthProperty().divide(2));
+		//id.prefWidthProperty().bind(tableServeur.widthProperty().divide(2));
 		nom.prefWidthProperty().bind(tableServeur.widthProperty().divide(2));
 		tableServeur.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		tableServeur.setItems(list);
