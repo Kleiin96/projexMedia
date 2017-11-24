@@ -132,7 +132,7 @@ public class GestionnaireParametreService {
 		tableTypeService.setItems(list);
 		
 
-		btnAjouter.setText("Ajouter un Parametre");
+		btnAjouter.setText("Ajouter un Type service");
 		btnAjouter.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
