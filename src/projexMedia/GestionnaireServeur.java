@@ -226,6 +226,8 @@ public class GestionnaireServeur {
 		// layout list
 		tableServeur.setLayoutX(200);
 		tableServeur.setLayoutY(60);
+		tableServeur.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		tableServeur.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		_pane.getChildren().add(tableServeur);
 		_pane.getChildren().add(btnAjouter);
@@ -745,7 +747,7 @@ public class GestionnaireServeur {
 		affichageServeurArch();
 
 		TableView<Serveur> tableServeur = new TableView<Serveur>();
-		TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
+		//TableColumn<Serveur, Integer> id = new TableColumn<Serveur, Integer>("id Serveur");
 		TableColumn<Serveur, String> nom = new TableColumn<Serveur, String>("nom Serveur");
 		
 		Button btnActiver = new Button();
@@ -754,15 +756,16 @@ public class GestionnaireServeur {
 		
 		Pane root = new Pane();
 		
+		Label lbltitle = new Label("Archives des serveurs");
 
 		// construction de la table
 		tableServeur.setEditable(false);
 		tableServeur.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
+		//id.setCellValueFactory(new PropertyValueFactory<Serveur, Integer>("idServeur"));
 		nom.setCellValueFactory(new PropertyValueFactory<Serveur, String>("nomServeur"));
 		
-		tableServeur.getColumns().addAll(id, nom);
+		tableServeur.getColumns().addAll(nom);
 
 		
 		tableServeur.setItems(list);
@@ -825,14 +828,19 @@ public class GestionnaireServeur {
 				}
 			}
 		});
+		
+		lbltitle.setLayoutX(100);
+		lbltitle.setLayoutY(50);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
 
 		btnActiver.setLayoutX(30);
-		btnActiver.setLayoutY(60);
+		btnActiver.setLayoutY(105);
 		btnSupprimer.setLayoutX(30);
-		btnSupprimer.setLayoutY(140);
+		btnSupprimer.setLayoutY(185);
 		
 		btnRetour.setLayoutX(30);
-		btnRetour.setLayoutY(530);
+		btnRetour.setLayoutY(575);
 
 		btnActiver.setMinHeight(50);
 		btnActiver.setMinWidth(150);
@@ -851,12 +859,16 @@ public class GestionnaireServeur {
 
 		// layout list
 		tableServeur.setLayoutX(200);
-		tableServeur.setLayoutY(60);
+		tableServeur.setLayoutY(105);
+		tableServeur.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		tableServeur.setPrefHeight(MainLogin.bounds.getHeight() -200);
+		tableServeur.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		root.getChildren().add(tableServeur);
 		root.getChildren().add(btnActiver);
 		root.getChildren().add(btnSupprimer);
 		root.getChildren().add(btnRetour);
+		root.getChildren().add(lbltitle);
 		// create window
 		Scene scene = new Scene(root, 750, 650);
 		primaryStage.setTitle("Archive Serveur");

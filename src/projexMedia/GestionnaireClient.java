@@ -325,11 +325,11 @@ public class GestionnaireClient {
 		TextField tf4 = new TextField();
 
 		// label
-		Label lbl = new Label("Nom de la compagnie");
-		Label lbl1 = new Label("Téléphone");
-		Label lbl2 = new Label("Adresse");
-		Label lbl3 = new Label("Personne Responsable");
-		Label lbl4 = new Label("Courriel");
+		Label lbl = new Label("Nom de la compagnie :");
+		Label lbl1 = new Label("Téléphone :");
+		Label lbl2 = new Label("Adresse :");
+		Label lbl3 = new Label("Personne Responsable :");
+		Label lbl4 = new Label("Courriel :");
 
 		// panel
 		Pane root = new Pane();
@@ -377,43 +377,59 @@ public class GestionnaireClient {
 			}
 		});
 		
+		Label lbltitle = new Label("Ajouter un client");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(tf);
 
 		// premier champ
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(100);
-		tf.setLayoutX(200);
-		tf.setLayoutY(100);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tf.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tf.setMinWidth(300);
 
 		// deuxieme champ
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(150);
-		tf1.setLayoutX(200);
-		tf1.setLayoutY(150);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tf1.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tf1.setMinWidth(300);
 
 		// troisieme champ
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(200);
-		tf2.setLayoutX(200);
-		tf2.setLayoutY(200);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tf2.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tf2.setMinWidth(300);
 
 		// quatrieme champ
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(250);
-		tf3.setLayoutX(200);
-		tf3.setLayoutY(250);
+		lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		tf3.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		tf3.setMinWidth(300);
 
 		// cinquieme champ
-		lbl4.setLayoutX(50);
-		lbl4.setLayoutY(300);
-		tf4.setLayoutX(200);
-		tf4.setLayoutY(300);
+		lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		tf4.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		tf4.setMinWidth(300);
 
 		// Bouton
-		btn.setLayoutX(50);
-		btn.setLayoutY(350);
-		btn1.setLayoutX(275);
-		btn1.setLayoutY(350);
+		btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btn.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btn1.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btn1.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btn.setMinHeight(50);
+		btn.setMinWidth(150);
+		btn1.setMinHeight(50);
+		btn1.setMinWidth(150);
+		
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -428,10 +444,12 @@ public class GestionnaireClient {
 		root.getChildren().add(tf4);
 		root.getChildren().add(btn);
 		root.getChildren().add(btn1);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setTitle("Ajouter Client");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -453,11 +471,11 @@ public class GestionnaireClient {
 		TextField tf4 = new TextField(client.getCourriel());
 
 		// label
-		Label lbl = new Label("Nom de la compagnie");
-		Label lbl1 = new Label("Téléphone");
-		Label lbl2 = new Label("Adresse");
-		Label lbl3 = new Label("Personne Responsable");
-		Label lbl4 = new Label("Courriel");
+		Label lbl = new Label("Nom de la compagnie :");
+		Label lbl1 = new Label("Téléphone :");
+		Label lbl2 = new Label("Adresse :");
+		Label lbl3 = new Label("Personne Responsable :");
+		Label lbl4 = new Label("Courriel :");
 
 		// panel
 		Pane root = new Pane();
@@ -514,43 +532,58 @@ public class GestionnaireClient {
 			}
 		});
 		
+		Label lbltitle = new Label("Modifier un client");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(tf);
 
 		// premier champ
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(100);
-		tf.setLayoutX(200);
-		tf.setLayoutY(100);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tf.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tf.setMinWidth(300);
 
 		// deuxieme champ
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(150);
-		tf1.setLayoutX(200);
-		tf1.setLayoutY(150);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tf1.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tf1.setMinWidth(300);
 
 		// troisieme champ
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(200);
-		tf2.setLayoutX(200);
-		tf2.setLayoutY(200);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tf2.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tf2.setMinWidth(300);
 
 		// quatrieme champ
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(250);
-		tf3.setLayoutX(200);
-		tf3.setLayoutY(250);
+		lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		tf3.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		tf3.setMinWidth(300);
 
 		// cinquieme champ
-		lbl4.setLayoutX(50);
-		lbl4.setLayoutY(300);
-		tf4.setLayoutX(200);
-		tf4.setLayoutY(300);
+		lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		tf4.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		tf4.setMinWidth(300);
 
 		// Bouton
-		btn.setLayoutX(50);
-		btn.setLayoutY(350);
-		btn1.setLayoutX(275);
-		btn1.setLayoutY(350);
+		btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btn.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btn1.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btn1.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btn.setMinHeight(50);
+		btn.setMinWidth(150);
+		btn1.setMinHeight(50);
+		btn1.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -565,11 +598,13 @@ public class GestionnaireClient {
 		root.getChildren().add(tf4);
 		root.getChildren().add(btn);
 		root.getChildren().add(btn1);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Modifier Client");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -638,7 +673,7 @@ public class GestionnaireClient {
 		affichageClientArchive();
 
 		TableView<Client> tableClient = new TableView<Client>();
-		TableColumn<Client, Integer> id = new TableColumn<Client, Integer>("id Client");
+		//TableColumn<Client, Integer> id = new TableColumn<Client, Integer>("id Client");
 		TableColumn<Client, String> nom = new TableColumn<Client, String>("nom Compagnie");
 		TableColumn<Client, String> tel = new TableColumn<Client, String>("Telephone");
 		TableColumn<Client, String> nomR = new TableColumn<Client, String>("nom Responsable");
@@ -648,6 +683,7 @@ public class GestionnaireClient {
 		Button btnActiver = new Button();
 		Button btnSupprimer = new Button();
 		Button btnRetour = new Button();
+		Label lbltitle = new Label("Archives des clients");
 		
 		Pane root = new Pane();
 		
@@ -656,13 +692,13 @@ public class GestionnaireClient {
 		tableClient.setEditable(false);
 		tableClient.setPrefSize(525, 525);
 
-		id.setCellValueFactory(new PropertyValueFactory<Client, Integer>("idClient"));
+		//id.setCellValueFactory(new PropertyValueFactory<Client, Integer>("idClient"));
 		nom.setCellValueFactory(new PropertyValueFactory<Client, String>("nomCompagnie"));
 		tel.setCellValueFactory(new PropertyValueFactory<Client, String>("telephone"));
 		nomR.setCellValueFactory(new PropertyValueFactory<Client, String>("nomResponsable"));
 		adresse.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
 		courriel.setCellValueFactory(new PropertyValueFactory<Client, String>("courriel"));
-		tableClient.getColumns().addAll(id, nom, tel, nomR, adresse, courriel);
+		tableClient.getColumns().addAll(nom, tel, nomR, adresse, courriel);
 
 		// id.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
 		// nom.prefWidthProperty().bind(tableClient.widthProperty().divide(2));
@@ -727,13 +763,17 @@ public class GestionnaireClient {
 			}
 		});
 
+		lbltitle.setLayoutX(90);
+		lbltitle.setLayoutY(50);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
 		btnActiver.setLayoutX(30);
-		btnActiver.setLayoutY(60);
+		btnActiver.setLayoutY(105);
 		btnSupprimer.setLayoutX(30);
-		btnSupprimer.setLayoutY(140);
+		btnSupprimer.setLayoutY(185);
 		
 		btnRetour.setLayoutX(30);
-		btnRetour.setLayoutY(530);
+		btnRetour.setLayoutY(575);
 
 		btnActiver.setMinHeight(50);
 		btnActiver.setMinWidth(150);
@@ -752,12 +792,16 @@ public class GestionnaireClient {
 
 		// layout list
 		tableClient.setLayoutX(200);
-		tableClient.setLayoutY(60);
+		tableClient.setLayoutY(105);
+		tableClient.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		tableClient.setPrefHeight(MainLogin.bounds.getHeight() -200);
+		tableClient.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		root.getChildren().add(tableClient);
 		root.getChildren().add(btnActiver);
 		root.getChildren().add(btnSupprimer);
 		root.getChildren().add(btnRetour);
+		root.getChildren().add(lbltitle);
 		// create window
 		Scene scene = new Scene(root, 750, 650);
 		primaryStage.setTitle("Archive Client");

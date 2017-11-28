@@ -154,7 +154,7 @@ public class GestionnaireParametreService {
 			}
 
 		});
-		btnSupprimerT.setText("Supprimer type de service");
+		btnSupprimerT.setText("   Supprimer\ntype de service");
 		btnSupprimerT.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -256,6 +256,8 @@ public class GestionnaireParametreService {
 		// layout list
 		tableTypeService.setLayoutX(200);
 		tableTypeService.setLayoutY(60);
+		tableTypeService.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		tableTypeService.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		_pane.getChildren().add(tableTypeService);
 		_pane.getChildren().add(btnAjouter);
@@ -804,10 +806,12 @@ public class GestionnaireParametreService {
 		Button btnSupprimerT = new Button();
 		Button btn1 = new Button();
 		
+		Label lbltitle = new Label("Gestion des paramètres");
 
 		// construction de la table
 		tableParametre.setEditable(false);
 		tableParametre.setPrefSize(525, 525);
+		
 
 		//id.setCellValueFactory(new PropertyValueFactory<ParametreService, Integer>("idParametre"));
 		nom.setCellValueFactory(new PropertyValueFactory<ParametreService, String>("nomParametre"));
@@ -880,14 +884,19 @@ public class GestionnaireParametreService {
 			}
 		});
 		
+		lbltitle.setLayoutX(100);
+		lbltitle.setLayoutY(50);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		btnAjouter.setLayoutX(30);
-		btnAjouter.setLayoutY(60);
+		btnAjouter.setLayoutY(105);
 		btnModifier.setLayoutX(30);
-		btnModifier.setLayoutY(140);
+		btnModifier.setLayoutY(185);
 		btnSupprimerT.setLayoutX(30);
-		btnSupprimerT.setLayoutY(220);
+		btnSupprimerT.setLayoutY(265);
 		btn1.setLayoutX(30);
-		btn1.setLayoutY(530);
+		btn1.setLayoutY(575);
 		
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);
@@ -911,14 +920,16 @@ public class GestionnaireParametreService {
 		}
 		
 		tableParametre.setLayoutX(200);
-		tableParametre.setLayoutY(60);
+		tableParametre.setLayoutY(105);
+		tableParametre.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		tableParametre.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		root.getChildren().add(tableParametre);
 		root.getChildren().add(btn1);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnModifier);
 		root.getChildren().add(btnSupprimerT);
-		
+		root.getChildren().add(lbltitle);
 		
 		
 		Scene scene = new Scene(root, 750, 650);
@@ -1025,7 +1036,7 @@ public class GestionnaireParametreService {
 				//list
 				ObservableList<ParametreService> test = FXCollections.observableArrayList();
 				
-				
+				Label lbltitle = new Label("Les paramètres du type");
 				// panel
 					
 				Pane root = new Pane();
@@ -1099,12 +1110,12 @@ public class GestionnaireParametreService {
 				});
 					
 				btnAjouterParType.setLayoutX(30);
-				btnAjouterParType.setLayoutY(60);
+				btnAjouterParType.setLayoutY(105);
 				btnAjouterParType.setMinHeight(50);
 				btnAjouterParType.setMinWidth(150);
 				
 				btnSupprimer.setLayoutX(30);
-				btnSupprimer.setLayoutY(220);
+				btnSupprimer.setLayoutY(185);
 				btnSupprimer.setMinHeight(50);
 				btnSupprimer.setMinWidth(150);
 				
@@ -1126,7 +1137,7 @@ public class GestionnaireParametreService {
 
 				// Bouton
 				btn1.setLayoutX(30);
-				btn1.setLayoutY(530);
+				btn1.setLayoutY(575);
 				btn1.setMinHeight(50);
 				btn1.setMinWidth(150);
 				
@@ -1147,13 +1158,20 @@ public class GestionnaireParametreService {
 					}
 				});
 				
+				lbltitle.setLayoutX(100);
+				lbltitle.setLayoutY(50);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
 				
 				tableParametre.setLayoutX(200);
-				tableParametre.setLayoutY(60);
+				tableParametre.setLayoutY(105);
+				tableParametre.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+				tableParametre.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 				root.getChildren().add(tableParametre);
 				
 				root.getChildren().add(btn1);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 750, 650);

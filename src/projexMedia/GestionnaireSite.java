@@ -274,12 +274,15 @@ public class GestionnaireSite {
 		btnArchiver.setLayoutY(220);
 		btnConsulter.setLayoutX(30);
 		btnConsulter.setLayoutY(530);
-		tfRecherche.setLayoutX(500);
+		tfRecherche.setLayoutX(MainLogin.bounds.getWidth()-400);
 		tfRecherche.setLayoutY(10);
-		btnRecherche.setLayoutX(690);
+		btnRecherche.setLayoutX(MainLogin.bounds.getWidth()-125);
 		btnRecherche.setLayoutY(10);
 		_table.setLayoutX(200);
 		_table.setLayoutY(60);
+		_table.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		_table.setPrefHeight(MainLogin.bounds.getHeight() -200);
+		tfRecherche.setMinWidth(250);
 
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);
@@ -751,6 +754,7 @@ public class GestionnaireSite {
 		Button btnSupprimer = new Button();
 		Button btnRetour = new Button();
 		Pane root = new Pane();
+		Label lbltitle = new Label("Archives des sites");
 
 		btnActiver.setText("Activer");
 		btnActiver.setOnAction(new EventHandler<ActionEvent>() {
@@ -873,14 +877,21 @@ public class GestionnaireSite {
 		Col2.prefWidthProperty().bind(_table.widthProperty().divide(2));
 		_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+		lbltitle.setLayoutX(90);
+		lbltitle.setLayoutY(50);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		btnActiver.setLayoutX(30);
-		btnActiver.setLayoutY(40);
+		btnActiver.setLayoutY(105);
 		btnSupprimer.setLayoutX(30);
-		btnSupprimer.setLayoutY(120);
+		btnSupprimer.setLayoutY(185);
 		btnRetour.setLayoutX(30);
-		btnRetour.setLayoutY(480);
+		btnRetour.setLayoutY(575);
 		_table.setLayoutX(200);
-		_table.setLayoutY(20);
+		_table.setLayoutY(105);
+		_table.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		_table.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		btnActiver.setMinHeight(50);
 		btnActiver.setMinWidth(150);
@@ -901,6 +912,7 @@ public class GestionnaireSite {
 		root.getChildren().add(btnSupprimer);
 		root.getChildren().add(btnRetour);
 		root.getChildren().add(_table);
+		root.getChildren().add(lbltitle);
 
 		Scene scene = new Scene(root, 750, 550);
 		primaryStage.setTitle("Archives");

@@ -18,6 +18,7 @@ public class Role {
     private SimpleStringProperty _historique;
     private SimpleStringProperty _utilisateur;
     private SimpleStringProperty _droitRole;
+    private SimpleStringProperty _gestionService;
 
     public Role() {
     	id_role = 0;
@@ -30,6 +31,7 @@ public class Role {
     	_historique = new SimpleStringProperty(null);
     	_utilisateur = new SimpleStringProperty(null);
     	_droitRole = new SimpleStringProperty(null);
+    	_gestionService = new SimpleStringProperty(null);
     }
     
     public Role(int id) throws SQLException {
@@ -102,13 +104,20 @@ public class Role {
 	    	else {
 	    		_droitRole = new SimpleStringProperty("");
 	    	}
+	    	
+	    	if(result.getBoolean("gestionService") == true) {
+	    		_gestionService = new SimpleStringProperty("X");
+	    	}
+	    	else {
+	    		_gestionService = new SimpleStringProperty("");
+	    	}
 			
 		} finally {
 			conn.close();
 		}
 	}
     
-    public Role(int id, String role, boolean ajouter,boolean modifier,boolean archiver,boolean activer,boolean supprimer, boolean historique, boolean utilisateur, boolean droitRole) {
+    public Role(int id, String role, boolean ajouter,boolean modifier,boolean archiver,boolean activer,boolean supprimer, boolean historique, boolean utilisateur, boolean droitRole,boolean gestionService) {
     	id_role = id;
     	
     	_role = new SimpleStringProperty(role);
@@ -167,6 +176,13 @@ public class Role {
     	}
     	else {
     		_droitRole = new SimpleStringProperty("");
+    	}
+    	
+    	if(gestionService == true) {
+    		_gestionService = new SimpleStringProperty("X");
+    	}
+    	else {
+    		_gestionService = new SimpleStringProperty("");
     	}
     }
 
@@ -249,7 +265,14 @@ public class Role {
 	public void set_droitRole(String droitRole) {
 		this._droitRole = new SimpleStringProperty(droitRole);
 	}
-    
+
+	public String get_gestionService() {
+		return _gestionService.get();
+	}
+
+	public void set_gestionService(String gestionService) {
+		this._gestionService = new SimpleStringProperty(gestionService);
+	} 
 	
     
 }

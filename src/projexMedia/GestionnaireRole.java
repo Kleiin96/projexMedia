@@ -68,7 +68,7 @@ public class GestionnaireRole {
 					"SELECT * FROM role ");
 
 			while (result.next()) {
-				_data.add(new Role(result.getInt("id_role"), result.getString("nom_role"), result.getBoolean("ajouter"),result.getBoolean("modifier"), result.getBoolean("archiver"), result.getBoolean("activer"), result.getBoolean("supprimer"), result.getBoolean("historique"), result.getBoolean("utilisateur"), result.getBoolean("role")));
+				_data.add(new Role(result.getInt("id_role"), result.getString("nom_role"), result.getBoolean("ajouter"),result.getBoolean("modifier"), result.getBoolean("archiver"), result.getBoolean("activer"), result.getBoolean("supprimer"), result.getBoolean("historique"), result.getBoolean("utilisateur"), result.getBoolean("role"),result.getBoolean("gestionService")));
 			}
 			
 		} finally {
@@ -160,7 +160,7 @@ public class GestionnaireRole {
 								"SELECT * FROM role");
 						_data.removeAll(_data);
 						while (result.next()) {
-							_data.add(new Role(result.getInt("id_role"), result.getString("nom_role"), result.getBoolean("ajouter"),result.getBoolean("modifier"), result.getBoolean("archiver"), result.getBoolean("activer"), result.getBoolean("supprimer"), result.getBoolean("historique"), result.getBoolean("utilisateur"), result.getBoolean("role")));
+							_data.add(new Role(result.getInt("id_role"), result.getString("nom_role"), result.getBoolean("ajouter"),result.getBoolean("modifier"), result.getBoolean("archiver"), result.getBoolean("activer"), result.getBoolean("supprimer"), result.getBoolean("historique"), result.getBoolean("utilisateur"), result.getBoolean("role"),result.getBoolean("gestionService")));
 						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -185,6 +185,8 @@ public class GestionnaireRole {
 		btnSupprimer.setLayoutY(220);
 		_table.setLayoutX(200);
 		_table.setLayoutY(60);
+		_table.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		_table.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);

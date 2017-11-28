@@ -175,6 +175,8 @@ public class GestionnaireUtilisateur {
 		btnSupprimer.setLayoutY(220);
 		_table.setLayoutX(200);
 		_table.setLayoutY(60);
+		_table.setPrefWidth(MainLogin.bounds.getWidth() - 300);
+		_table.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		btnAjouter.setMinHeight(50);
 		btnAjouter.setMinWidth(150);

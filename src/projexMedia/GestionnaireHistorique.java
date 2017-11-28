@@ -31,10 +31,6 @@ public class GestionnaireHistorique {
 	
 	public ObservableList<Historiques> list = FXCollections.observableArrayList();
 	
-	
-	
-	
-	
 	public GestionnaireHistorique() {
 		_historiqueTab = new Tab("Historique");
 		_pane = new Pane();
@@ -209,20 +205,21 @@ public class GestionnaireHistorique {
 		lblU.setLayoutY(10);
 		tfRecherche.setLayoutX(150);
 		tfRecherche.setLayoutY(30);
-		lblT.setLayoutX(330);
+		lblT.setLayoutX(360);
 		lblT.setLayoutY(10);
-		tfRechercheT.setLayoutX(330);
+		tfRechercheT.setLayoutX(360);
 		tfRechercheT.setLayoutY(30);
-		lblP.setLayoutX(510);
+		lblP.setLayoutX(570);
 		lblP.setLayoutY(10);
-		tfRechercheP.setLayoutX(510);
+		tfRechercheP.setLayoutX(570);
 		tfRechercheP.setLayoutY(30);
-		btnR.setLayoutX(680);
+		btnR.setLayoutX(770);
 		btnR.setLayoutY(30);
-		logTable.setLayoutX(10);
-		logTable.setLayoutY(60);
+		logTable.setLayoutX(50);
+		logTable.setLayoutY(100);
 		
-		
+		logTable.setPrefWidth(MainLogin.bounds.getWidth() - 100);
+		logTable.setPrefHeight(MainLogin.bounds.getHeight() -200);
 
 		
 		

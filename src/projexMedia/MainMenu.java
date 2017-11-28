@@ -72,7 +72,6 @@ public class MainMenu extends Application {
         _TabServeur.createPane(primaryStage);
         _TabSite.createPane(primaryStage);
         _TabClient.createPane(primaryStage);
-        _TabParServ.createPane(primaryStage);
         
         
         client.setClosable(false);
@@ -81,19 +80,20 @@ public class MainMenu extends Application {
         site.setClosable(false);
         serveur.setClosable(false);
         serveur.setContent(_TabServeur.getServeurPane());
-        servPar.setClosable(false);
-        servPar.setContent(_TabParServ.get_pane());
-        
-                   
+       
         TabPane tabPane = new TabPane();
         tabPane.setPrefSize(MainLogin.bounds.getWidth(), MainLogin.bounds.getHeight());
         
         tabPane.getTabs().add(0, client);
         tabPane.getTabs().add(site);
         tabPane.getTabs().add(serveur);
-        tabPane.getTabs().add(servPar);
         
-        
+        if(_role.get_gestionService().equals("X")) {
+        	_TabParServ.createPane(primaryStage);
+        	 servPar.setClosable(false);
+             servPar.setContent(_TabParServ.get_pane());
+            tabPane.getTabs().add(servPar);
+        }
         
         if(_role.get_utilisateur().equals("X")) {
         	
