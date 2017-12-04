@@ -320,45 +320,49 @@ public class GestionnaireUtilisateur {
 		// panel
 		Pane root = new Pane();
 		
+		Label lbltitle = new Label("Ajouter un utilisateur");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(tfCourriel);
 		setUpValidation(tfMdp);
 
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(70);
-		tfCourriel.setLayoutX(200);
-		tfCourriel.setLayoutY(70);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tfCourriel.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfCourriel.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(120);
-		tfMdp.setLayoutX(200);
-		tfMdp.setLayoutY(120);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tfMdp.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfMdp.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 		
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(170);
-		tfPrenom.setLayoutX(200);
-		tfPrenom.setLayoutY(170);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tfPrenom.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfPrenom.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 		
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(220);
-		tfNom.setLayoutX(200);
-		tfNom.setLayoutY(220);
+		lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		tfNom.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfNom.setLayoutY((MainLogin.bounds.getHeight()/2));
 		
-		lbl4.setLayoutX(50);
-		lbl4.setLayoutY(270);
-		cmbRole.setLayoutX(200);
-		cmbRole.setLayoutY(270);
+		lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		cmbRole.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cmbRole.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 
 		// Bouton
-		btnAjouter.setLayoutX(50);
-		btnAjouter.setLayoutY(340);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(340);
-
-		cmbRole.setMinWidth(185);
-		btnAjouter.setMinHeight(30);
-		btnAjouter.setMinWidth(130);
-		btnCancel.setMinHeight(30);
-		btnCancel.setMinWidth(130);
+		btnAjouter.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnAjouter.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btnAjouter.setMinHeight(50);
+		btnAjouter.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -373,11 +377,13 @@ public class GestionnaireUtilisateur {
 		root.getChildren().add(lbl4);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Ajouter Utilisateur");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbRole);
@@ -507,45 +513,49 @@ public class GestionnaireUtilisateur {
 		// panel
 		Pane root = new Pane();
 		
+		Label lbltitle = new Label("Modifier un utilisateur");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(tfCourriel);
 		setUpValidation(tfMdp);
 
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(70);
-		tfCourriel.setLayoutX(200);
-		tfCourriel.setLayoutY(70);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tfCourriel.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfCourriel.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(120);
-		tfMdp.setLayoutX(200);
-		tfMdp.setLayoutY(120);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tfMdp.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfMdp.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 		
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(170);
-		tfPrenom.setLayoutX(200);
-		tfPrenom.setLayoutY(170);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tfPrenom.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfPrenom.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 		
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(220);
-		tfNom.setLayoutX(200);
-		tfNom.setLayoutY(220);
+		lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		tfNom.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfNom.setLayoutY((MainLogin.bounds.getHeight()/2));
 		
-		lbl4.setLayoutX(50);
-		lbl4.setLayoutY(270);
-		cmbRole.setLayoutX(200);
-		cmbRole.setLayoutY(270);
+		lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		cmbRole.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cmbRole.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 
 		// Bouton
-		btnModifier.setLayoutX(50);
-		btnModifier.setLayoutY(340);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(340);
-
-		cmbRole.setMinWidth(185);
-		btnModifier.setMinHeight(30);
-		btnModifier.setMinWidth(130);
-		btnCancel.setMinHeight(30);
-		btnCancel.setMinWidth(130);
+		btnModifier.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnModifier.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		btnModifier.setMinHeight(50);
+		btnModifier.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -560,11 +570,13 @@ public class GestionnaireUtilisateur {
 		root.getChildren().add(lbl4);
 		root.getChildren().add(btnModifier);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Modifier Utilisateur");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbRole);

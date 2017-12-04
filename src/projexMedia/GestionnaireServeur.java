@@ -339,108 +339,118 @@ public class GestionnaireServeur {
 					}
 				});
 				
+				Label lbltitle = new Label("Ajouter un serveur");
+				lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-550);
+				lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
+				
 				setUpValidation(tf);
 
 				// premier champ
-				lbl.setLayoutX(50);
-				lbl.setLayoutY(100);
-				tf.setLayoutX(200);
-				tf.setLayoutY(100);
+				lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 				// deuxieme champ
-				lbl1.setLayoutX(50);
-				lbl1.setLayoutY(150);
-				tf1.setLayoutX(200);
-				tf1.setLayoutY(150);
+				lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				tf1.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 
 				// troisieme champ
-				lbl2.setLayoutX(50);
-				lbl2.setLayoutY(200);
-				tf2.setLayoutX(200);
-				tf2.setLayoutY(200);
+				lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				tf2.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 
 				// quatrieme champ
-				lbl3.setLayoutX(50);
-				lbl3.setLayoutY(250);
-				tf3.setLayoutX(200);
-				tf3.setLayoutY(250);
+				lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+				tf3.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf3.setLayoutY((MainLogin.bounds.getHeight()/2));
 
 				// cinquieme champ
-				lbl4.setLayoutX(50);
-				lbl4.setLayoutY(300);
-				tf4.setLayoutX(200);
-				tf4.setLayoutY(300);
+				lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				tf4.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 				
-				lbl5.setLayoutX(50);
-				lbl5.setLayoutY(350);
-				tf5.setLayoutX(200);
-				tf5.setLayoutY(350);
+				lbl5.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl5.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf5.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf5.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 				
 				//sixeme champs
-				lbl6.setLayoutX(50);
-				lbl6.setLayoutY(400);
-				tf6.setLayoutX(200);
-				tf6.setLayoutY(400);
+				lbl6.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl6.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				tf6.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf6.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 				
 				//septieme champ
-				lbl7.setLayoutX(50);
-				lbl7.setLayoutY(450);
-				tf7.setLayoutX(200);
-				tf7.setLayoutY(450);
+				lbl7.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl7.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				tf7.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf7.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 				
 				//huitieme champ
-				lbl8.setLayoutX(50);
-				lbl8.setLayoutY(500);
-				tf8.setLayoutX(200);
-				tf8.setLayoutY(500);
+				lbl8.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl8.setLayoutY((MainLogin.bounds.getHeight()/2));
+				tf8.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf8.setLayoutY((MainLogin.bounds.getHeight()/2));
 				
 				//neuviemem champ
-				lbl9.setLayoutX(50);
-				lbl9.setLayoutY(550);
-				tf9.setLayoutX(200);
-				tf9.setLayoutY(550);
+				lbl9.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl9.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				tf9.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf9.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 				
 				//dixieme champ
-				lbl10.setLayoutX(50);
-				lbl10.setLayoutY(600);
-				tf10.setLayoutX(200);
-				tf10.setLayoutY(600);
+				lbl10.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl10.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf10.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf10.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 				
 				//onzieme champs
-				lbl11.setLayoutX(50);
-				lbl11.setLayoutY(650);
-				tf11.setLayoutX(200);
-				tf11.setLayoutY(650);
+				lbl11.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl11.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				tf11.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf11.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 				
 				//douzieme champ
-				lbl12.setLayoutX(50);
-				lbl12.setLayoutY(700);
-				tf12.setLayoutX(200);
-				tf12.setLayoutY(700);
+				lbl12.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl12.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				tf12.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf12.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 				
 				//treizieme champ
-				lbl13.setLayoutX(50);
-				lbl13.setLayoutY(750);
-				tf13.setLayoutX(200);
-				tf13.setLayoutY(750);
+				lbl13.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl13.setLayoutY((MainLogin.bounds.getHeight()/2));
+				tf13.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf13.setLayoutY((MainLogin.bounds.getHeight()/2));
 				
 				//quatarzieme chmap
-				lbl14.setLayoutX(50);
-				lbl14.setLayoutY(800);
-				tf14.setLayoutX(200);
-				tf14.setLayoutY(800);
+				lbl14.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl14.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				tf14.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf14.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 				
 				//quinzieme champ
-				lbl15.setLayoutX(50);
-				lbl15.setLayoutY(850);
-				tf15.setLayoutX(200);
-				tf15.setLayoutY(850);
+				lbl15.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl15.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
+				tf15.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf15.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
 
 				// Bouton
-				btn.setLayoutX(50);
-				btn.setLayoutY(900);
-				btn1.setLayoutX(275);
-				btn1.setLayoutY(900);
+				btn.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				btn.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
+				btn1.setLayoutX((MainLogin.bounds.getWidth()/2)+300);
+				btn1.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
+				btn.setMinHeight(50);
+				btn.setMinWidth(150);
+				btn1.setMinHeight(50);
+				btn1.setMinWidth(150);
 
 
 				
@@ -479,6 +489,7 @@ public class GestionnaireServeur {
 				root.getChildren().add(tf15);
 				root.getChildren().add(btn);
 				root.getChildren().add(btn1);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 450, 950);
@@ -589,108 +600,118 @@ public class GestionnaireServeur {
 					}
 				});
 				
+				Label lbltitle = new Label("Modifier un serveur");
+				lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-550);
+				lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
+				
 				setUpValidation(tf);
 
 				// premier champ
-				lbl.setLayoutX(50);
-				lbl.setLayoutY(100);
-				tf.setLayoutX(200);
-				tf.setLayoutY(100);
+				lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 				// deuxieme champ
-				lbl1.setLayoutX(50);
-				lbl1.setLayoutY(150);
-				tf1.setLayoutX(200);
-				tf1.setLayoutY(150);
+				lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				tf1.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 
 				// troisieme champ
-				lbl2.setLayoutX(50);
-				lbl2.setLayoutY(200);
-				tf2.setLayoutX(200);
-				tf2.setLayoutY(200);
+				lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				tf2.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 
 				// quatrieme champ
-				lbl3.setLayoutX(50);
-				lbl3.setLayoutY(250);
-				tf3.setLayoutX(200);
-				tf3.setLayoutY(250);
+				lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+				tf3.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf3.setLayoutY((MainLogin.bounds.getHeight()/2));
 
 				// cinquieme champ
-				lbl4.setLayoutX(50);
-				lbl4.setLayoutY(300);
-				tf4.setLayoutX(200);
-				tf4.setLayoutY(300);
+				lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				tf4.setLayoutX((MainLogin.bounds.getWidth()/2)-450);
+				tf4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 				
-				lbl5.setLayoutX(50);
-				lbl5.setLayoutY(350);
-				tf5.setLayoutX(200);
-				tf5.setLayoutY(350);
+				lbl5.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl5.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf5.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf5.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 				
 				//sixeme champs
-				lbl6.setLayoutX(50);
-				lbl6.setLayoutY(400);
-				tf6.setLayoutX(200);
-				tf6.setLayoutY(400);
+				lbl6.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl6.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				tf6.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf6.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 				
 				//septieme champ
-				lbl7.setLayoutX(50);
-				lbl7.setLayoutY(450);
-				tf7.setLayoutX(200);
-				tf7.setLayoutY(450);
+				lbl7.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl7.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				tf7.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf7.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 				
 				//huitieme champ
-				lbl8.setLayoutX(50);
-				lbl8.setLayoutY(500);
-				tf8.setLayoutX(200);
-				tf8.setLayoutY(500);
+				lbl8.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl8.setLayoutY((MainLogin.bounds.getHeight()/2));
+				tf8.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf8.setLayoutY((MainLogin.bounds.getHeight()/2));
 				
 				//neuviemem champ
-				lbl9.setLayoutX(50);
-				lbl9.setLayoutY(550);
-				tf9.setLayoutX(200);
-				tf9.setLayoutY(550);
+				lbl9.setLayoutX((MainLogin.bounds.getWidth()/2)-200);
+				lbl9.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				tf9.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf9.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 				
 				//dixieme champ
-				lbl10.setLayoutX(50);
-				lbl10.setLayoutY(600);
-				tf10.setLayoutX(200);
-				tf10.setLayoutY(600);
+				lbl10.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl10.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf10.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf10.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 				
 				//onzieme champs
-				lbl11.setLayoutX(50);
-				lbl11.setLayoutY(650);
-				tf11.setLayoutX(200);
-				tf11.setLayoutY(650);
+				lbl11.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl11.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				tf11.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf11.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 				
 				//douzieme champ
-				lbl12.setLayoutX(50);
-				lbl12.setLayoutY(700);
-				tf12.setLayoutX(200);
-				tf12.setLayoutY(700);
+				lbl12.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl12.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				tf12.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf12.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 				
 				//treizieme champ
-				lbl13.setLayoutX(50);
-				lbl13.setLayoutY(750);
-				tf13.setLayoutX(200);
-				tf13.setLayoutY(750);
+				lbl13.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl13.setLayoutY((MainLogin.bounds.getHeight()/2));
+				tf13.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf13.setLayoutY((MainLogin.bounds.getHeight()/2));
 				
 				//quatarzieme chmap
-				lbl14.setLayoutX(50);
-				lbl14.setLayoutY(800);
-				tf14.setLayoutX(200);
-				tf14.setLayoutY(800);
+				lbl14.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl14.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				tf14.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf14.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 				
 				//quinzieme champ
-				lbl15.setLayoutX(50);
-				lbl15.setLayoutY(850);
-				tf15.setLayoutX(200);
-				tf15.setLayoutY(850);
+				lbl15.setLayoutX((MainLogin.bounds.getWidth()/2)+200);
+				lbl15.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
+				tf15.setLayoutX((MainLogin.bounds.getWidth()/2)+350);
+				tf15.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
 
 				// Bouton
-				btn.setLayoutX(50);
-				btn.setLayoutY(900);
-				btn1.setLayoutX(275);
-				btn1.setLayoutY(900);
+				btn.setLayoutX((MainLogin.bounds.getWidth()/2)-625);
+				btn.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
+				btn1.setLayoutX((MainLogin.bounds.getWidth()/2)+300);
+				btn1.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
+				btn.setMinHeight(50);
+				btn.setMinWidth(150);
+				btn1.setMinHeight(50);
+				btn1.setMinWidth(150);
 
 				
 				// add to panel
@@ -728,6 +749,7 @@ public class GestionnaireServeur {
 				root.getChildren().add(tf15);
 				root.getChildren().add(btn);
 				root.getChildren().add(btn1);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 450, 950);

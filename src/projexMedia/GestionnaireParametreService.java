@@ -332,21 +332,31 @@ public class GestionnaireParametreService {
 					}
 				});
 				
+				Label lbltitle = new Label("Ajouter un paramètre");
+				lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+				lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
+				
 				setUpValidation(tf);
 
 				// premier champ
-				lbl.setLayoutX(50);
-				lbl.setLayoutY(100);
-				tf.setLayoutX(200);
-				tf.setLayoutY(100);
+				lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 				
 
 				// Bouton
-				btn.setLayoutX(50);
-				btn.setLayoutY(350);
-				btn1.setLayoutX(275);
-				btn1.setLayoutY(350);
+				btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				btn.setLayoutY((MainLogin.bounds.getHeight()/2));
+				btn1.setLayoutX((MainLogin.bounds.getWidth()/2));
+				btn1.setLayoutY((MainLogin.bounds.getHeight()/2));
+				btn.setMinHeight(50);
+				btn.setMinWidth(150);
+				btn1.setMinHeight(50);
+				btn1.setMinWidth(150);
 
 				// add to panel
 				root.getChildren().add(lbl);
@@ -355,11 +365,13 @@ public class GestionnaireParametreService {
 				
 				root.getChildren().add(btn);
 				root.getChildren().add(btn1);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 450, 400);
 				primaryStage.setTitle("Ajouter Paramètre de Service");
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				root.getStyleClass().add("fontFormulaire");
 				primaryStage.setScene(scene);
 				primaryStage.show();
 	}
@@ -431,26 +443,35 @@ public class GestionnaireParametreService {
 			}
 		});
 		
+		Label lbltitle = new Label("Ajouter un type de service");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(tf);
 
 		// premier champ
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(100);
-		tf.setLayoutX(200);
-		tf.setLayoutY(100);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tf.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 		// premier champ
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(150);
-		tf1.setLayoutX(200);
-		tf1.setLayoutY(150);
-		
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tf1.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 
 		// Bouton
-		btn.setLayoutX(50);
-		btn.setLayoutY(350);
-		btn1.setLayoutX(275);
-		btn1.setLayoutY(350);
+		btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btn.setLayoutY((MainLogin.bounds.getHeight()/2));
+		btn1.setLayoutX((MainLogin.bounds.getWidth()/2));
+		btn1.setLayoutY((MainLogin.bounds.getHeight()/2));
+		btn.setMinHeight(50);
+		btn.setMinWidth(150);
+		btn1.setMinHeight(50);
+		btn1.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -463,11 +484,13 @@ public class GestionnaireParametreService {
 		
 		root.getChildren().add(btn);
 		root.getChildren().add(btn1);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Ajouter Paramètre de Service");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -553,18 +576,29 @@ public class GestionnaireParametreService {
 					}
 				});
 
+				Label lbltitle = new Label("Ajouter un paramètre à un service");
+				lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+				lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
+				
 				// premier champ
-				lbl.setLayoutX(50);
-				lbl.setLayoutY(100);
-				cbParametre.setLayoutX(200);
-				cbParametre.setLayoutY(100);
+				lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				cbParametre.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cbParametre.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+
 				
 
 				// Bouton
-				btn.setLayoutX(50);
-				btn.setLayoutY(350);
-				btn1.setLayoutX(275);
-				btn1.setLayoutY(350);
+				btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				btn.setLayoutY((MainLogin.bounds.getHeight()/2));
+				btn1.setLayoutX((MainLogin.bounds.getWidth()/2));
+				btn1.setLayoutY((MainLogin.bounds.getHeight()/2));
+				btn.setMinHeight(50);
+				btn.setMinWidth(150);
+				btn1.setMinHeight(50);
+				btn1.setMinWidth(150);
 
 				// add to panel
 				root.getChildren().add(lbl);
@@ -573,10 +607,13 @@ public class GestionnaireParametreService {
 				
 				root.getChildren().add(btn);
 				root.getChildren().add(btn1);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 450, 400);
 				primaryStage.setTitle("Ajouter un parametre a un type service");
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				root.getStyleClass().add("fontFormulaire");
 				primaryStage.setScene(scene);
 				primaryStage.show();
 	}
@@ -645,21 +682,31 @@ public class GestionnaireParametreService {
 					}
 				});
 
-				setUpValidation(tf);
+				Label lbltitle = new Label("Modifier un paramètre");
+				lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+				lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
 				
+				setUpValidation(tf);
+
 				// premier champ
-				lbl.setLayoutX(50);
-				lbl.setLayoutY(100);
-				tf.setLayoutX(200);
-				tf.setLayoutY(100);
+				lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				tf.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 				
 
 				// Bouton
-				btn.setLayoutX(50);
-				btn.setLayoutY(350);
-				btn1.setLayoutX(275);
-				btn1.setLayoutY(350);
+				btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				btn.setLayoutY((MainLogin.bounds.getHeight()/2));
+				btn1.setLayoutX((MainLogin.bounds.getWidth()/2));
+				btn1.setLayoutY((MainLogin.bounds.getHeight()/2));
+				btn.setMinHeight(50);
+				btn.setMinWidth(150);
+				btn1.setMinHeight(50);
+				btn1.setMinWidth(150);
 
 				// add to panel
 				root.getChildren().add(lbl);
@@ -668,11 +715,13 @@ public class GestionnaireParametreService {
 				
 				root.getChildren().add(btn);
 				root.getChildren().add(btn1);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 450, 400);
 				primaryStage.setTitle("Modifier Paramètre de Service");
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				root.getStyleClass().add("fontFormulaire");
 				primaryStage.setScene(scene);
 				primaryStage.show();
 	}
@@ -747,24 +796,35 @@ public class GestionnaireParametreService {
 		
 		setUpValidation(tf);
 
-		// premier champ
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(100);
-		tf.setLayoutX(200);
-		tf.setLayoutY(100);
+		Label lbltitle = new Label("Modifier un type de service");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
+		setUpValidation(tf);
 
 		// premier champ
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(150);
-		tf1.setLayoutX(200);
-		tf1.setLayoutY(150);
-		
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		tf.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+
+		// premier champ
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		tf1.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tf1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 
 		// Bouton
-		btn.setLayoutX(50);
-		btn.setLayoutY(350);
-		btn1.setLayoutX(275);
-		btn1.setLayoutY(350);
+		btn.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btn.setLayoutY((MainLogin.bounds.getHeight()/2));
+		btn1.setLayoutX((MainLogin.bounds.getWidth()/2));
+		btn1.setLayoutY((MainLogin.bounds.getHeight()/2));
+		btn.setMinHeight(50);
+		btn.setMinWidth(150);
+		btn1.setMinHeight(50);
+		btn1.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -777,11 +837,13 @@ public class GestionnaireParametreService {
 		
 		root.getChildren().add(btn);
 		root.getChildren().add(btn1);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 400);
 		primaryStage.setTitle("Modifer le type de Service");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

@@ -506,6 +506,10 @@ public class GestionnaireSite {
 		btnAjouter.setMinWidth(130);
 		btnCancel.setMinHeight(30);
 		btnCancel.setMinWidth(130);
+		btnAjouter.setMinHeight(50);
+		btnAjouter.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -708,6 +712,10 @@ public class GestionnaireSite {
 		btnModifier.setMinWidth(130);
 		btnCancel.setMinHeight(30);
 		btnCancel.setMinWidth(130);
+		btnModifier.setMinHeight(50);
+		btnModifier.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);

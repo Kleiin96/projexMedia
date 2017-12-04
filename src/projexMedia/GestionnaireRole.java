@@ -314,63 +314,68 @@ public class GestionnaireRole {
 		// panel
 		Pane root = new Pane();
 		
+		Label lbltitle = new Label("Ajouter un rôle");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(nomRole);
 
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(70);
-		nomRole.setLayoutX(200);
-		nomRole.setLayoutY(70);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		nomRole.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		nomRole.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(120);
-		cb1.setLayoutX(200);
-		cb1.setLayoutY(120);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		cb1.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 		
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(170);
-		cb2.setLayoutX(200);
-		cb2.setLayoutY(170);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		cb2.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 		
-		lbl3.setLayoutX(50);
-		lbl3.setLayoutY(220);
-		cb3.setLayoutX(200);
-		cb3.setLayoutY(220);
+		lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+		cb3.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb3.setLayoutY((MainLogin.bounds.getHeight()/2));
 		
-		lbl4.setLayoutX(50);
-		lbl4.setLayoutY(270);
-		cb4.setLayoutX(200);
-		cb4.setLayoutY(270);
+		lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		cb4.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 
-		lbl5.setLayoutX(50);
-		lbl5.setLayoutY(300);
-		cb5.setLayoutX(200);
-		cb5.setLayoutY(300);
+		lbl5.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl5.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
+		cb5.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb5.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
 		
-		lbl6.setLayoutX(50);
-		lbl6.setLayoutY(320);
-		cb6.setLayoutX(200);
-		cb6.setLayoutY(320);
+		lbl6.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl6.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+		cb6.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb6.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
 		
-		lbl7.setLayoutX(50);
-		lbl7.setLayoutY(340);
-		cb7.setLayoutX(200);
-		cb7.setLayoutY(340);
+		lbl7.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl7.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
+		cb7.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb7.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
 		
-		lbl8.setLayoutX(50);
-		lbl8.setLayoutY(360);
-		cb8.setLayoutX(200);
-		cb8.setLayoutY(360);
+		lbl8.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl8.setLayoutY((MainLogin.bounds.getHeight()/2)+250);
+		cb8.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cb8.setLayoutY((MainLogin.bounds.getHeight()/2)+250);
 		
 		// Bouton
-		btnAjouter.setLayoutX(50);
-		btnAjouter.setLayoutY(380);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(380);
-
-		btnAjouter.setMinHeight(30);
-		btnAjouter.setMinWidth(130);
-		btnCancel.setMinHeight(30);
-		btnCancel.setMinWidth(130);
+		btnAjouter.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnAjouter.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
+		btnAjouter.setMinHeight(50);
+		btnAjouter.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		// add to panel
 		root.getChildren().add(lbl);
@@ -393,11 +398,13 @@ public class GestionnaireRole {
 		root.getChildren().add(cb8);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 600);
 		primaryStage.setTitle("Ajouter Role");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -526,63 +533,68 @@ public class GestionnaireRole {
 				// panel
 				Pane root = new Pane();
 				
+				Label lbltitle = new Label("Ajouter un rôle");
+				lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+				lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+				lbltitle.setScaleX(2);
+				lbltitle.setScaleY(2);
+				
 				setUpValidation(nomRole);
 
-				lbl.setLayoutX(50);
-				lbl.setLayoutY(70);
-				nomRole.setLayoutX(200);
-				nomRole.setLayoutY(70);
+				lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+				nomRole.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				nomRole.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
-				lbl1.setLayoutX(50);
-				lbl1.setLayoutY(120);
-				cb1.setLayoutX(200);
-				cb1.setLayoutY(120);
+				lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+				cb1.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 				
-				lbl2.setLayoutX(50);
-				lbl2.setLayoutY(170);
-				cb2.setLayoutX(200);
-				cb2.setLayoutY(170);
+				lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+				cb2.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
 				
-				lbl3.setLayoutX(50);
-				lbl3.setLayoutY(220);
-				cb3.setLayoutX(200);
-				cb3.setLayoutY(220);
+				lbl3.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl3.setLayoutY((MainLogin.bounds.getHeight()/2));
+				cb3.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb3.setLayoutY((MainLogin.bounds.getHeight()/2));
 				
-				lbl4.setLayoutX(50);
-				lbl4.setLayoutY(270);
-				cb4.setLayoutX(200);
-				cb4.setLayoutY(270);
+				lbl4.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+				cb4.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb4.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 
-				lbl5.setLayoutX(50);
-				lbl5.setLayoutY(300);
-				cb5.setLayoutX(200);
-				cb5.setLayoutY(300);
+				lbl5.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl5.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
+				cb5.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb5.setLayoutY((MainLogin.bounds.getHeight()/2)+100);
 				
-				lbl6.setLayoutX(50);
-				lbl6.setLayoutY(320);
-				cb6.setLayoutX(200);
-				cb6.setLayoutY(320);
+				lbl6.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl6.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
+				cb6.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb6.setLayoutY((MainLogin.bounds.getHeight()/2)+150);
 				
-				lbl7.setLayoutX(50);
-				lbl7.setLayoutY(340);
-				cb7.setLayoutX(200);
-				cb7.setLayoutY(340);
+				lbl7.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl7.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
+				cb7.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb7.setLayoutY((MainLogin.bounds.getHeight()/2)+200);
 				
-				lbl8.setLayoutX(50);
-				lbl8.setLayoutY(360);
-				cb8.setLayoutX(200);
-				cb8.setLayoutY(360);
+				lbl8.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				lbl8.setLayoutY((MainLogin.bounds.getHeight()/2)+250);
+				cb8.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+				cb8.setLayoutY((MainLogin.bounds.getHeight()/2)+250);
 				
 				// Bouton
-				btnModifier.setLayoutX(50);
-				btnModifier.setLayoutY(340);
-				btnCancel.setLayoutX(250);
-				btnCancel.setLayoutY(340);
-
-				btnModifier.setMinHeight(30);
-				btnModifier.setMinWidth(130);
-				btnCancel.setMinHeight(30);
-				btnCancel.setMinWidth(130);
+				btnModifier.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+				btnModifier.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
+				btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+				btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
+				btnModifier.setMinHeight(50);
+				btnModifier.setMinWidth(150);
+				btnCancel.setMinHeight(50);
+				btnCancel.setMinWidth(150);
 
 				// add to panel
 				root.getChildren().add(lbl);
@@ -605,11 +617,13 @@ public class GestionnaireRole {
 				root.getChildren().add(cb8);
 				root.getChildren().add(btnModifier);
 				root.getChildren().add(btnCancel);
+				root.getChildren().add(lbltitle);
 
 				// create window
 				Scene scene = new Scene(root, 450, 600);
 				primaryStage.setTitle("Modifier Role");
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				root.getStyleClass().add("fontFormulaire");
 				primaryStage.setScene(scene);
 				primaryStage.show();			
 
