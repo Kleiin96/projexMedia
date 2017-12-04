@@ -67,6 +67,7 @@ public class GestionnaireSite {
 		TableView<Site> _table = new TableView<Site>();
 		TableColumn<Site, String> Col = new TableColumn<Site, String>("Url du site");
 		TableColumn<Site, String> Col2 = new TableColumn<Site, String>("Compagnie");
+		TableColumn<Site, String> Col3 = new TableColumn<Site, String>("Serveur");
 
 		SimpleDataSource.init("src/projexMedia/database.properties");
 
@@ -82,11 +83,11 @@ public class GestionnaireSite {
 				Statement stat = conn.createStatement();
 
 				ResultSet result = stat.executeQuery(
-						"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=1");
+						"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE site.actif=1");
 
 				while (result.next()) {
 					_data.add(
-							new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie")));
+							new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie"), result.getString("nom_serveur")));
 				}
 				
 			} finally {
@@ -112,10 +113,12 @@ public class GestionnaireSite {
 
 		Col.setCellValueFactory(new PropertyValueFactory<Site, String>("url"));
 		Col2.setCellValueFactory(new PropertyValueFactory<Site, String>("client"));
-		_table.getColumns().addAll(Col, Col2);
+		Col3.setCellValueFactory(new PropertyValueFactory<Site, String>("serveur"));
+		_table.getColumns().addAll(Col, Col2, Col3);
 		_table.setItems(_data);
-		Col.prefWidthProperty().bind(_table.widthProperty().divide(2));
-		Col2.prefWidthProperty().bind(_table.widthProperty().divide(2));
+		Col.prefWidthProperty().bind(_table.widthProperty().divide(3));
+		Col2.prefWidthProperty().bind(_table.widthProperty().divide(3));
+		Col3.prefWidthProperty().bind(_table.widthProperty().divide(3));
 		_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		btnAjouter.setText("Ajouter");
@@ -161,12 +164,12 @@ public class GestionnaireSite {
 					Statement stat = conn.createStatement();
 
 					ResultSet result = stat.executeQuery(
-							"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=1");
+							"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE site.actif=1");
 
 					_data.removeAll(_data);
 					while (result.next()) {
 						_data.add(new Site(result.getInt("id_site"), result.getString("url"),
-								result.getString("nom_compagnie")));
+								result.getString("nom_compagnie"), result.getString("nom_serveur")));
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -462,34 +465,41 @@ public class GestionnaireSite {
 			}
 		});
 		
+		Label lbltitle = new Label("Ajouter un site");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
 		setUpValidation(tfUrl);
 
 		// panel
 		Pane root = new Pane();
 
 		// premier champ
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(70);
-		cmbServeur.setLayoutX(200);
-		cmbServeur.setLayoutY(70);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		cmbServeur.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cmbServeur.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 		// deuxieme champ
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(120);
-		cmbClient.setLayoutX(200);
-		cmbClient.setLayoutY(120);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		cmbClient.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cmbClient.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 
 		// troisieme champ
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(170);
-		tfUrl.setLayoutX(200);
-		tfUrl.setLayoutY(170);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tfUrl.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfUrl.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tfUrl.setMinWidth(300);
 
 		// Bouton
-		btnAjouter.setLayoutX(50);
-		btnAjouter.setLayoutY(285);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(285);
+		btnAjouter.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnAjouter.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 
 		cmbServeur.setMinWidth(185);
 		btnAjouter.setMinHeight(30);
@@ -506,11 +516,13 @@ public class GestionnaireSite {
 		root.getChildren().add(tfUrl);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 350);
 		primaryStage.setTitle("Ajouter Site");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
@@ -655,34 +667,41 @@ public class GestionnaireSite {
 			}
 		});
 
-		// panel
-		Pane root = new Pane();
+		Label lbltitle = new Label("Modifier un site");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-240);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-225);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
 		
 		setUpValidation(tfUrl);
 
+		// panel
+		Pane root = new Pane();
+
 		// premier champ
-		lbl.setLayoutX(50);
-		lbl.setLayoutY(70);
-		cmbServeur.setLayoutX(200);
-		cmbServeur.setLayoutY(70);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
+		cmbServeur.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cmbServeur.setLayoutY((MainLogin.bounds.getHeight()/2)-150);
 
 		// deuxieme champ
-		lbl1.setLayoutX(50);
-		lbl1.setLayoutY(120);
-		cmbClient.setLayoutX(200);
-		cmbClient.setLayoutY(120);
+		lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl1.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
+		cmbClient.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		cmbClient.setLayoutY((MainLogin.bounds.getHeight()/2)-100);
 
 		// troisieme champ
-		lbl2.setLayoutX(50);
-		lbl2.setLayoutY(170);
-		tfUrl.setLayoutX(200);
-		tfUrl.setLayoutY(170);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tfUrl.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		tfUrl.setLayoutY((MainLogin.bounds.getHeight()/2)-50);
+		tfUrl.setMinWidth(300);
 
 		// Bouton
-		btnModifier.setLayoutX(50);
-		btnModifier.setLayoutY(285);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(285);
+		btnModifier.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnModifier.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)-50);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+50);
 
 		cmbServeur.setMinWidth(185);
 		btnModifier.setMinHeight(30);
@@ -699,11 +718,13 @@ public class GestionnaireSite {
 		root.getChildren().add(tfUrl);
 		root.getChildren().add(btnModifier);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 350);
 		primaryStage.setTitle("Modifier Site");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		new ComboBoxAutoComplete<String>(cmbServeur);
@@ -731,6 +752,7 @@ public class GestionnaireSite {
 		TableView<Site> _table = new TableView<Site>();
 		TableColumn<Site, String> Col = new TableColumn<Site, String>("Url du site");
 		TableColumn<Site, String> Col2 = new TableColumn<Site, String>("Compagnie");
+		TableColumn<Site, String> Col3 = new TableColumn<Site, String>("Serveur");
 
 		Connection conn = SimpleDataSource.getConnection();
 
@@ -740,11 +762,11 @@ public class GestionnaireSite {
 			Statement stat = conn.createStatement();
 
 			ResultSet result = stat.executeQuery(
-					"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=0");
+					"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE site.actif=0");
 
 			while (result.next()) {
 				data.add(
-						new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie")));
+						new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie"), result.getString("nom_serveur")));
 			}
 		} finally {
 			conn.close();
@@ -770,12 +792,12 @@ public class GestionnaireSite {
 					Statement stat = conn.createStatement();
 
 					ResultSet result = stat.executeQuery(
-							"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=0");
+							"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE site.actif=0");
 
 					data.removeAll(data);
 					while (result.next()) {
 						data.add(new Site(result.getInt("id_site"), result.getString("url"),
-								result.getString("nom_compagnie")));
+								result.getString("nom_compagnie"), result.getString("nom_serveur")));
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -804,12 +826,12 @@ public class GestionnaireSite {
 					Statement stat = conn.createStatement();
 
 					ResultSet result = stat.executeQuery(
-							"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client WHERE site.actif=0");
+							"SELECT * FROM site JOIN client ON site.fk_id_client = client.id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE site.actif=0");
 
 					data.removeAll(data);
 					while (result.next()) {
 						data.add(new Site(result.getInt("id_site"), result.getString("url"),
-								result.getString("nom_compagnie")));
+								result.getString("nom_compagnie"), result.getString("nom_serveur")));
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -871,10 +893,12 @@ public class GestionnaireSite {
 
 		Col.setCellValueFactory(new PropertyValueFactory<Site, String>("url"));
 		Col2.setCellValueFactory(new PropertyValueFactory<Site, String>("client"));
-		_table.getColumns().addAll(Col, Col2);
+		Col3.setCellValueFactory(new PropertyValueFactory<Site, String>("serveur"));
+		_table.getColumns().addAll(Col, Col2, Col3);
 		_table.setItems(data);
 		Col.prefWidthProperty().bind(_table.widthProperty().divide(2));
 		Col2.prefWidthProperty().bind(_table.widthProperty().divide(2));
+		Col3.prefWidthProperty().bind(_table.widthProperty().divide(3));
 		_table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		lbltitle.setLayoutX(90);
@@ -969,11 +993,11 @@ public class GestionnaireSite {
 			Statement stat = conn.createStatement();
 
 			ResultSet result = stat.executeQuery(
-					"SELECT client.nom_compagnie,site.id_site, site.url FROM client JOIN site ON client.id_client = site.fk_id_client WHERE client.nom_compagnie LIKE '%" + tfRecherche + "%' OR site.url LIKE '%" + tfRecherche + "%'");
+					"SELECT client.nom_compagnie,site.id_site, site.url FROM client JOIN site ON client.id_client = site.fk_id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE client.nom_compagnie LIKE '%" + tfRecherche + "%' OR site.url LIKE '%" + tfRecherche + "%'");
 			_data.removeAll(_data);
 			while (result.next()) {
 				_data.add(
-						new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie")));
+						new Site(result.getInt("id_site"), result.getString("url"), result.getString("nom_compagnie"), result.getString("nom_serveur")));
 			}
 		} finally {
 			conn.close();

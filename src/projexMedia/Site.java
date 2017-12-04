@@ -17,17 +17,20 @@ public class Site {
     private SimpleIntegerProperty idSite;
     private SimpleStringProperty url;
     private SimpleStringProperty client;
+    private SimpleStringProperty serveur;
 
     public Site() {
         idSite = new SimpleIntegerProperty(0);
         url = new SimpleStringProperty(null);
         client = new SimpleStringProperty(null);
+        serveur = new SimpleStringProperty(null);
     }
     
-    public Site(Integer _idSite, String _url,String _client) {
+    public Site(Integer _idSite, String _url,String _client,String _serveur) {
         idSite = new SimpleIntegerProperty(_idSite);
         url = new SimpleStringProperty(_url);
         client = new SimpleStringProperty(_client);
+        serveur = new SimpleStringProperty(_serveur);
     }
     
     public Integer getIdSite() {
@@ -54,25 +57,13 @@ public class Site {
 		client = new SimpleStringProperty(_client);
 	}
 
-//	public ObservableList<Site> consulterSite() throws SQLException, ClassNotFoundException, IOException {
-//    	
-//    	SimpleDataSource.init("src/projexMedia/database.properties");
-//
-//        Connection conn = SimpleDataSource.getConnection();
-//        
-//        ObservableList<Site> data = FXCollections.observableArrayList();
-//
-//        try {
-//            Statement stat = conn.createStatement();
-//
-//            ResultSet result = stat.executeQuery("SELECT * FROM site");
-//            
-//            while(result.next()) {
-//            	data.add(new Site(result.getInt("id_site"), result.getString("url")));
-//            }
-//        } finally {
-//            conn.close();
-//        }
-//        return data;
-//    }
+	public String getServeur() {
+		return serveur.get();
+	}
+
+	public void setServeur(String _serveur) {
+		serveur = new SimpleStringProperty(_serveur);
+	}
+	
+	
 }
