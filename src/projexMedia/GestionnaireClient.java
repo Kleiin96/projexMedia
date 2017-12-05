@@ -487,7 +487,26 @@ public class GestionnaireClient {
 			public void handle(ActionEvent event) {
 				Client lul = new Client(client.getIdClient(), tf.getText(), tf1.getText(), tf3.getText(), tf2.getText(),
 						tf4.getText());
-				if (tf.getText().matches(".{1,128}") && tf1.getText().matches(".{0,32}") && tf2.getText().matches(".{0,128}") && tf3.getText().matches(".{0,128}") && tf4.getText().matches(".{0,128}")) {
+				if(tf1.getText().equals(null) || tf2.getText().equals(null) || tf3.getText().equals(null) || tf4.getText().equals(null)) {
+					if(tf.getText().matches(".{1,128}")) {
+						try {
+							lul.modifierNomClient();
+							lul.modifierAdresseClient();
+							lul.modifierCourrielClient();
+							lul.modifierNomResponsableClient();
+							lul.modifierTelephoneClient();
+		
+							
+							MainMenu test = new MainMenu();
+							test.start(primaryStage);
+		
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				else if (tf.getText().matches(".{1,128}") && tf1.getText().matches(".{0,32}") && tf2.getText().matches(".{0,128}") && tf3.getText().matches(".{0,128}") && tf4.getText().matches(".{0,128}")) {
 					try {
 						lul.modifierNomClient();
 						lul.modifierAdresseClient();
