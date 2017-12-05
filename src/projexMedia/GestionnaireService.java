@@ -33,6 +33,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.ComboBox;
@@ -203,7 +204,7 @@ public class GestionnaireService {
         archive.setClosable(false);
                    
         TabPane tabPane = new TabPane();
-        tabPane.setPrefSize(750, 550);
+        tabPane.setPrefSize(MainLogin.bounds.getWidth(), MainLogin.bounds.getHeight());
         
         tabPane.getTabs().add(0, actif);
         tabPane.getTabs().add(archive);
@@ -266,7 +267,7 @@ public class GestionnaireService {
 			lblType.setLayoutY(20);
 			_group.getChildren().addAll(lblType);
 			_group.getStyleClass().add("bordered-titled-border");
-			_group.setLayoutY(60);
+			_group.setLayoutY(80);
 			_group.setLayoutX(20);
 			_paneActif.getChildren().add(_group);
 		}
@@ -277,28 +278,42 @@ public class GestionnaireService {
 				_tableChamps = _serviceActif.get(i).get_Champs();
 				
 				Label lblNom = new Label(_serviceActif.get(i).get_nom());
-				
+				double x = 30;
+				double y = 0;
 				for(int j = 0; j < _tableChamps.size();j++) {
 					Label lblChamps = new Label(_tableChamps.get(j).get(0) + " :");
 					Label lblValeur = new Label(_tableChamps.get(j).get(1));
-					lblChamps.setLayoutX(30);
-					lblChamps.setLayoutY(j * 25 + 40);
-					lblValeur.setLayoutX(200);
-					lblValeur.setLayoutY(j * 25 + 40);
+					lblChamps.setLayoutX(x);
+					lblChamps.setLayoutY(y * 25 + 40);
+					lblValeur.setLayoutX(x+170);
+					lblValeur.setLayoutY(y * 25 + 40);
 					_group.getChildren().addAll(lblChamps,lblValeur);
-					yservice = j * 25 + 40;
+					if(j <= 7){
+						yservice = j * 25 + 60;
+					}
+					y++;
+					if((j % 7)==0 && j != 0) {
+						x=MainLogin.bounds.getWidth()/2;
+						y=0;
+					}
 				}
 				
-				Image imageModif = new Image(getClass().getResourceAsStream("modif.png"));
+				Image imageModif = new Image(getClass().getResourceAsStream("edit.png"));
 				Button btnModif = new Button();
-				Button btnCopy = new Button("Copy");
+				Button btnCopy = new Button();
 				ImageView imageM = new ImageView(imageModif);
-				Image imageArchive = new Image(getClass().getResourceAsStream("archive.png"));
+				Image imageArchive = new Image(getClass().getResourceAsStream("archive1.png"));
 				Button btnArchive = new Button();
 				ImageView imageA = new ImageView(imageArchive);
+				Image imageCopy = new Image(getClass().getResourceAsStream("copy.png"));
+				ImageView imageC = new ImageView(imageCopy);
 				btnModif.setGraphic(imageM);
 				btnArchive.setGraphic(imageA);
+				btnCopy.setGraphic(imageC);
 				btnModif.setId("" + _serviceActif.get(i).get_id());
+				btnModif.setTooltip(new Tooltip("Modifier"));
+				btnArchive.setTooltip(new Tooltip("Archiver"));
+				btnCopy.setTooltip(new Tooltip("Copier"));
 				
 				btnModif.setId(String.valueOf(i));
 				
@@ -352,16 +367,17 @@ public class GestionnaireService {
 				lblNom.setLayoutX(30);
 				lblNom.setLayoutY(10);
 				
-				btnModif.setLayoutX(650);
+				btnModif.setLayoutX(MainLogin.bounds.getWidth()-265);
 				btnModif.setLayoutY(20);
 				btnModif.setPadding(Insets.EMPTY);
 				
-				btnArchive.setLayoutX(650);
-				btnArchive.setLayoutY(70);
+				btnArchive.setLayoutX(MainLogin.bounds.getWidth()-215);
+				btnArchive.setLayoutY(20);
 				btnArchive.setPadding(Insets.EMPTY);
 				
-				btnCopy.setLayoutX(650);
-				btnCopy.setLayoutY(110);
+				btnCopy.setLayoutX(MainLogin.bounds.getWidth()-165);
+				btnCopy.setLayoutY(20);
+				btnCopy.setPadding(Insets.EMPTY);
 				
 				_group.getChildren().add(btnModif);
 				
@@ -382,8 +398,9 @@ public class GestionnaireService {
 		        
 				_group.getChildren().add(lblNom);
 				_group.getStyleClass().add("bordered-titled-border");
-				_group.setLayoutY(totalY + 60);
+				_group.setLayoutY(totalY + 80);
 				_group.setLayoutX(20);
+				_group.setMinWidth(MainLogin.bounds.getWidth()-100);
 				_paneActif.getChildren().add(_group);
 				totalY += yservice + 40;
 				
@@ -391,8 +408,11 @@ public class GestionnaireService {
 			}
 		}
 		
-		btnAjout.setLayoutX(645);
+		btnAjout.setLayoutX(MainLogin.bounds.getWidth()-250);
 		btnAjout.setLayoutY(20);
+		btnAjout.setMinHeight(50);
+		btnAjout.setMinWidth(150);
+		
 		
 		if(MainMenu._role.get_ajouter().equals("")) {
 			btnAjout.setDisable(true);
@@ -401,7 +421,11 @@ public class GestionnaireService {
 		_paneActif.getChildren().add(btnAjout);
 		btnRetour.setLayoutX(20);
 		btnRetour.setLayoutY(20);
+		btnRetour.setMinHeight(50);
+		btnRetour.setMinWidth(150);
 		_paneActif.getChildren().add(btnRetour);
+		
+		_paneActif.getStyleClass().add("fontFormulaire");
 		_tableChamps = new ArrayList<ArrayList<String>>();
 	}
 
@@ -438,7 +462,7 @@ public class GestionnaireService {
 			lblType.setLayoutY(20);
 			_group.getChildren().addAll(lblType);
 			_group.getStyleClass().add("bordered-titled-border");
-			_group.setLayoutY(60);
+			_group.setLayoutY(80);
 			_group.setLayoutX(20);
 			_paneArchive.getChildren().add(_group);
 		}
@@ -449,27 +473,38 @@ public class GestionnaireService {
 				_tableChamps = _serviceArchive.get(i).get_Champs();
 				
 				Label lblNom = new Label(_serviceArchive.get(i).get_nom());
-				
+				double x = 30;
+				double y = 0;
 				for(int j = 0; j < _tableChamps.size();j++) {
 					Label lblChamps = new Label(_tableChamps.get(j).get(0) + " :");
 					Label lblValeur = new Label(_tableChamps.get(j).get(1));
-					lblChamps.setLayoutX(30);
-					lblChamps.setLayoutY(j * 25 + 40);
-					lblValeur.setLayoutX(200);
-					lblValeur.setLayoutY(j * 25 + 40);
+					lblChamps.setLayoutX(x);
+					lblChamps.setLayoutY(y * 25 + 40);
+					lblValeur.setLayoutX(x+170);
+					lblValeur.setLayoutY(y * 25 + 40);
 					_group.getChildren().addAll(lblChamps,lblValeur);
-					yservice = j * 25 + 40;
+					if(j <= 7){
+						yservice = j * 25 + 60;
+					}
+					y++;
+					if((j % 7)==0 && j != 0) {
+						x=MainLogin.bounds.getWidth()/2;
+						y=0;
+					}
 				}
 				
-				Image imageActiver = new Image(getClass().getResourceAsStream("active.png"));
+				
+				Image imageActiver = new Image(getClass().getResourceAsStream("active1.jpg"));
 				Button btnActive = new Button();
 				ImageView imageM = new ImageView(imageActiver);
-				Image imageSupprimer = new Image(getClass().getResourceAsStream("delete.png"));
+				Image imageSupprimer = new Image(getClass().getResourceAsStream("delete1.jpg"));
 				Button btnSupprimer = new Button();
 				ImageView imageA = new ImageView(imageSupprimer);
 				btnActive.setGraphic(imageM);
 				btnSupprimer.setGraphic(imageA);
 				btnActive.setId("" + i);
+				btnActive.setTooltip(new Tooltip("Activer"));
+				btnSupprimer.setTooltip(new Tooltip("Supprimer"));
 				
 				btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -516,12 +551,12 @@ public class GestionnaireService {
 				lblNom.setLayoutX(30);
 				lblNom.setLayoutY(10);
 				
-				btnActive.setLayoutX(650);
+				btnActive.setLayoutX(MainLogin.bounds.getWidth()-215);
 				btnActive.setLayoutY(20);
 				btnActive.setPadding(Insets.EMPTY);
 				
-				btnSupprimer.setLayoutX(650);
-				btnSupprimer.setLayoutY(70);
+				btnSupprimer.setLayoutX(MainLogin.bounds.getWidth()-165);
+				btnSupprimer.setLayoutY(20);
 				btnSupprimer.setPadding(Insets.EMPTY);
 				
 				if(MainMenu._role.get_activer().equals("")) {
@@ -540,8 +575,9 @@ public class GestionnaireService {
 				
 				_group.getChildren().add(lblNom);
 				_group.getStyleClass().add("bordered-titled-border");
-				_group.setLayoutY(totalY + 60);
+				_group.setLayoutY(totalY + 80);
 				_group.setLayoutX(20);
+				_group.setMinWidth(MainLogin.bounds.getWidth()-100);
 				_paneArchive.getChildren().add(_group);
 				totalY += yservice + 40;
 			}
@@ -549,6 +585,9 @@ public class GestionnaireService {
 		
 		btnRetour.setLayoutX(20);
 		btnRetour.setLayoutY(20);
+		btnRetour.setMinHeight(50);
+		btnRetour.setMinWidth(150);		
+		_paneArchive.getStyleClass().add("fontFormulaire");
 		_paneArchive.getChildren().add(btnRetour);
 		_tableChamps = new ArrayList<ArrayList<String>>();
 	}
@@ -859,15 +898,29 @@ public class GestionnaireService {
         					+ "JOIN typeservice ON ta_service.fk_id_typeService = typeservice.id_typeService WHERE typeservice.nom_type ='"+ t1.toString() + "'");
 
         			int nbChamps = 0;
+        			int y = 0;
         			while (result.next()) {
         				
         				Label lbl1 = new Label(result.getString("nom_parametre"));
         				TextField tf = new TextField();
         				setUpValidation(tf);
-        				lbl1.setLayoutX(20);
-        				lbl1.setLayoutY(nbChamps * 40 + 60);
-        				tf.setLayoutX(160);
-        				tf.setLayoutY(nbChamps * 40 + 60);
+        				if(nbChamps <=7) {
+        					lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-500);
+            				lbl1.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+            				tf.setLayoutX((MainLogin.bounds.getWidth()/2)-360);
+            				tf.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+            				tf.setPrefWidth(300);
+        				}
+        				else {
+        					if(y == 8) {
+        						y=0;
+        					}
+        					lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-20);
+            				lbl1.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+            				tf.setLayoutX((MainLogin.bounds.getWidth()/2)+120);
+            				tf.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+            				tf.setPrefWidth(300);
+        				}
         				_group.getChildren().add(lbl1);
         				_group.getChildren().add(tf);
         				textfields.add(tf);
@@ -880,6 +933,7 @@ public class GestionnaireService {
     	            	 _tableChamps.add(_valeurChamps);
     	            	 _valeurChamps = new ArrayList<>();
         				nbChamps++;
+        				y++;
         			}
 
         		} catch (SQLException e) {
@@ -897,26 +951,29 @@ public class GestionnaireService {
             	
             }
         });
-
-		// panel
 		
+		Label lbltitle = new Label("Ajouter un service");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-425);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-275);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
 		
-		cmbType.setLayoutX(150);
-		cmbType.setLayoutY(15);
-		lbl.setLayoutX(20);
-		lbl.setLayoutY(20);
+		cmbType.setLayoutX((MainLogin.bounds.getWidth()/2)-325);
+		cmbType.setLayoutY((MainLogin.bounds.getHeight()/2)-200);
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-500);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-200);
 		
 
 		// Bouton
-		btnAjouter.setLayoutX(50);
-		btnAjouter.setLayoutY(320);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(320);
+		btnAjouter.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnAjouter.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
 
-		btnAjouter.setMinHeight(30);
-		btnAjouter.setMinWidth(130);
-		btnCancel.setMinHeight(30);
-		btnCancel.setMinWidth(130);
+		btnAjouter.setMinHeight(50);
+		btnAjouter.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		root.getChildren().add(_group);
 		
@@ -925,11 +982,13 @@ public class GestionnaireService {
 		root.getChildren().add(cmbType);
 		root.getChildren().add(btnAjouter);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 370);
 		primaryStage.setTitle("Ajouter Service");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -1038,16 +1097,29 @@ public class GestionnaireService {
 											+" JOIN typeservice ON ta_service.fk_id_typeService = typeservice.id_typeService WHERE typeservice.nom_type ='" + _serviceActif.get(Integer.parseInt(id)).get_nom() + "'");
 			
 			int nbChamps = 0;
+			int y = 0;
 			while (result2.next()) {
 				lbl2 = new Label(result2.getString("nom_type"));
 				Label lbl1 = new Label(result2.getString("nom_parametre"));
 				TextField tf = new TextField();
 				setUpValidation(tf);
-				lbl1.setLayoutX(20);
-				lbl1.setLayoutY(nbChamps * 40 + 60);
-				tf.setLayoutX(160);
-				tf.setLayoutY(nbChamps * 40 + 60);
-				
+				if(nbChamps <=7) {
+					lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-500);
+    				lbl1.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+    				tf.setLayoutX((MainLogin.bounds.getWidth()/2)-360);
+    				tf.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+    				tf.setPrefWidth(300);
+				}
+				else {
+					if(y == 8) {
+						y=0;
+					}
+					lbl1.setLayoutX((MainLogin.bounds.getWidth()/2)-20);
+    				lbl1.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+    				tf.setLayoutX((MainLogin.bounds.getWidth()/2)+120);
+    				tf.setLayoutY(y * 50 + ((MainLogin.bounds.getHeight()/2)-125));
+    				tf.setPrefWidth(300);
+				}
 				root.getChildren().add(lbl1);
 				root.getChildren().add(tf);
 				textfields.add(tf);
@@ -1069,6 +1141,7 @@ public class GestionnaireService {
             	 _tableChamps.add(_valeurChamps);
             	 _valeurChamps = new ArrayList<>();
 				nbChamps++;
+				y++;
 			}
 
 		} catch (SQLException e) {
@@ -1086,22 +1159,29 @@ public class GestionnaireService {
 		// panel
 		
 		
-		lbl.setLayoutX(20);
-		lbl.setLayoutY(20);
-		lbl2.setLayoutX(200);
-		lbl2.setLayoutY(20);
+		Label lbltitle = new Label("Modifier un service");
+		lbltitle.setLayoutX((MainLogin.bounds.getWidth()/2)-425);
+		lbltitle.setLayoutY((MainLogin.bounds.getHeight()/2)-275);
+		lbltitle.setScaleX(2);
+		lbltitle.setScaleY(2);
+		
+		lbl.setLayoutX((MainLogin.bounds.getWidth()/2)-500);
+		lbl.setLayoutY((MainLogin.bounds.getHeight()/2)-200);
+		lbl2.setLayoutX((MainLogin.bounds.getWidth()/2)-325);
+		lbl2.setLayoutY((MainLogin.bounds.getHeight()/2)-200);
+		
 		
 
 		// Bouton
-		btnModifier.setLayoutX(50);
-		btnModifier.setLayoutY(320);
-		btnCancel.setLayoutX(250);
-		btnCancel.setLayoutY(320);
+		btnModifier.setLayoutX((MainLogin.bounds.getWidth()/2)-300);
+		btnModifier.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
+		btnCancel.setLayoutX((MainLogin.bounds.getWidth()/2)+100);
+		btnCancel.setLayoutY((MainLogin.bounds.getHeight()/2)+300);
 
-		btnModifier.setMinHeight(30);
-		btnModifier.setMinWidth(130);
-		btnCancel.setMinHeight(30);
-		btnCancel.setMinWidth(130);
+		btnModifier.setMinHeight(50);
+		btnModifier.setMinWidth(150);
+		btnCancel.setMinHeight(50);
+		btnCancel.setMinWidth(150);
 
 		root.getChildren().add(_group);
 		
@@ -1110,11 +1190,13 @@ public class GestionnaireService {
 		root.getChildren().add(lbl2);
 		root.getChildren().add(btnModifier);
 		root.getChildren().add(btnCancel);
+		root.getChildren().add(lbltitle);
 
 		// create window
 		Scene scene = new Scene(root, 450, 370);
 		primaryStage.setTitle("Ajouter Service");
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		root.getStyleClass().add("fontFormulaire");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

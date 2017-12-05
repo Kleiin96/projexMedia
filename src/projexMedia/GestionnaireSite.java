@@ -1001,7 +1001,7 @@ public class GestionnaireSite {
 			Statement stat = conn.createStatement();
 
 			ResultSet result = stat.executeQuery(
-					"SELECT client.nom_compagnie,site.id_site, site.url FROM client JOIN site ON client.id_client = site.fk_id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE client.nom_compagnie LIKE '%" + tfRecherche + "%' OR site.url LIKE '%" + tfRecherche + "%'");
+					"SELECT client.nom_compagnie,site.id_site, site.url, serveur.nom_serveur FROM client JOIN site ON client.id_client = site.fk_id_client JOIN serveur ON site.fk_id_serveur = serveur.id_serveur WHERE client.nom_compagnie LIKE '%" + tfRecherche + "%' AND site.actif=1 OR site.url LIKE '%" + tfRecherche + "%' AND site.actif=1");
 			_data.removeAll(_data);
 			while (result.next()) {
 				_data.add(
