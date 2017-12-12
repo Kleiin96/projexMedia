@@ -26,6 +26,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -107,6 +109,8 @@ public class MainLogin extends Application {
             }
         });
         
+        Image imageAccueil = new Image(getClass().getResourceAsStream("logo.png"));
+		ImageView image = new ImageView(imageAccueil);
         lbl.setText("Nom d'utilisateur :");
         lbl2.setText("Mot de passe :");
         lbl.setScaleX(1.5);
@@ -126,6 +130,8 @@ public class MainLogin extends Application {
         txt.setLayoutY((bounds.getHeight()/2) -92);
         pwd.setLayoutX((bounds.getWidth()/2)+15);
         pwd.setLayoutY((bounds.getHeight()/2)-20);
+        image.setLayoutX((bounds.getWidth()/2)-180);
+        image.setLayoutY((bounds.getHeight()/2)-200);
         
         btn.setMinHeight(35);
         btn.setMinWidth(100);
@@ -138,6 +144,7 @@ public class MainLogin extends Application {
         root.getChildren().add(lbl2);
         root.getChildren().add(txt);
         root.getChildren().add(pwd);
+        root.getChildren().add(image);
         
         Scene scene = new Scene(root, 420, 350);
         txt.requestFocus();
